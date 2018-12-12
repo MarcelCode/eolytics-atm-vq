@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../vanoord/.idea/VanOordPortal.iml" filepath="$PROJECT_DIR$/../vanoord/.idea/VanOordPortal.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ews.iml" filepath="$PROJECT_DIR$/.idea/ews.iml" />
     </modules>
   </component>
