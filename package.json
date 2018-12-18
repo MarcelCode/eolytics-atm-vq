@@ -1,0 +1,19 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery-contextmenu": "^2.7.1",
+    "leaflet-geosearch": "^2.7.0",
+    "lodash.debounce": {
+      "integrity": "sha1-gteb/zCmfEAF/9XiUVMArZyk168=",
+      "resolved": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz",
+      "version": "4.0.8"
+    },
+    "nodent-runtime": {
+      "integrity": "sha512-7Ws63oC+215smeKJQCxzrK21VFVlCFBkwl0MOObt0HOpVQXs3u483sAmtkF33nNqZ5rSOQjB76fgyPBmAUrtCA==",
+      "resolved": "https://registry.npmjs.org/nodent-runtime/-/nodent-runtime-3.2.1.tgz",
+      "version": "3.2.1"
+    }
+  }
+}

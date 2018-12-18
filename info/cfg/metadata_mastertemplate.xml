@@ -1,0 +1,224 @@
+<!--Mastertemplate, Baukastenprinzip-->
+<metatemplate>
+    <!--Replaces <gmd:abstract> <gco:CharacterString>... -->
+    <general>Data were processed by the Modular and Inversion System (MIP) by EOMAP GmbH &amp; Co.KG (www.eomap.com). MIP is designed for the physically based assessment of hydro-biological parameters from multi- and hyperspectral remote sensing data.    
+    </general>
+    
+    <product>
+        <aot>
+            <description>Product type: Aerosol Optical Thickness (AOT)
+            Aerosol Optical Thickness is the degree to which aerosols prevent the transmission of light by absorption or scattering of light in the atmosphere.
+            Each value in the product is scaled. The scaling of the values is linear: value = greyvalue/500
+            Example: greyvalue 50: value = 50 /500 = 0.1 </description>
+            <units></units>
+        </aot>     
+        <tsm>
+            <description>Product type: Total Suspended Matter (TSM) in [mg/l]
+            TSM is essentially related to the total scattering of particles in the water column and determined by the backward scattering of light in the visible region.
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[mg/l]</units>
+        </tsm>        
+        <tur>
+            <description>Product type: Turbidity (TUR) in [NTU]
+            Turbidity is derived from the scattering caused by suspended particles in water and determined by the backward scattering of light between 450 to 800nm.
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[ETU]</units>
+        </tur>
+        <sdd>
+            <description>Product type: Secchi Disc Depth (SDD) in [dm]
+            Secci Disc Depth or transparency indicates the clarity of the water column. The related measure of Secchi Depth (measured with a Secchi Disc) is a common parameter in water quality analysis. SDD is expressed in [dm].
+            Calculation of depth from image greyvalues in linear scaling: SDD [dm] = 1 x greyvalue		
+            greyvalue 0 = land, cloud, not classified or unreliable pixel
+            Example 1: greyvalue = 1: SDD = 1 [dm] 
+            Example 2: greyvalue = 151: SDD = 151 [dm]
+			SDD values of 1 indicate a SDD of 1 dm or lower. For SDD values in [m] see 32 bit product.</description>
+            <units>[dm]</units>
+        </sdd>        
+        <chl>
+            <description>Product type: Chlorophyll-a (CHL) in [mg/m^3]
+            Chlorophyll-a is based on the derived information of in-water organic absorption, in-water turbidity and spectral characteristics of each water body.
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[mg/m3]</units>
+        </chl>
+        <chm>
+            <description>Product type: Chlorophyll-max (CHM) in [mg/m^3]
+            Maximum chlorophyll concentration is derived from combining the dependencies of phytoplankton to scattering of particles and absorption to pigment-absorption of phytoplankton.
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[mg/m3]</units>
+        </chm>
+        <hab>
+            <description>Product type: Harmful algae bloom indicator (HAB)
+            The algorithm detects areas likely affected by harmful algae blooms formed by cyanobacteria containing phycocyanin pigments by analyzing spectral trends in the green-red wavelenth bands as a proxy.
+			The classification reads as follows:
+			greyvalues 1-68: no HAB (probability 0)
+			greyvalues 69-169: HAB unlikely (probability 0.2)
+			greyvalues 170-223: HAB likely (probability 0.5)
+			greyvalues 224-240: HAB very likely (probabilty greater 0.5)</description>
+            <units></units>
+        </hab>        
+        <phy>
+            <description>Product type: Phytoplankton (PHY) in [mg/m^3]
+            Phytoplankton is identified by typical spectral absorption maxima in the blue and red region.
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[mg/m3]</units>
+        </phy>
+        <cdm>
+            <description>Product type: Yellow Substance or Colored Dissolved Organic Matter (CDM) in [1/m]
+            CDM comprise all colored dissolved organic matter (CDOM) which influence the water colour. They are measured in terms of absorption at a specific reference wavelength defined at 440nm.
+            CDM is derived from SOA minus the specific absorption of Chlorophyll: CDOM=SOA-(aCHL*CHL)
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[1/m]</units>
+        </cdm>        
+        <owd>
+            <description>Data provides bathymetric information.
+            Tide: Data were corrected to LAT.
+			Units: m
+            negative values: waterdepth in m
+            positive values: intertidal zone in m (elevation above LAT)
+			NoData value = -9999
+			Land = -9998
+            Not analyzed data = -10000 </description>            
+            <units>[m]</units>        
+        </owd>      
+        <qut>
+            <description>Product type: Total Quality (QUT)
+            Quality estimation expressed in greyvalues in 8 bit (colored with color table).			
+            Flags: greyvalue 0 = land, cloud, not classified or unreliable pixel.
+            greyvalue 1 = low quality;
+            greyvalue 255 = good quality;</description>
+        </qut>
+        <quc>
+            <description>Product type: EOMAP Quality Coding (QUC)</description>                        
+        </quc>
+        <rgb>
+            <description>Product type: RGB Composite or False Colour Composite 
+            Composite images represent the AOI either in true colour or false colour mode depending on the used sensor.</description>
+            <rgbls7>RGB true color channel combination for Landsat 7 is 3-2-1.</rgbls7>
+            <rgbls8>RGB true color channel combination for Landsat 8 is 4-3-2.</rgbls8>
+            <rgbsn2>RGB true color channel combination for Sentinel-2 is 4-3-2.</rgbsn2>			
+            <rgbmodis>RGB true color channel combination for MODIS is 3-2-1.</rgbmodis>
+        </rgb>
+        <div>
+            <description>Product type: Ratio of absorption and scattering (DIV)
+            DIV is the ratio between total absorption and total scattering of water constituents at 550nm. Zones of increased DIV can therefore be interpreted as zones of increased organic production or increased dissolved organic and nutrient inflows, independent on absolute concentrations.
+            Relative ratio expressed in greyvalues in 8 bit (colored with color table) 
+            greyvalue 1 = low absorption compared to scattering
+            greyvalue 240 = high absorption compared to scattering</description>                        
+        </div>         
+        <soa>
+            <description>Product type: Sum of organic absorption (SOA) in [1/m] 
+            The sum of organic absorbers is retrieved from the absorption of light by particulate and dissolved organic matter at specific reference wavelength defined at 440nm.
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[1/m]</units>			
+        </soa>
+        <abs>
+            <description>Product type: Total absorption (ABS) in [1/m] 
+            Total absorption is retrieved from the absorption of light by particulate and dissolved organic and inorganic matter at specific reference wavelength defined at 440nm. The relative contribution of inorganic absorptions varies for changing SIOPSs, which are monitored within the retrieval algorithms.          
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description> 
+            <units>[1/m]</units>			
+        </abs>
+        <sia>
+            <description>Product type: Sum of inorganic absorption (SIA) in [1/m] 
+            The sum of inorganic absorbers is retrieved from the absorption of light by particulate and dissolved inorganic matter at specific reference wavelength defined at 440nm.
+            For values not covered in 8 bit (values &lt;1 or &gt;240) please use 32 bit product.</description>
+            <units>[1/m]</units>			
+        </sia>        
+
+        <sdb>
+            <description>Data provides bathymetric information.
+            Tide: Data were corrected to LAT.
+			Units: m
+            negative values: waterdepth in m
+            positive values: intertidal zone in m (elevation above LAT)
+			NoData value = -9999
+			Land = -9998
+            Not analyzed data = -10000 </description>            
+            <units>[m]</units>        
+        </sdb>        
+        <z90>
+            <description>Product type: Z90 in [dm] 
+            Z90 indicates the water depth from which 90 % of the reflected light comes from.
+            Calculation of depth from image greyvalues in linear scaling: depth = 1 x greyvalue			
+            greyvalue 0 = land, cloud, not classified or unreliable pixel
+            Example 1: greyvalue = 1: Z90 = 1 [dm] 
+            Example 2: greyvalue = 151: Z90 = 151 [dm]
+			Z90 values of 1 indicate a Z90 depth of 1 dm or lower. For Z90 values in [m] see 32 bit product.</description>
+            <units>[dm]</units>			
+        </z90>
+        <kdc>
+            <description>Product type: kd coefficient (KDC) in [1/m] 
+            KDC is the diffuse attenuation coefficient and is given for each sensor channel of the visible spectrum. The distinct wavelengths of these channels slightly differ between the sensors.
+            band 1: blue channel (app. 480nm)
+			band 2: green channel (app. 560nm)
+			band 3: red channel (app. 660nm)
+			NoData value = -9999			
+			KDC is saved in a multichannel 32bit product.</description>                        
+        </kdc>
+        <rrs>
+            <description>Product type: Remote sensing reflectance above surface [Rrs (0+)], NADIR view angle
+			Band 1: 430nm - 450nm
+			Band 2: 450nm - 510nm
+			Band 3: 530nm - 590nm
+			Band 4: 640nm - 670nm
+			Band 5: 850nm - 880nm
+			Band 6: 1360nm - 1380nm
+			Band 7: 1570nm - 1650nm
+			Band 8: 2110nm - 2290nm
+			NoData value = -9999
+			RRS is saved in a multichannel 32bit product.</description>                         
+        </rrs>
+        <cab>
+            <description>Product type: CAB 
+            Algae bloom indicator based on classification chlorophyll-a product distinguishing between typical ocean chlorophyll- a values and increase values indicating possible blooms.
+            Classification example based on Chlorophyll-a values in [mg/m^3]: class 1 = 0-1.5; class 2 = >1.5-1.8; class 3 = >1.8-2.5; class 4 = >2.5-4; class 5 = >4-6; class 6 = >6-10 </description>                        
+        </cab>
+        <sst>
+            <description>Product type: Sea Surface Temperature (SST) in [degree Celsius] 
+            Sea Surface Temperature is calculated from thermal infrared channels.
+			Calculation of sea surface temperature values from image greyvalues in linear scaling: temperature = greyvalue / 5
+			Example: greyvalue = 100: SST = 20 [degree Celsius]</description>                        
+        </sst>	
+        <wex>
+            <description>Product type: Water Body Extent
+            Water Body Extent product discriminates between land/clouds and water pixels based on typical reflectance features in visible and near/shortwave infrared region.
+            land/clouds = 0
+            water = 1 
+            </description>
+        </wex>                
+    </product>
+    
+    <datatype>
+        <eightbit>
+        Image stores the values with 8 Bit - Values from 0 to 255.
+        greyvalue 0 = land or not classified
+        greyvalue 1-240 = water
+        greyvalue 251/253 = flag
+        greyvalue 255 = cloud        
+        </eightbit>
+        <thirtytwo>Greyvalues in 32 bit.</thirtytwo>
+    </datatype>
+    
+    <scaling>
+        <description>Each value in the product is scaled.
+        The examples show the scaling and the interpretation of the values:</description>
+        <lin10>The scaling of the values is linear: value = 0.1 x greyvalue
+            Example: greyvalue 151: value = 0.1 x 151 = 15.1
+        </lin10>            
+        <log50>The scaling of the values is log50: value = (10^((greyvalue-1)/50)) / 10
+            Example: greyvalue 51: value = (10^((51-1)/50)) / 10 = 1
+        </log50>        
+        
+        <log75>The scaling of the values is log75: value = (10^((greyvalue-1)/75)) / 10
+            Example: greyvalue 51: value = (10^((51-1)/75)) / 10 = 0.5
+        </log75>                
+    </scaling>    
+    
+    <crs>
+      <definition>Coordinate Reference System: UTM, Zone 39 N/ WGS 84; The map projection is the Universal Transverse Mercator (UTM) projection.
+        Geodetic datum is the World Geodetic System 1984 (WGS 84) with the respective WGS 84 ellipsoid.</definition>
+        
+    <definition>The relevant Coordinate Reference System has EPSG code %s. For more information, please refer to: (http://www.epsg-registry.org)</definition>   
+    </crs>
+    <!--Sensor is already in the metadata but should also be mentioned in the abstract, again-->
+    
+</metatemplate>

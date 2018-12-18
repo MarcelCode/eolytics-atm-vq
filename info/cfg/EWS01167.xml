@@ -1,0 +1,42 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eomap.de/common woodside_cfg.xsd">
+  <data>
+    <sourcedir>P:\ewsrawdata\EWS01167</sourcedir>
+    <importdir>E:/eomap/ewsprojects\EWS01167\dat\import</importdir>
+    <exportdir>P:\ewsresults\EWS01167\ews_output\new_unzipped</exportdir>
+  </data>
+  <tools>
+    <beam>
+      <bindir>None</bindir>
+      <dimapdir>E:/eomap/ewsprojects\EWS01167\dat\DIMAP</dimapdir>
+    </beam>
+    <mipsystem>
+      <rootdir>E:/eomap/mipsystem</rootdir>
+      <missionrootdir>D:/eomap\ewsmission</missionrootdir>
+      <defaultmissiondir>E:/eomap/ewsprojects\EWS01167\cfg\DefaultMission</defaultmissiondir>
+    </mipsystem>
+  </tools>
+  <workflow>
+    <serverport>51167</serverport>
+    <servermode auto="false" />
+    <jobmode autoexit="true" cleanup="false" foreground="true" />
+    <cpus>1</cpus>
+    <sourcecheckintervall>3600</sourcecheckintervall>
+    <orderdelay>1800</orderdelay>
+    <parameter key="colorpalettephy">T:/dat/Keile/Contineous/PAL/i1_log_C2S8_F2.pal</parameter>
+    <parameter key="colorpalettetsm">T:/dat/Keile/Contineous/PAL/i1_log_C1S4_F2.pal</parameter>
+    <parameter key="colorpalettesdd">T:/dat/Keile/Contineous/PAL/Z90.pal</parameter>
+    <parameter key="colorpalettecdm">T:/dat/Keile/Contineous/PAL/i1_lin_C1S5_F2.pal</parameter>
+    <parameter key="colorpalettediff">T:/dat/Keile/Contineous/PAL/Diff_Anomalies.pal</parameter>
+    <parameter key="colorpalettegray">T:/dat/Keile/Contineous/PAL/grey_palette.pal</parameter>
+    <parameter key="colorpalettesoa">T:/dat/Keile/Contineous/PAL/i1_lin_C1S5_F2.pal</parameter>
+    <parameter key="colorpalettesia">T:/dat/Keile/Contineous/PAL/i1_lin_C1S5_F2.pal</parameter>
+    <parameter key="colorpaletteabs">T:/dat/Keile/Contineous/PAL/i1_lin_C1S5_F2.pal</parameter>
+    <parameter key="colorpalettequc">T:/dat/Keile/Contineous/PAL/quc.pal</parameter>
+    <parameter key="colorpalettequt">T:/dat/Keile/Contineous/PAL/qut.pal</parameter>
+    <parameter key="colorpalettez90">T:/dat/Keile/Contineous/PAL/Z90.pal</parameter>
+    <parameter key="colorpaletteaot">T:/dat/Keile/Contineous/PAL/aot.pal</parameter>
+    <parameter key="colorpalettehab">T:/dat/Keile/Contineous/PAL/hab_v3.pal</parameter>
+    <parameter key="colorpalettetemp">T:/dat/Keile/Contineous/PAL/temperatur5.pal</parameter>
+    <gain>1</gain>
+  </workflow>
+</project>

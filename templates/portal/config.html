@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <a href="{% url 'portal' project_pk=actual_project.pk %}" class="btn btn-primary" style="margin: 1rem">Back to portal</a>
+    <div class="container main-settings-window">
+        <h3>Choose your default settings</h3>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <a href="{% url 'config' project_pk=actual_project.pk %}?reset" class="btn btn-warning" style="margin-bottom: 1rem">Reset default settings</a>
+            <button type="submit" class="btn btn-success" style="float: right; margin-bottom: 1rem">Save default settings</button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
