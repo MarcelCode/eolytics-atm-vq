@@ -38,7 +38,7 @@ let geo_region = L.geoJSON(geodata, {style: orange_style}).addTo(map);
 
 map.fitBounds(geo_region.getBounds());
 
-control_layer.addOverlay(geo_region, "Landsat 8 Scenes");
+control_layer.addOverlay(geo_region, "Satellite Scenes");
 
 
 // GeoSearch

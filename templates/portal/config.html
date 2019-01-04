@@ -3,15 +3,29 @@
 {% load crispy_forms_tags %}
 
 {% block body %}
-    <a href="{% url 'portal' project_pk=actual_project.pk %}" class="btn btn-primary" style="margin: 1rem">Back to portal</a>
+    <a href="{% url 'portal' sensor=actual_project.slug %}" class="btn btn-primary" style="margin: 1rem">Back to
+        portal</a>
     <div class="container main-settings-window">
-        <h3>Choose your default settings</h3>
-        <form method="post" novalidate>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                  {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h3>Settings {{ actual_project.sensor }}</h3>
+        <form method="post" data-toggle="validator">
             {% csrf_token %}
             {{ form|crispy }}
 
-            <a href="{% url 'config' project_pk=actual_project.pk %}?reset" class="btn btn-warning" style="margin-bottom: 1rem">Reset default settings</a>
-            <button type="submit" class="btn btn-success" style="float: right; margin-bottom: 1rem">Save default settings</button>
+            {#            <a href="{% url 'config' sensor=actual_project.slug %}?reset" class="btn btn-warning" style="margin-bottom: 1rem">Reset default settings</a>#}
+            <button type="submit" class="btn btn-success" style="float: right; margin-bottom: 1rem; margin-left: 1rem">
+                Save
+            </button>
+            <button type="submit" class="btn btn-success" style="float: right; margin-bottom: 1rem" name="default"
+                    value="true">Save
+                as default
+            </button>
         </form>
     </div>
 {% endblock %}

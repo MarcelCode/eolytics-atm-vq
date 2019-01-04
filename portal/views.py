@@ -5,58 +5,91 @@ from geodata import models as geomodels
 from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
 from portal import forms
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 
 
-def project(request, project_pk):
+def project(request, sensor):
     if request.user.is_authenticated:
-        projects = models.Project.objects.all()
-        actual_project = models.Project.objects.get(pk=project_pk)
+        projects = models.Sensor.objects.all()
+        actual_project = models.Sensor.objects.get(slug=sensor)
         test = [[1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
-                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"]]
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"],
+                [1, "mark", "otto", "test", "bla", "neu", "hier", "gehts", "los", "test"]
+                ]
+
+        sensor_configs = models.get_model_objects()[actual_project.geodata_model]
+        configs_per_user = sensor_configs.objects.filter(user=request.user)
+
         return render(request, "portal/project.html", {"projects": projects, "actual_project": actual_project,
-                                                       "scenes": test})
+                                                       "scenes": test, "configs": configs_per_user})
 
     return redirect("login")
 
 
 @login_required
-def config(request, project_pk):
-    actual_project = models.Project.objects.get(pk=project_pk)
+def config(request, sensor):
+    actual_project = models.Sensor.objects.get(slug=sensor)
+    config_form = forms.get_form_objects()[actual_project.geodata_model]
 
     if request.method == "POST":
-        settings_form = forms.OrderForm(request.POST)
-        if settings_form.is_valid():
-            user_default_settings = models.DefaultSettings.objects.filter(user=request.user)
-            if user_default_settings.exists():
-                user_default_settings[0].product_list.set(settings_form.cleaned_data["product_list"])
-                user_default_settings[0].rrs_config.set(settings_form.cleaned_data["rrs_config"])
-                user_default_settings[0].save()
-                settings_form.cleaned_data.pop("product_list", None)
-                settings_form.cleaned_data.pop("rrs_config", None)
-                user_default_settings.update(**settings_form.cleaned_data)
-            else:
-                default_settings = settings_form.save(commit=False)
-                default_settings.user = request.user
-                default_settings.satellite = actual_project
-                default_settings.save()
+        config_form_user = config_form(request.POST)
+        if config_form_user.is_valid():
+            settings = config_form_user.save(commit=False)
+            settings.user = request.user
+            if "default" in request.POST.keys():
+                sensor_configs = models.get_model_objects()[actual_project.geodata_model]
+                configs_per_user = sensor_configs.objects.filter(user=request.user)
+                configs_per_user.update(default_config=False)
+                settings.default_config = True
 
-            return redirect("portal", project_pk=actual_project.pk)
-    else:
-        if "reset" in request.GET.keys():
-            settings_form = forms.OrderForm()
-        else:
-            try:
-                settings_form = forms.OrderForm(instance=models.DefaultSettings.objects.get(user=request.user))
-            except:
-                settings_form = forms.OrderForm()
+            settings.save()
+            messages.add_message(request, messages.SUCCESS, 'Config was saved')
 
-    return render(request, "portal/config.html", {"actual_project": actual_project, "form": settings_form})
+        return render(request, "portal/config.html", {"actual_project": actual_project, "form": config_form_user})
+
+    return render(request, "portal/config.html", {"actual_project": actual_project, "form": config_form})
 
 
 @login_required
-def download(request, project_pk):
-    project_object = models.Project.objects.get(pk=project_pk)
-    geodata = serialize('geojson', geomodels.Landsat8.objects.all(), geometry_field='geom',
-                        fields=("path", "row", "sequence"))
+def edit_config(request, sensor, config_pk):
+    actual_project = models.Sensor.objects.get(slug=sensor)
+    config_form = forms.get_form_objects()[actual_project.geodata_model]
+    sensor_configs = models.get_model_objects()[actual_project.geodata_model]
+    user_defined_config = sensor_configs.objects.get(pk=config_pk)
+
+    if request.method == "POST":
+        config_form_edited = config_form(request.POST)
+        if config_form_edited.is_valid():
+            if "default" in request.POST.keys():
+                sensor_configs = models.get_model_objects()[actual_project.geodata_model]
+                configs_per_user = sensor_configs.objects.filter(user=request.user)
+                configs_per_user.update(default_config=False)
+                config_form_edited.default_config = True
+
+            config_form_edited.save()
+            messages.add_message(request, messages.SUCCESS, 'Config was successfully edited')
+
+        return render(request, "portal/config.html", {"actual_project": actual_project, "form": config_form_edited})
+
+    config_form_user = config_form(instance=user_defined_config)
+
+    return render(request, "portal/config.html", {"actual_project": actual_project, "form": config_form_user})
+
+
+@login_required
+def download(request, sensor):
+    project_object = models.Sensor.objects.get(slug=sensor)
+    geomodel_object = geomodels.get_geometry_objects()[project_object.geodata_model]
+
+    geodata = serialize('geojson', geomodel_object.objects.all(), geometry_field='geom')
     return render(request, "portal/download.html", {"project": project_object, "geodata": geodata})

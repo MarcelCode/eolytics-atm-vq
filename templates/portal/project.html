@@ -7,11 +7,12 @@
             {% for project in projects %}
                 {% if project == actual_project %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'portal' project_pk=project.pk %}">{{ project }}</a>
+                        <a class="nav-link active"
+                           href="{% url 'portal' sensor=project.slug %}">{{ project.sensor }}</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'portal' project_pk=project.pk %}">{{ project }}</a>
+                        <a class="nav-link" href="{% url 'portal' sensor=project.slug %}">{{ project.sensor }}</a>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -20,9 +21,26 @@
             <div class="container" style="height: 100%;">
                 <div class="row">
                     <div class="col-lg-12" style="margin: 0.5rem 0;">
-                        <a class="btn btn-primary" href="{% url 'portal' project_pk=actual_project.pk %}" role="button">Update</a>
-                        <a class="btn btn-primary float-right" href="{% url 'config' project_pk=actual_project.pk %}"
-                           role="button">Config</a>
+                        <a class="btn btn-primary" href="{% url 'portal' sensor=actual_project.slug %}" role="button">Update</a>
+                        {#                        <a class="btn btn-primary float-right" href="{% url 'config' sensor=actual_project.slug %}"#}
+                        {#                           role="button">Config</a>#}
+                        <div class="btn-group float-right">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                Configuration
+                            </button>
+                            <div class="dropdown-menu">
+                                {% for config in configs %}
+                                    {% if config.default_config %}
+                                        <a class="dropdown-item" href="{% url 'edit-config' sensor=actual_project.slug config_pk=config.pk %}">{{ config.config_name }} (default)</a>
+                                    {% else %}
+                                        <a class="dropdown-item" href="{% url 'edit-config' sensor=actual_project.slug config_pk=config.pk %}">{{ config.config_name }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'config' sensor=actual_project.slug %}">New configuration</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="table-wrapper-scroll-y">
@@ -43,7 +61,7 @@
                         </thead>
                         <tbody>
                         {% for scene in scenes %}
-                            <tr class="context-menu-one">
+                            <tr class="context-menu-scenes">
                                 <td>{{ scene.0 }}</td>
                                 <td>{{ scene.1 }}</td>
                                 <td>{{ scene.2 }}</td>
@@ -61,7 +79,8 @@
                 </div>
                 <div class="row bottom-row">
                     <div class="col-lg-12" style="margin: 1rem 0;">
-                        <a class="btn btn-primary float-right" href="{% url 'download' project_pk=actual_project.pk %}">Download
+                        <a class="btn btn-primary float-right"
+                           href="{% url 'download-data' sensor=actual_project.slug %}">Download
                             Data</a>
                     </div>
                 </div>

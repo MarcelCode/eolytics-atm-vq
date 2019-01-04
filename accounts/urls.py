@@ -6,4 +6,5 @@ from django.conf.urls import url
 urlpatterns = [
     path("", accounts_views.login_user, name='login'),
     path("accounts/login/", accounts_views.login_user, name="direct_login"),
+    path("logout/", accounts_views.logout_view, name="logout")
     ]

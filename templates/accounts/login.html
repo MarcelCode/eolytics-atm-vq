@@ -4,44 +4,47 @@
 
 {% block body %}
 
-    <div class="text-center main-login">
-        <form class="form-signin" method="post">
-            {% csrf_token %}
-            <h1 class="h3 mb-3 font-weight-normal" style="padding-bottom: 1em;">Please login to continue</h1>
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger" role="alert">
-                    {% for error in form.non_field_errors %}
-                        <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            {% for field in form %}
-                <div class="form-group">
-                    {{ field.label_tag }}
-                    {% render_field field class=field|input_class %}
-                    {% for error in field.errors %}
-                        <div class="invalid-feedback">
-                            {{ error }}
-                        </div>
-                    {% endfor %}
-                    {% if field.help_text %}
-                        <small class="form-text text-muted">
-                            {{ field.help_text|safe }}
-                        </small>
-                    {% endif %}
-                </div>
-            {% endfor %}
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
+    <div class="d-flex justify-content-center align-items-center" style="padding-top: 5rem;">
+        <div style="max-width: 300px">
+            <form class="form-signin" method="post">
+                {% csrf_token %}
+                <h1 class="h3 mb-3 font-weight-normal" style="padding-bottom: 1em;">Please login to continue</h1>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for error in form.non_field_errors %}
+                            <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {% render_field field class=field|input_class %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">
+                                {{ field.help_text|safe }}
+                            </small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
+
     </div>
 {% endblock %}
 

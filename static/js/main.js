@@ -1,6 +1,6 @@
 $(function () {
     $.contextMenu({
-        selector: '.context-menu-one',
+        selector: '.context-menu-scenes',
         callback: function (key, options) {
             var m = "clicked: " + key;
             window.console && console.log(m)
