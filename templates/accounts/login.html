@@ -3,48 +3,62 @@
 {% load form_tags widget_tweaks %}
 
 {% block body %}
-
-    <div class="d-flex justify-content-center align-items-center" style="padding-top: 5rem;">
-        <div style="max-width: 300px">
-            <form class="form-signin" method="post">
-                {% csrf_token %}
-                <h1 class="h3 mb-3 font-weight-normal" style="padding-bottom: 1em;">Please login to continue</h1>
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                {% if form.non_field_errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {% for error in form.non_field_errors %}
-                            <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% for field in form %}
-                    <div class="form-group">
-                        {{ field.label_tag }}
-                        {% render_field field class=field|input_class %}
-                        {% for error in field.errors %}
-                            <div class="invalid-feedback">
-                                {{ error }}
-                            </div>
-                        {% endfor %}
-                        {% if field.help_text %}
-                            <small class="form-text text-muted">
-                                {{ field.help_text|safe }}
-                            </small>
+    <div class="vertical-align">
+        <div class="container card-3" style="max-width: 800px;">
+            <div class="row">
+                <div class="col-md-6 d-none d-md-block" style="padding-right: 0; padding-left: 0">
+                    <img src='{% static "img/unesco_login_400-500_2.jpg" %}' class="img-fluid" alt="Responsive image">
+                </div>
+                <div class="col-12 col-md-6" style="padding: 1rem 2rem">
+                    <form class="form-signin" method="post">
+                        {% csrf_token %}
+                        <h3 class="text-center" style="color: var(--main-color-dblue); padding: 1rem">Welcome
+                            to EWS Administrator</h3>
+                        <p style="font-size: 1rem">Please login to continue</p>
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </ul>
                         {% endif %}
-                    </div>
-                {% endfor %}
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            </form>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% for field in form %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {% render_field field class=field|input_class %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">
+                                        {{ field.help_text|safe }}
+                                    </small>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="col-12 text-center">
+                            <button class="btn btn-lg btn-primary btn-round" type="submit" style="width: 8rem;">SIGN IN</button>
+                        </div>
+                        <p style="padding-top: 2rem; font-size: 14px">Interested in this service?<br>
+                        Please contact us: <a href="mailto:info@eomap.de">Info@eomap.de</a></p>
+                    </form>
+                </div>
+            </div>
         </div>
-
     </div>
+
+
+
 {% endblock %}
 

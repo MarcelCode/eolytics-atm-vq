@@ -11,7 +11,6 @@ User = get_user_model()
 
 def login_user(request, authentication_form=AuthenticationForm):
     next = request.GET.get("next", None)
-    sensor = Sensor.objects.first().slug
     if request.method == "POST":
         username = request.POST["username"].lower()
         password = request.POST["password"]
@@ -21,12 +20,12 @@ def login_user(request, authentication_form=AuthenticationForm):
             if next:
                 return redirect(next)
             else:
-                return redirect(f"/{sensor}/portal")
+                return redirect("projects")
         else:
             form = authentication_form(data=request.POST)
     else:
         if request.user.is_authenticated:
-            return redirect(f"/{sensor}/portal")
+            return redirect("projects")
 
         form = authentication_form(request)
 

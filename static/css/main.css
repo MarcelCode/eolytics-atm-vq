@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    font-family: "Open Sans", Arial, sans-serif;;
+    font-family: "Open Sans", sans-serif;;
     padding: 0;
     margin: 0;
     height: 100%;
@@ -77,3 +77,25 @@ body {
     background-color: #f5f5f5;
 }
 
+.btn-primary {
+    color: #fff;
+    background-color: var(--main-color-lblue);
+    border-color: var(--main-color-lblue);
+}
+
+.btn-primary:hover {
+    background-color: var(--main-color-lblue-shadow);
+    border-color: var(--main-color-lblue-shadow);
+}
+
+.vertical-align {
+    min-height: -webkit-calc(100% - 56px);
+    min-height:    -moz-calc(100% - 56px);
+    min-height:         calc(100% - 56px);
+    display: flex;
+    align-items: center;
+}
+
+.btn-round {
+    border-radius: 20px;
+}

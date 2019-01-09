@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.shortcuts import redirect
 from portal import models
 from geodata import models as geomodels
@@ -7,6 +7,10 @@ from django.core.serializers import serialize
 from portal import forms
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+
+
+def projects(request):
+    return render(request, "portal/projects.html")
 
 
 def project(request, sensor):
