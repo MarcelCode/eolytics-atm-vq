@@ -20,12 +20,12 @@ def login_user(request, authentication_form=AuthenticationForm):
             if next:
                 return redirect(next)
             else:
-                return redirect("projects")
+                return redirect("/projects/all")
         else:
             form = authentication_form(data=request.POST)
     else:
         if request.user.is_authenticated:
-            return redirect("projects")
+            return redirect("/projects/all")
 
         form = authentication_form(request)
 

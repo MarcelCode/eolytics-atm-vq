@@ -36,7 +36,7 @@ body {
     font-weight: bold;
 }
 
-.navbar {
+.navbar-shadow {
     -webkit-box-shadow: 0 4px 6px -6px #999;
     -moz-box-shadow: 0 4px 6px -6px #999;
     box-shadow: 0 4px 6px -6px #999;
@@ -79,13 +79,13 @@ body {
 
 .btn-primary {
     color: #fff;
-    background-color: var(--main-color-lblue);
-    border-color: var(--main-color-lblue);
+    background-color: var(--main-color-lblue) !important;
+    border-color: var(--main-color-lblue) !important;
 }
 
 .btn-primary:hover {
-    background-color: var(--main-color-lblue-shadow);
-    border-color: var(--main-color-lblue-shadow);
+    background-color: var(--main-color-lblue-shadow) !important;
+    border-color: var(--main-color-lblue-shadow) !important;
 }
 
 .vertical-align {
@@ -98,4 +98,12 @@ body {
 
 .btn-round {
     border-radius: 20px;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  background-color: #6c757d;
+  border-radius: 50%;
+  display: block;
 }

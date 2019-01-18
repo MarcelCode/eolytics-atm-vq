@@ -54,7 +54,11 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-    email_confirmed = models.BooleanField(default=False)
+    project = models.CharField(max_length=255)
+    region_code = models.CharField(max_length=3)
+
+    def __str__(self):
+        return f"{self.user}"
 
 
 @receiver(post_save, sender=User)

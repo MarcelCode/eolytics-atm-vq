@@ -20,4 +20,6 @@ urlpatterns = [
     path('ews-admin/', admin.site.urls),
     path("", include("accounts.urls")),
     path("", include("portal.urls")),
+    path("geodata/", include("geodata.urls")),
+    path("projects/", include("projects.urls")),
 ]

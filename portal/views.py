@@ -9,10 +9,6 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 
 
-def projects(request):
-    return render(request, "portal/projects.html")
-
-
 def project(request, sensor):
     if request.user.is_authenticated:
         projects = models.Sensor.objects.all()

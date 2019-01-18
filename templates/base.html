@@ -19,9 +19,6 @@
     <link rel="stylesheet" href="{% static 'css/colors.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/material_design.css' %}"/>
 
-    {% block css %}
-    {% endblock %}
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{% static 'jquery/dist/jquery.js' %}"></script>
@@ -36,10 +33,18 @@
     <script src="{% static 'jquery-contextmenu/src/jquery.contextMenu.js' %}"></script>
     <script src="{% static 'jquery-contextmenu/src/jquery.ui.position.js' %}"></script>
 
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+
+    {% block css %}
+    {% endblock %}
+
     <title>Eomap Water Quality</title>
 </head>
 <body>
-<nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center bg-light navbar-fixed-top">
+<nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center bg-light navbar-fixed-top navbar-shadow">
     <a href="/" class="navbar-brand d-flex w-50 mr-auto">
         <img src="{% static 'img/EOMAP_logo_final.svg' %}" height="30" class="d-inline-block align-top"
              alt="EOMAP Logo" style="margin-right: 1rem">

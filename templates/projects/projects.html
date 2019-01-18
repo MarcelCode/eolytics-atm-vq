@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 50px">
+        <div class="row">
+            <div class="col-12" style="background-color: var(--main-color-lgrey2)">
+                <h2 style="margin: 1rem;">Projects Overview</h2>
+                <nav class="projects navbar navbar-expand-md navbar-light bg-light">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="margin: 1rem">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin: 0 1rem">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="projects nav-item {% if status == 'all' %}active{% endif %}">
+                                <a class="projects nav-link" href="{% url 'projects' status='all' %}">All
+                                    <span class="badge badge-pill badge-secondary badge-right">{{ state_count.all }}</span>
+                                </a>
+                            </li>
+                            <li class="projects nav-item {% if status == 'running' %}active{% endif %}">
+                                <a class="projects nav-link" href="{% url 'projects' status='running' %}">Running
+                                    <span class="badge badge-pill badge-success badge-right">
+                                        {% if state_count.running %}
+                                            {{ state_count.running }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="projects nav-item {% if status == 'failed' %}active{% endif %}">
+                                <a class="projects nav-link" href="{% url 'projects' status='failed' %}">Failed
+                                    <span class="badge badge-pill badge-danger badge-right">
+                                        {% if state_count.failed %}
+                                            {{ state_count.failed }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2"
+                                   style="margin-bottom: 0.5rem; border-radius: 19px;"
+                                   type="search" placeholder="Search projects" aria-label="Search"
+                                   id="search-project-table">
+                        </form>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="float-right">
+                    <button class="btn btn-primary" type="button" style="margin: 15px 0" data-toggle="modal"
+                            data-target="#CreateProjectModal">&#43; Create Project
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 2rem">
+            <div class="col-12">
+                <table id="example" class="table table-striped" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>State</th>
+                        <th>Project Name</th>
+                        <th>Abbrevation</th>
+                        <th>Ground level<br>over sea [m]</th>
+                        <th>Sensor</th>
+                        <th>Watertype</th>
+                        <th>Created</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for project in table %}
+                        <tr id="{{ project.ews_number }}">
+                            <td>
+                                {% if project.state == "running" %}
+                                    <span class="dot" style="background-color: #28a745"></span>
+                                {% elif project.state == "failed" %}
+                                    <span class="dot" style="background-color: #dc3545"></span>
+                                {% else %}
+                                    <span class="dot"></span>
+                                {% endif %}
+                            </td>
+                            <td>{{ project.project_name }}</td>
+                            <td>{{ project.project_abbrevation }}</td>
+                            <td>{{ project.ground_level_over_sea }}</td>
+                            <td>{{ project.sensor }}</td>
+                            <td>{{ project.watertype }}</td>
+                            <td>{{ project.created }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>State</th>
+                        <th>Project Name</th>
+                        <th>Abbrevation</th>
+                        <th>Ground level<br>over sea [m]</th>
+                        <th>Sensor</th>
+                        <th>Watertype</th>
+                        <th>Created</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="CreateProjectModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CreateProject">Create Project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" data-toggle="validator">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let table = $('#example').dataTable({
+            "lengthChange": false,
+            "scrollX": true,
+            "searching": true,
+            "dom": 't<"bottom"pi>'
+        });
+
+
+        $('#search-project-table').on('keyup', function () {
+            table.fnFilter(this.value).draw();
+        });
+
+        $('#search-project-table').wrap('<span class="deleteicon" />').after($('<span/>').click(function () {
+            $(this).prev('input').val('').trigger('change').focus();
+            table.fnFilter("").draw();
+        }));
+    </script>
+{% endblock %}

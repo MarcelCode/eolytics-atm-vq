@@ -14,6 +14,7 @@ GEODATA_CHOICES = zip(geodata_models, geodata_models)
 class Sensor(models.Model):
     sensor = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
+    ews_id = models.IntegerField()
     geodata_model = models.CharField(max_length=30, choices=GEODATA_CHOICES)
 
     def save(self, *args, **kwargs):

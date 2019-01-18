@@ -1,0 +1,43 @@
+.projects.nav-link {
+    color: var(--main-color-dblue) !important;
+    margin: 0 0.5rem;
+}
+
+.projects.nav-item.active {
+    border-bottom: 5px solid var(--main-color-dblue);
+}
+
+.projects.navbar {
+    padding: 0 !important;
+}
+
+.badge-right {
+    margin-left: 0.25rem;
+}
+
+.btn-secondary-eo {
+    background-color: var(--main-color-lblue);
+}
+
+span.deleteicon {
+    position: relative;
+}
+
+span.deleteicon span {
+    position: absolute;
+    display: block;
+    top: 11px;
+    right: 16px;
+    width: 16px;
+    height: 16px;
+    background: url('/static/img/remove.png');
+    background-repeat:no-repeat;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+span.deleteicon input {
+    padding-right: 16px;
+    box-sizing: border-box;
+}
+
