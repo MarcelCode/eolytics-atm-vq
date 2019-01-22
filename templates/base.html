@@ -38,6 +38,16 @@
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     {% block css %}
     {% endblock %}
 
@@ -48,19 +58,19 @@
     <a href="/" class="navbar-brand d-flex w-50 mr-auto">
         <img src="{% static 'img/EOMAP_logo_final.svg' %}" height="30" class="d-inline-block align-top"
              alt="EOMAP Logo" style="margin-right: 1rem">
-         EWS Administrator
+        EWS Administrator
     </a>
     {% if user.is_authenticated %}
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
-        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">logout</a>
-            </li>
-        </ul>
-    </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+            <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                </li>
+            </ul>
+        </div>
     {% endif %}
 </nav>
 

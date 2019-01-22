@@ -25,20 +25,20 @@ class Watertype(models.Model):
 
 class UserProject(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    project_name = models.CharField(max_length=100)
+    user_project_name = models.CharField(max_length=100)
     project_abbrevation = models.CharField(max_length=3)
-    ground_level_over_sea = models.IntegerField()
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     watertype = models.ForeignKey(Watertype, on_delete=models.CASCADE)
     ews_name = models.CharField(max_length=100)
     region = models.CharField(max_length=100)
     state = models.CharField(max_length=20, blank=True, null=True)
+    automatic_mode = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("user", "project_name")
+        unique_together = ("user", "user_project_name")
 
     def __str__(self):
-        return f"{self.user},  {self.project_abbrevation}-{self.project_name}"
+        return f"{self.user},  {self.project_abbrevation}-{self.user_project_name}"
 
 

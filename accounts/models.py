@@ -54,7 +54,7 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-    project = models.CharField(max_length=255)
+    project_name = models.CharField(max_length=255)
     region_code = models.CharField(max_length=3)
 
     def __str__(self):

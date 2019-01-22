@@ -20,7 +20,6 @@ class EwsProject(models.Model):
     water_type = models.ForeignKey('WaterType', models.DO_NOTHING, db_column='water_type', blank=True, null=True)
     project_xml = models.OneToOneField('ProjectXml', models.DO_NOTHING, db_column='project_xml', blank=True, null=True)
     imagepart = models.ForeignKey('Imagepart', models.DO_NOTHING, db_column='imagepart', blank=True, null=True)
-    user_id = models.IntegerField()
     user_project_name = models.CharField(max_length=150)
 
     class Meta:

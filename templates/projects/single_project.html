@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container" style="margin-top: 50px">
+        <div class="row">
+            <div class="col-12" style="background-color: var(--main-color-lgrey2)">
+                <h2 style="margin: 1rem;">{{ ews_project.user_project_name }}</h2>
+                <a class="navbar-brand back-to-projects" href="{% url 'projects' status='all' %}">
+                    <i class="fas fa-arrow-left"></i>
+                    Projects Overview
+                </a>
+                <nav class="projects navbar navbar-light bg-light float-right">
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2"
+                               style="margin-bottom: 0.5rem; border-radius: 19px;"
+                               type="search" placeholder="Search missions" aria-label="Search"
+                               id="search-project-table">
+                    </form>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="float-left">
+                    <button class="btn btn-primary" type="button" style="margin: 15px 1rem 15px 0" value="Refresh Page"
+                            onClick="window.location.reload()"><img alt="refresh website"
+                                                                    src="{% static 'img/refresh-page-option.svg' %}"
+                                                                    width="20"/>
+                    </button>
+                    {% if ews_project.automatic_mode %}
+                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle" checked>
+                    {% else %}
+                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle">
+                    {% endif %}
+                    <label for="ews-mode" class="form-check-label">Automatic mode</label>
+                </div>
+                <div class="float-right">
+                    <button class="btn btn-primary" type="button" style="margin: 15px 0" data-toggle="modal"
+                            data-target="#CreateProjectModal"><i class="fas fa-download"></i> Download Data
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 2rem">
+            <div class="col-12">
+                <table id="mission-table" class="table table-striped hover" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Create Date</th>
+                        <th>Create Time</th>
+                        <th>State</th>
+                        <th>Action Nr.</th>
+                        <th>Action Name</th>
+                        <th>Action Description</th>
+                        <th>Last Change</th>
+                        <th>menu</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for mission in ews_missions %}
+                        <tr data-ews_id="{{ mission.pk }}">
+                            <td>{{ mission.year }}-{{ mission.month }}-{{ mission.day }}</td>
+                            <td>{{ mission.hour }}:{{ mission.minute }}</td>
+                            <td>{{ mission.state }}</td>
+                            <td>{{ mission.activeaction }}</td>
+                            <td>{{ mission.actionname }}</td>
+                            <td>{{ mission.actiondescription }}</td>
+                            <td>{{ mission.actiondatetime }}</td>
+                            <td>
+                                <a href="#" class="dots">
+                                    <div class="context-menu-mission"
+                                         style="width: 50px; height: 30px; position: relative">
+                                        <div class="dot"></div>
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Create Date</th>
+                        <th>Create Time</th>
+                        <th>State</th>
+                        <th>Action Nr.</th>
+                        <th>Action Name</th>
+                        <th>Action Description</th>
+                        <th>Last Change</th>
+                        <th>menu</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        let table = $('#mission-table').DataTable({
+            "lengthChange": false,
+            "scrollX": true,
+            "searching": true,
+            "dom": 't<"bottom"pi>',
+            "columnDefs": [{
+                "targets": 7,
+                "orderable": false
+            }]
+        });
+
+        $('#search-project-table').on('keyup', function () {
+            table.filter(this.value).draw();
+        });
+
+        $('#search-project-table').wrap('<span class="deleteicon" />').after($('<span/>').click(function () {
+            $(this).prev('input').val('').trigger('change').focus();
+            table.filter("").draw();
+        }));
+
+        $('#ews-mode').change(function () {
+            let automatic = $(this).prop('checked');
+            axios.get("{% url 'automatic-mode' project_pk=ews_project.pk %}", {
+                params: {
+                    automatic: automatic
+                }
+            }).then(function (response) {
+                if (response.data.automatic === true) {
+                    table.column(7).visible(false);
+                } else {
+                    table.column(7).visible(true);
+                }
+            })
+        });
+
+        {% if ews_project.automatic_mode %}
+            table.column(7).visible(false);
+        {% endif %}
+    </script>
+    <script src="{% static 'js/single_project.js' %}"></script>
+{% endblock %}

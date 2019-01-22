@@ -4,15 +4,16 @@ from projects import models as web_models
 
 class EwsUserQueries(object):
 
-    def __init__(self, user_projects):
-        self.ews_numbers = user_projects.values_list("ews_name", flat=True)
+    def __init__(self):
         self.ews_project_db_object = ews_models.EwsProject.objects.using("ews")
         self.ews_mission_db_object = ews_models.Mission.objects.using("ews")
-        self.user_ews_projects = self.ews_project_db_object.in_bulk(self.ews_numbers, field_name="ews_name")
 
-    def get_states_for_projects(self):
+    def get_states_for_projects(self, user_projects):
+        ews_numbers = user_projects.values_list("ews_name", flat=True)
+        user_ews_projects = self.ews_project_db_object.in_bulk(ews_numbers, field_name="ews_name")
+
         project_states_dict = {ews_name: self.get_mission_state_single_project(project_object)
-                               for ews_name, project_object in self.user_ews_projects.items()}
+                               for ews_name, project_object in user_ews_projects.items()}
 
         return project_states_dict
 
@@ -27,3 +28,9 @@ class EwsUserQueries(object):
             project_status = "idle"
 
         return project_status
+
+    def get_missions(self, ews_name):
+        ews_project = self.ews_project_db_object.get(ews_name=ews_name)
+        missions = self.ews_mission_db_object.filter(ews_project=ews_project)
+
+        return missions

@@ -21,5 +21,6 @@ urlpatterns = [
     path("", include("accounts.urls")),
     path("", include("portal.urls")),
     path("geodata/", include("geodata.urls")),
-    path("projects/", include("projects.urls")),
+    path("", include("projects.urls")),
+    path("api/", include("ews_db_connector.urls")),
 ]

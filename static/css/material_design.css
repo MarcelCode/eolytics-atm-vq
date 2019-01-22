@@ -10,3 +10,44 @@
 .card-3 {
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
+
+.dot, .dot:before, .dot:after {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 7px;
+  background-color: black;
+}
+
+.dot {
+  top: 50%;
+  left: 50%;
+  margin-top: -5px;
+  margin-left: -5px;
+}
+
+.dot:before, .dot:after {
+  content: "";
+}
+
+.dot:before {
+  right: 12px;
+  transition: right .3s ease-out;
+}
+
+.dot:after {
+  left: 12px;
+  transition: left .3s ease-out;
+}
+
+.dots:hover .dot:before {
+  right: -12px;
+}
+
+.dots:hover .dot:after {
+  left: -12px;
+}
+
+.context-menu-visible{
+  background-color: var(--main-color-lblue) !important;
+}

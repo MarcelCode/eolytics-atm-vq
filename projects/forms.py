@@ -1,8 +1,6 @@
 from django import forms
 from .models import UserSensor, Watertype, UserProject
 
-GROUND_LEVEL_CHOICES = ([0, "0"], [400, "400"], [1000, "1000"], [1900, "1900"])
-
 
 def sensor_choices(user):
     user_sensors = UserSensor.objects.get(user=user)
@@ -18,11 +16,10 @@ def watertype_choices():
 
 
 class CreateProjectForm(forms.ModelForm):
-    ground_level_over_sea = forms.ChoiceField(choices=GROUND_LEVEL_CHOICES)
 
     class Meta:
         model = UserProject
-        exclude = ("user", "ews_unique_project_name")
+        exclude = ("user", "ews_name", "state", "automatic_mode")
 
     def __init__(self, user, *args, **kwargs):
         super(CreateProjectForm, self).__init__(*args, **kwargs)

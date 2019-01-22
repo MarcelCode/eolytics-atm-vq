@@ -41,3 +41,10 @@ span.deleteicon input {
     box-sizing: border-box;
 }
 
+.project-row{
+    cursor: pointer;
+}
+
+/*#example tbody tr:hover{*/
+   /*background-color: rgba(245,163,37,0.75);*/
+/*}*/

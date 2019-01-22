@@ -79,13 +79,13 @@ body {
 
 .btn-primary {
     color: #fff;
-    background-color: var(--main-color-lblue) !important;
-    border-color: var(--main-color-lblue) !important;
+    background-color: var(--main-color-orange) !important;
+    border-color: var(--main-color-orange) !important;
 }
 
 .btn-primary:hover {
-    background-color: var(--main-color-lblue-shadow) !important;
-    border-color: var(--main-color-lblue-shadow) !important;
+    background-color: var(--main-color-orangel) !important;
+    border-color: var(--main-color-orangel) !important;
 }
 
 .vertical-align {
@@ -100,10 +100,30 @@ body {
     border-radius: 20px;
 }
 
-.dot {
+label.btn.btn-light.toggle-off{
+    background-color: var(--main-color-lgrey) !important;
+}
+
+span.toggle-handle.btn.btn-light{
+    background-color: white !important;
+    border-color: rgb(248, 249, 250);
+}
+
+.state-dot {
   height: 20px;
   width: 20px;
   background-color: #6c757d;
   border-radius: 50%;
   display: block;
+}
+
+.page-item.active .page-link{
+    background-color: var(--main-color-dblue) !important;
+    border-color: var(--main-color-dblue) !important;
+}
+
+.back-to-projects{
+    margin-left: 1rem;
+    font-size: 16px !important;
+    color: var(--main-color-dblue);
 }
