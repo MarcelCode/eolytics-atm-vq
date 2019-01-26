@@ -104,15 +104,6 @@ def automatic_mode(request, project_pk):
 @login_required
 def project_settings(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
-    config_model = user_project.sensor.config_model
-    config_model_object = apps.get_model("sensor_configs", config_model)
-    default_config = config_model_object.objects.filter(project=user_project, default_config=True)[0]
-    form = forms.get_config_form_names()[config_model]
-    if request.method == "POST":
-        config_form = form(request.POST).cleaned_data
-        print(request.method)
+    form = forms.ConfigForm(user_project.sensor.config_name)
 
-    else:
-        config_form = form(instance=default_config, initial={"project": user_project})
-
-        return render(request, "missions/config.html", {"form": config_form, "project_pk": project_pk})
+    return render(request, "missions/config.html", {"form": form, "project_pk": project_pk})
