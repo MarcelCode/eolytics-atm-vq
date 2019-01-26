@@ -43,8 +43,9 @@
                     <label for="ews-mode" class="form-check-label">Automatic mode</label>
                 </div>
                 <div class="float-right">
+                    <a class="btn btn-primary" href="{% url 'project-settings' project_pk=ews_project.pk %}" role="button">Default settings</a>
                     <button class="btn btn-primary" type="button" style="margin: 15px 0" data-toggle="modal"
-                            data-target="#CreateProjectModal"><i class="fas fa-download"></i> Download Data
+                            data-target="#CreateProjectModal"><i class="fas fa-download"></i> Download raw data
                     </button>
                 </div>
             </div>
@@ -79,7 +80,7 @@
                     </thead>
                     <tbody>
                     {% for mission in ews_missions %}
-                        <tr data-ews_id="{{ mission.pk }}">
+                        <tr data-ews_ident="{{ mission.ident }}">
                             <td>{{ mission.year }}-{{ mission.month }}-{{ mission.day }}</td>
                             <td>{{ mission.hour }}:{{ mission.minute }}</td>
                             <td>{{ mission.state }}</td>
@@ -89,10 +90,24 @@
                             <td>{{ mission.actiondatetime }}</td>
                             <td>
                                 <a href="#" class="dots">
-                                    <div class="context-menu-mission"
-                                         style="width: 50px; height: 30px; position: relative">
-                                        <div class="dot"></div>
-                                    </div>
+                                    {% if mission.state == "new" %}
+                                        <div class="menu-mission-start" data-id="{{ mission.pk }}"
+                                             style="width: 50px; height: 30px; position: relative">
+                                            <div class="dot"></div>
+                                        </div>
+                                    {% elif mission.state == "finished" %}
+                                        <div class="menu-mission-finished" data-id="{{ mission.pk }}"
+                                             style="width: 50px; height: 30px; position: relative">
+                                            <div class="dot"></div>
+                                        </div>
+                                    {% else %}
+                                        <div class="menu-mission-stopped" data-id="{{ mission.pk }}"
+                                             style="width: 50px; height: 30px; position: relative">
+                                            <div class="dot"></div>
+                                        </div>
+                                    {% endif %}
+
+
                                 </a>
                             </td>
                         </tr>
@@ -123,16 +138,16 @@
             "columnDefs": [{
                 "targets": 7,
                 "orderable": false
-            }]
+            }],
         });
 
-        $('#search-project-table').on('keyup', function () {
-            table.filter(this.value).draw();
+        $('#search-project-table').keyup(function () {
+            table.search($(this).val()).draw();
         });
 
         $('#search-project-table').wrap('<span class="deleteicon" />').after($('<span/>').click(function () {
             $(this).prev('input').val('').trigger('change').focus();
-            table.filter("").draw();
+            table.search("").draw();
         }));
 
         $('#ews-mode').change(function () {

@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.template.response import TemplateResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
-from portal.models import Sensor
+from sensor_configs.models import Sensor
 from django.contrib.auth import logout
 
 User = get_user_model()

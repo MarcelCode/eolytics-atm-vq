@@ -1,26 +1,15 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from portal.models import Sensor
+from sensor_configs.models import Sensor, Watertype
 
 
-# Create your models here.
+# Define which user is allowed to use which Sensors
 class UserSensor(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     sensors = models.ManyToManyField(Sensor)
 
     def __str__(self):
-        return f"{self.user.email}"
-
-
-class Watertype(models.Model):
-    ews_id = models.IntegerField()
-    name = models.CharField(max_length=50)
-
-    class Meta:
-        ordering = ["ews_id"]
-
-    def __str__(self):
-        return f"{self.name}"
+        return f"{self.user}"
 
 
 class UserProject(models.Model):

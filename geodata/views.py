@@ -8,7 +8,7 @@ class Landsat8ViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = models.Landsat8.objects.all()
+    queryset = models.GeoDataLandsat8.objects.all()
     serializer_class = serializers.Landsat8Serializer
     http_method_names = ['get', 'head']
 
@@ -17,7 +17,7 @@ class Sentinel2ViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = models.Sentinel2.objects.all()
+    queryset = models.GeoDataSentinel2.objects.all()
     serializer_class = serializers.Sentinel2Serializer
     http_method_names = ['get', 'head']
 
@@ -26,6 +26,6 @@ class Sentinel3ViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = models.Sentinel3.objects.all()
+    queryset = models.GeoDataSentinel3.objects.all()
     serializer_class = serializers.Sentinel3Serializer
     http_method_names = ['get', 'head']

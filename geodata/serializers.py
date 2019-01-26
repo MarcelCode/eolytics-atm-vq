@@ -4,17 +4,17 @@ from geodata import models
 
 class Landsat8Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Landsat8
+        model = models.GeoDataLandsat8
         fields = "__all__"
 
 
 class Sentinel2Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Sentinel2
+        model = models.GeoDataSentinel2
         fields = "__all__"
 
 
 class Sentinel3Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Sentinel3
+        model = models.GeoDataSentinel3
         fields = "__all__"

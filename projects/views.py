@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from .forms import CreateProjectForm
+from django.shortcuts import render, redirect, HttpResponse
 from .models import UserProject
 from ews_db_connector.ews_requests import EwsUserQueries
 from accounts.models import Profile
@@ -10,6 +9,8 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.apps import apps
+from projects import forms
 
 
 def get_filtered_user_projects(project_states, user_projects, status):
@@ -21,9 +22,9 @@ def get_filtered_user_projects(project_states, user_projects, status):
 
 @login_required
 def projects(request, status):
-    create_project_form = CreateProjectForm(user=request.user)
+    create_project_form = forms.CreateProjectForm(user=request.user)
     if request.method == "POST":
-        user_project_form = CreateProjectForm(request.user, request.POST)
+        user_project_form = forms.CreateProjectForm(request.user, request.POST)
         if user_project_form.is_valid():
             # EWS Command
             user_info = Profile.objects.get(user=request.user)
@@ -98,3 +99,20 @@ def automatic_mode(request, project_pk):
     ews_project.save()
 
     return JsonResponse({"automatic": automatic})
+
+
+@login_required
+def project_settings(request, project_pk):
+    user_project = UserProject.objects.get(pk=project_pk)
+    config_model = user_project.sensor.config_model
+    config_model_object = apps.get_model("sensor_configs", config_model)
+    default_config = config_model_object.objects.filter(project=user_project, default_config=True)[0]
+    form = forms.get_config_form_names()[config_model]
+    if request.method == "POST":
+        config_form = form(request.POST).cleaned_data
+        print(request.method)
+
+    else:
+        config_form = form(instance=default_config, initial={"project": user_project})
+
+        return render(request, "missions/config.html", {"form": config_form, "project_pk": project_pk})

@@ -19,4 +19,4 @@ def missions_by_project(request, project_pk, format=None):
 
     if request.method == 'GET':
         serializer = serializers.MissionSerializer(ews_missions, many=True)
-        return Response(serializer.data)
+        return Response(serializer)

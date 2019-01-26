@@ -1,0 +1,232 @@
+{
+  "products_group": {
+    "product_AOT": {
+      "model": "BooleanField",
+      "name": "AOT",
+      "kwargs": {"default": true}
+    },
+    "product_TUR": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "TUR"
+    },
+    "product_CHL": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "CHL"
+    },
+    "product_HAB": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "HAB"
+    },
+    "product_Z90": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "Z90"
+    },
+    "product_SDD": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "SDD"
+    },
+    "product_QUT": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "QUT"
+    },
+    "product_SST": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "SST"
+    },
+    "product_EVA": {
+      "model": "BooleanField",
+      "kwargs": {"default": true},
+      "name": "EVA"
+    }
+  },
+  "main_watertype": {
+    "model": "IntegerField",
+    "name": "Main watertype",
+    "kwargs": {
+      "default": 4,
+      "choices": [
+        [
+          4,
+          "Global Type"
+        ],
+        [
+          42,
+          "Mixed Type"
+        ],
+        [
+          44,
+          "River Type"
+        ]
+      ],
+      "help_text": "Original water type to be used for retrieval of water constituents"
+    }
+  },
+  "coupled_wsr": {
+    "model": "BooleanField",
+    "name": "Coupled WSR",
+    "kwargs": {
+      "default": true,
+      "help_text": "Retrieve atmosphere and water constituents together."
+    }
+  },
+  "use_slopy": {
+    "model": "BooleanField",
+    "name": "Use slopy",
+    "kwargs": {
+      "default": false,
+      "help_text": "Use aerosol-slope retrieval program instead of fixed global aerosol slope. Can not be used with coupled water_species_retrieval."
+    }
+  },
+  "watertype_mixing": {
+    "model": "BooleanField",
+    "name": "Watertype mixing",
+    "kwargs": {
+      "default": true,
+      "help_text": "Use automatic retrieval of watertype instead of a fixed water type."
+    }
+  },
+  "use_imagepart": {
+    "model": "BooleanField",
+    "name": "Use image part.",
+    "upload": true,
+    "kwargs": {
+      "default": "True",
+      "help_text": "Process only a portion of the full scene (set path to Imgpart Shape)."
+    }
+  },
+  "mask_with_shape": {
+    "model": "BooleanField",
+    "name": "Mask with Shape",
+    "upload": true,
+    "kwargs": {
+      "default": true,
+      "help_text": "Mask out regions that shall not be processed (set path to MASK_IMG_SHAPE). This is different to USE_IMAGEPART, because there is no clipping involved."
+    }
+
+  },
+  "clip_aoi": {
+    "model": "BooleanField",
+    "name": "Clip AOI",
+    "kwargs": {
+      "default": true,
+      "help_text": "Clip AOI at the end (set path to CLIPAOI_SHAPE)."
+    }
+  },
+  "polygonstatistics": {
+    "model": "BooleanField",
+    "name": "Polygon statistics",
+    "kwargs": {
+      "default": true,
+      "help_text": "Calculate basic statistics within a pre-defined polygon shapefile (set path to POLYGONSTATISTICS_SHAPE and adjust PRODUCTLIST_POLYSTATS)."
+    }
+  },
+  "calculate_rrs": {
+    "model": "BooleanField",
+    "name": "Calculate RRS",
+    "kwargs": {
+      "default": true,
+      "help_text": "Calculate Reflectance products."
+    }
+  },
+  "rrs_group": {
+    "rrs": {
+      "model": "BooleanField",
+      "name": "RRS",
+      "kwargs": {
+        "default": true
+      }
+    },
+    "rra": {
+      "model": "BooleanField",
+      "name": "RRA",
+      "kwargs": {
+        "default": true
+      }
+    },
+    "rrw": {
+      "model": "BooleanField",
+      "name": "RRW",
+      "kwargs": {
+        "default": true
+      }
+    },
+    "ssr": {
+      "model": "BooleanField",
+      "name": "SSR",
+      "kwargs": {
+        "default": true
+      }
+    }
+  },
+  "calculate_sst": {
+    "model": "BooleanField",
+    "name": "Calculate SST",
+    "kwargs": {
+      "default": true,
+      "help_text": "Calculate water surface temperature."
+    }
+  },
+  "calculate_evaporation": {
+    "model": "BooleanField",
+    "name": "Calculate Evaporation",
+    "kwargs": {
+      "default": true,
+      "help_text": "Calculate evaporation rate based on SST."
+    }
+  },
+  "create_gmask": {
+    "model": "BooleanField",
+    "name": "Create gmask",
+    "kwargs": {
+      "default": true,
+      "help_text": "Creation an initial land-water-mask on the fly based on Landsat archive (not the actual scene!)."
+    }
+  },
+  "minimum_water_percentage": {
+    "model": "IntegerField",
+    "name": "Minimum water percentage",
+    "kwargs": {
+      "default": 10,
+      "help_text": "Compares the land-water-mask derived from the actual scene with the initial land-water-mask and declares the actual image as empty, if the detected water area is below the given threshold value compared to the gmask. Set to 0 if this shall not be used!"
+    }
+  },
+  "scaled_workflow": {
+    "model": "BooleanField",
+    "name": "Scaled workflow",
+    "kwargs": {
+      "default": true,
+      "help_text": "Run the whole processing chain at 90m resolution."
+    }
+  },
+  "pan_sharpening": {
+    "model": "BooleanField",
+    "name": "Pan sharpening",
+    "kwargs": {
+      "default": false,
+      "help_text": "Processs at 15m resolution using pan-sharpening."
+    }
+  },
+  "gleasy": {
+    "model": "BooleanField",
+    "name": "Gleasy",
+    "kwargs": {
+      "default": true,
+      "help_text": "Run glint correction."
+    }
+  },
+  "use_static_mask_shape": {
+    "model": "BooleanField",
+    "name": "Use static mask shape",
+    "kwargs": {
+      "default": false,
+      "help_text": "Use pre-defined static shapes for product masking (e.g. shallow water areas; set path to STATIC_MASK_SHAPE)."
+    }
+  }
+}

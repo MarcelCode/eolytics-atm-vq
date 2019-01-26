@@ -210,13 +210,13 @@
         });
 
 
-        $('#search-project-table').on('keyup', function () {
-            table.filter(this.value).draw();
+        $('#search-project-table').keyup(function () {
+            table.search($(this).val()).draw();
         });
 
         $('#search-project-table').wrap('<span class="deleteicon" />').after($('<span/>').click(function () {
             $(this).prev('input').val('').trigger('change').focus();
-            table.filter("").draw();
+            table.search("").draw();
         }));
 
         $('.del-button').on('click', function (event) {
