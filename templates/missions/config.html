@@ -7,31 +7,66 @@
         <div class="row">
             <div class="col-12" style="background-color: var(--main-color-lgrey2)">
                 <h2 style="margin: 1rem;">Configuration</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6" style="background-color: var(--main-color-lgrey2)">
                 <a class="navbar-brand back-to-projects" href="{% url 'project' project_pk=project_pk %}">
                     <i class="fas fa-arrow-left"></i>
                     Back to project
                 </a>
             </div>
-        </div>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success" role="alert">
-                  {{ message }}
+            <div class="col-6" style="background-color: var(--main-color-lgrey2)">
+                <div class="dropdown float-right">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Configurations
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for config in user_configs %}
+                            {% if config.default %}
+                                <a class="dropdown-item"
+                                   href="{% url 'config-pk' project_pk=project_pk config_pk=config.pk %}">{{ config.name }}
+                                    <i class="fa fa-check"></i></a>
+                            {% else %}
+                                <a class="dropdown-item"
+                                   href="{% url 'config-pk' project_pk=project_pk config_pk=config.pk %}">{{ config.name }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-            {% endfor %}
-        {% endif %}
+            </div>
+
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-12">
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
         <form method="post" data-toggle="validator">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-success" style="float: right; margin-bottom: 1rem; margin-left: 1rem"
-                    name="default" value="1">
+            <button type="submit" class="btn btn-success" style="float: right; margin:0 0.5rem;"
+                    name="default" value="0">
                 Save
             </button>
-            <button type="submit" class="btn btn-success" style="float: right; margin-bottom: 1rem" name="default"
-                    name="default" value="0">Save
+            <button type="submit" class="btn btn-success" style="float: right; margin: 0 0.5rem" name="default"
+                    value="1">Save
                 as default
             </button>
         </form>
+        {% if not config.default %}
+            <a href="{% url 'config-action' project_pk=project_pk config_pk=config.pk action='delete' %}" class="btn btn-danger" role="button" aria-disabled="true" style="margin:0 0.5rem;">Delete Configuration</a>
+        {% endif %}
+        <a href="{% url 'config-action' project_pk=project_pk config_pk=config.pk action='reset' %}" class="btn btn-warning" role="button" aria-disabled="true" style="margin:0 0.5rem;">Reset Settings</a>
     </div>
 {% endblock %}
 

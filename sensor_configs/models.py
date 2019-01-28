@@ -32,9 +32,10 @@ class Sensor(models.Model):
 
 class Config(models.Model):
     user_project = models.ForeignKey("projects.UserProject", on_delete=models.CASCADE)
-    ews_ident = models.CharField(max_length=255)
+    ews_ident = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255, blank=True, null=True)
+    default = models.BooleanField(default=False)
     json_configs = JSONField()
 
     class Meta:

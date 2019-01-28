@@ -4,7 +4,8 @@
     "name": "Choose products",
     "kwargs": {
       "choices": [["aot", "AOT"], ["tur", "TUR"], ["chl", "CHL"], ["hab", "HAB"], ["z90", "Z90"], ["sdd", "SDD"], ["qut", "QUT"], ["sst", "SST"], ["eva", "EVA"]],
-      "help_text": "Product list for processing and for which polygonstatistics shall be calculated."
+      "help_text": "Product list for processing and for which polygonstatistics shall be calculated.",
+      "initial": ["aot", "tur", "chl", "hab", "z90", "sdd", "qut", "sst", "eva"]
     }
   },
   "main_watertype": {
@@ -101,7 +102,8 @@
     "name": "Choose RRS",
     "kwargs": {
       "choices": [["rrs", "RRS"], ["rra", "RRA"], ["rrw", "RRW"], ["ssr", "SSR"]],
-      "help_text": "Specification of RRS calculation."
+      "help_text": "Specification of RRS calculation.",
+      "initial": ["rrs", "rra", "rrw", "ssr"]
     }
   },
   "calculate_sst": {

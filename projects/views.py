@@ -9,8 +9,9 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.apps import apps
 from projects import forms
+from sensor_configs.models import Config
+from sensor_configs.forms import ConfigForm
 
 
 def get_filtered_user_projects(project_states, user_projects, status):
@@ -80,9 +81,11 @@ def delete_project(request, status, project_pk):
 @login_required
 def project(request, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
+    config = Config.objects.get(user_project=ews_project, default=True)
     ews_missions = EwsUserQueries().get_missions(ews_project.ews_name)
 
-    return render(request, "projects/single_project.html", {"ews_missions": ews_missions, "ews_project": ews_project})
+    return render(request, "projects/single_project.html", {"ews_missions": ews_missions, "ews_project": ews_project,
+                                                            "config_pk": config.pk})
 
 
 @login_required
@@ -102,8 +105,73 @@ def automatic_mode(request, project_pk):
 
 
 @login_required
-def project_settings(request, project_pk):
+def project_settings(request, project_pk, config_pk, action=None):
     user_project = UserProject.objects.get(pk=project_pk)
-    form = forms.ConfigForm(user_project.sensor.config_name)
+    config = Config.objects.get(pk=config_pk)
 
-    return render(request, "missions/config.html", {"form": form, "project_pk": project_pk})
+    if request.method == "GET":
+        user_configs = Config.objects.filter(user_project=user_project)
+        form = ConfigForm(user_project.sensor.config_name, config.json_configs,
+                          initial={"name": config.name, "description": config.description,
+                                   "default": config.default})
+
+        if action == "delete":
+            config.delete()
+            config = Config.objects.get(default=True)
+
+            return redirect("config-pk", project_pk, config.pk)
+
+        elif action == "reset":
+            form = ConfigForm(user_project.sensor.config_name,
+                              initial={"name": config.name, "description": config.description,
+                                       "default": config.default})
+
+        return render(request, "missions/config.html", {"form": form, "project_pk": project_pk,
+                                                        "user_configs": user_configs, "config": config})
+
+    if request.method == "POST":
+        user_form = ConfigForm(user_project.sensor.config_name, None, request.POST)
+        if user_form.is_valid():
+            form_data = user_form.cleaned_data
+            name = form_data.pop("name")
+            description = form_data.pop("description")
+
+            config_check = Config.objects.filter(name=name)
+
+            if bool(int(request.POST["default"])):
+                Config.objects.filter(user_project=user_project).update(default=False)
+
+            if config_check.exists():
+                user_config = config_check.first()
+                user_config.name = name
+                user_config.description = description
+                user_config.json_configs = form_data
+                if bool(int(request.POST["default"])):
+                    user_config.default = True
+                user_config.save()
+
+                messages.add_message(request, messages.SUCCESS,
+                                     f'Configuration {name} was updated successfully!',
+                                     extra_tags='alert-success')
+            else:
+                user_config = Config.objects.create(user_project=user_project,
+                                                    name=name,
+                                                    description=description,
+                                                    default=bool(int(request.POST["default"])),
+                                                    json_configs=form_data)
+
+                messages.add_message(request, messages.SUCCESS,
+                                     f'Configuration {name} was created successfully!',
+                                     extra_tags='alert-success')
+
+            user_configs = Config.objects.filter(user_project=user_project)
+
+            return render(request, "missions/config.html", {"form": user_form, "project_pk": project_pk,
+                                                            "user_configs": user_configs, "config": user_config})
+
+
+@login_required
+def project_settings_action(request, project_pk, config_pk, action):
+    config = Config.objects.get(pk=config_pk)
+
+

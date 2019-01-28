@@ -126,4 +126,5 @@ span.toggle-handle.btn.btn-light{
     margin-left: 1rem;
     font-size: 16px !important;
     color: var(--main-color-dblue);
+    margin-bottom: 14px;
 }

@@ -1,49 +1,11 @@
 {
-  "products_group": {
-    "product_AOT": {
-      "model": "BooleanField",
-      "name": "AOT",
-      "kwargs": {"initial": true}
-    },
-    "product_TUR": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "TUR"
-    },
-    "product_CHL": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "CHL"
-    },
-    "product_HAB": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "HAB"
-    },
-    "product_Z90": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "Z90"
-    },
-    "product_SDD": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "SDD"
-    },
-    "product_QUT": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "QUT"
-    },
-    "product_SST": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "SST"
-    },
-    "product_EVA": {
-      "model": "BooleanField",
-      "kwargs": {"initial": true},
-      "name": "EVA"
+  "products": {
+    "model": "MultipleChoiceField",
+    "name": "Choose products",
+    "kwargs": {
+      "choices": [["aot", "AOT"], ["tur", "TUR"], ["chl", "CHL"], ["hab", "HAB"], ["z90", "Z90"], ["sdd", "SDD"], ["qut", "QUT"], ["sst", "SST"], ["eva", "EVA"]],
+      "help_text": "Product list for processing and for which polygonstatistics shall be calculated.",
+      "initial": ["aot", "tur", "chl", "hab", "z90", "sdd", "qut", "sst", "eva"]
     }
   },
   "main_watertype": {
@@ -135,34 +97,13 @@
       "help_text": "Calculate Reflectance products."
     }
   },
-  "rrs_group": {
-    "rrs": {
-      "model": "BooleanField",
-      "name": "RRS",
-      "kwargs": {
-        "initial": true
-      }
-    },
-    "rra": {
-      "model": "BooleanField",
-      "name": "RRA",
-      "kwargs": {
-        "initial": true
-      }
-    },
-    "rrw": {
-      "model": "BooleanField",
-      "name": "RRW",
-      "kwargs": {
-        "initial": true
-      }
-    },
-    "ssr": {
-      "model": "BooleanField",
-      "name": "SSR",
-      "kwargs": {
-        "initial": true
-      }
+  "rrs": {
+    "model": "MultipleChoiceField",
+    "name": "Choose RRS",
+    "kwargs": {
+      "choices": [["rrs", "RRS"], ["rra", "RRA"], ["rrw", "RRW"], ["ssr", "SSR"]],
+      "help_text": "Specification of RRS calculation.",
+      "initial": ["rrs", "rrs", "rrw", "ssr"]
     }
   },
   "calculate_sst": {

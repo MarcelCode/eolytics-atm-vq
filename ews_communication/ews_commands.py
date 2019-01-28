@@ -53,25 +53,117 @@ def remove_ews_project(ews_name):
     return True
 
 
-def start_job():
-    pass
+def start_job(ews_name, mission_ident, begin_action=0, block_name=None, rerun_block=False):
+    """
+    First start: begin_action 0 or 1
+    Continue: begin_action 0, 0 means last failed/stopped action
+    Restart: begin_action 1
+    :param ews_name: e.g. EWS00001
+    :param mission_ident: e.g. bra180718ls8.132117
+    :param begin_action: e.g. 0
+    :param block_name:  defined blockname or None
+    :param rerun_block: True or False
+    :return:
+    """
+    payload = {
+        "method": "startJob",
+        "params": {
+            "ews_name": ews_name,
+            "order_ident": mission_ident,
+            "begin_action": begin_action,
+            "block_name": block_name,
+            "rerun_block": rerun_block
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
 
 
-def stop_job():
-    pass
+def stop_job(ews_name, mission_ident):
+    """
+    kills job process
+    sets mission to state 'stopped'
+    :param ews_name: e.g. EWS00001
+    :param mission_ident: e.g. bra180718ls8.132117
+    :return:
+    """
+    payload = {
+        "method": "stopJob",
+        "params": {
+            "ews_name": ews_name,
+            "order_ident": mission_ident,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
 
 
-def updateQueue():
-    pass
+def updateQueue(ews_name):
+    """
+    Creates new missions from raw data
+    Should be triggered if user presses reload
+    """
+    payload = {
+        "method": "updateOrderQueue",
+        "params": {
+            "ews_name": ews_name
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
 
 
-def start_automatic_mode():
-    pass
+def start_automatic_mode(ews_name):
+    """
+    Sets all running missions to 'interrupted'.
+    Starts server.py
+    """
+    payload = {
+        "method": "automaticModeStarted",
+        "params": {
+            "ews_name": ews_name
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
 
 
-def stop_automatic_mode():
-    pass
+def stop_automatic_mode(ews_name):
+    """
+    Terminates server.py process
+    Sets all running missions to stopped
+    """
+    payload = {
+        "method": "automaticModeTerminated",
+        "params": {
+            "ews_name": ews_name
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
 
 
-def download_raw_data():
+def download_raw_data(sensor, ulx, uly, lrx, lry, cloud_cover, start_datetime, end_datetime):
+    """
+
+    :param sensor: Sensor id or name??
+    :param ulx: upper left x (which coordinate system??)
+    :param uly: upper left y
+    :param lrx: lower right x
+    :param lry: lower right y
+    :param cloud_cover: floating point [0.0, 100.0]
+    :param start_datetime: string YYYYMMDD
+    :param end_datetime:
+    :return:
+    """
     pass
