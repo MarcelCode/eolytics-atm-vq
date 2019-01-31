@@ -4,9 +4,7 @@ from rest_framework import routers
 from geodata import views
 
 router = routers.DefaultRouter()
-router.register(r'landsat8', views.Landsat8ViewSet)
-router.register(r'sentinel2', views.Sentinel2ViewSet)
-router.register(r'sentinel3', views.Sentinel3ViewSet)
+router.register(r'countries', views.CountryViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

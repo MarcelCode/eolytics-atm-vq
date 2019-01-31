@@ -25,12 +25,10 @@ class Command(BaseCommand):
             model=models.Landsat8,
             data=filepath,
             mapping={
-                "path": "PATH",
-                "row": "ROW",
-                "sequence": "SEQUENCE",
-                'geom': "POLYGON",
-            },
-            unique=("path", "row")
+                "name": "ADMIN",
+                "country_code": "ADM0_A3",
+                'geom': "MULTIPOLYGON",
+            }
         )
 
         layer_map.save(progress=True, strict=True)

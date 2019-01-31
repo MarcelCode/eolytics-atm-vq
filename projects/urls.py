@@ -7,5 +7,6 @@ urlpatterns = [
     path("project/<int:project_pk>/", views.project, name="project"),
     path("project/<int:project_pk>/automatic-mode/", views.automatic_mode, name="automatic-mode"),
     path("project/<int:project_pk>/config/<int:config_pk>/", views.project_settings, name="config-pk"),
-    path("project/<int:project_pk>/config/<int:config_pk>/<slug:action>/", views.project_settings, name="config-action")
+    path("project/<int:project_pk>/config/<int:config_pk>/<slug:action>/", views.project_settings, name="config-action"),
+    path("project/<int:project_pk>/download/", views.download_data_for_project, name="project-download"),
 ]

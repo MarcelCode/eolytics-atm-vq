@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path("api/", include("ews_db_connector.urls")),
     path('ews-admin/', admin.site.urls),
     path("", include("accounts.urls")),
     path("geodata/", include("geodata.urls")),
     path("", include("projects.urls")),
-    path("api/", include("ews_db_connector.urls")),
 ]

@@ -43,10 +43,11 @@
                     <label for="ews-mode" class="form-check-label">Automatic mode</label>
                 </div>
                 <div class="float-right">
-                    <a class="btn btn-primary" href="{% url 'config-pk' project_pk=ews_project.pk config_pk=config_pk%}" role="button">Default settings</a>
-                    <button class="btn btn-primary" type="button" style="margin: 15px 0" data-toggle="modal"
-                            data-target="#CreateProjectModal"><i class="fas fa-download"></i> Download raw data
-                    </button>
+                    <a class="btn btn-primary"
+                       href="{% url 'config-pk' project_pk=ews_project.pk config_pk=config_pk %}" role="button">
+                        Default settings</a>
+                    <a class="btn btn-primary" href="{% url 'project-download' project_pk=ews_project.pk %}"
+                       style="margin: 15px 0" role="button"><i class="fas fa-download"></i> Download raw data</a>
                 </div>
             </div>
         </div>

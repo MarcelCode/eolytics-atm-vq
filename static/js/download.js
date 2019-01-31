@@ -34,11 +34,11 @@ L.control.zoom({
 }).addTo(map);
 
 
-let geo_region = L.geoJSON(geodata, {style: orange_style}).addTo(map);
-
-map.fitBounds(geo_region.getBounds());
-
-control_layer.addOverlay(geo_region, "Satellite Scenes");
+// let geo_region = L.geoJSON(geodata, {style: orange_style}).addTo(map);
+//
+// map.fitBounds(geo_region.getBounds());
+//
+// control_layer.addOverlay(geo_region, "Satellite Scenes");
 
 
 // GeoSearch
@@ -54,14 +54,14 @@ var searchControl = new GeoSearchControl({
 map.addControl(searchControl);
 
 
-// layer on click
-geo_region.on("click", function (e) {
-    test = e;
-    if (e.layer.options.color === orange_style.color){
-        e.layer.setStyle(blue_style);
-    }
-    else {
-        e.layer.setStyle(orange_style);
-    }
-
-});
+// // layer on click
+// geo_region.on("click", function (e) {
+//     test = e;
+//     if (e.layer.options.color === orange_style.color){
+//         e.layer.setStyle(blue_style);
+//     }
+//     else {
+//         e.layer.setStyle(orange_style);
+//     }
+//
+// });

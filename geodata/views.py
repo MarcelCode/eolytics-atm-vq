@@ -1,31 +1,19 @@
 from rest_framework import viewsets
 from geodata import serializers
 from geodata import models
-from django.contrib.auth.decorators import login_required
+from accounts.models import Profile
 
 
-class Landsat8ViewSet(viewsets.ModelViewSet):
+class CountryViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = models.GeoDataLandsat8.objects.all()
-    serializer_class = serializers.Landsat8Serializer
+    serializer_class = serializers.CountrySerializer
+    queryset = models.Country.objects.all()
     http_method_names = ['get', 'head']
 
 
-class Sentinel2ViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = models.GeoDataSentinel2.objects.all()
-    serializer_class = serializers.Sentinel2Serializer
-    http_method_names = ['get', 'head']
 
 
-class Sentinel3ViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = models.GeoDataSentinel3.objects.all()
-    serializer_class = serializers.Sentinel3Serializer
-    http_method_names = ['get', 'head']
+
+

@@ -93,10 +93,10 @@ def automatic_mode(request, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
     automatic = json.loads(request.GET.get('automatic'))
 
-    if automatic:
-        ews_commands.start_automatic_mode()
-    else:
-        ews_commands.stop_automatic_mode()
+    # if automatic:
+    #     ews_commands.start_automatic_mode()
+    # else:
+    #     ews_commands.stop_automatic_mode()
 
     ews_project.automatic_mode = automatic
     ews_project.save()
@@ -126,8 +126,9 @@ def project_settings(request, project_pk, config_pk, action=None):
                               initial={"name": config.name, "description": config.description,
                                        "default": config.default})
 
-        return render(request, "missions/config.html", {"form": form, "project_pk": project_pk,
-                                                        "user_configs": user_configs, "config": config})
+        return render(request, "project/config.html", {"form": form, "project_pk": project_pk,
+                                                       "user_configs": user_configs, "config": config,
+                                                       "user_project": user_project})
 
     if request.method == "POST":
         user_form = ConfigForm(user_project.sensor.config_name, None, request.POST)
@@ -166,12 +167,14 @@ def project_settings(request, project_pk, config_pk, action=None):
 
             user_configs = Config.objects.filter(user_project=user_project)
 
-            return render(request, "missions/config.html", {"form": user_form, "project_pk": project_pk,
+            return render(request, "project/config.html", {"form": user_form, "project_pk": project_pk,
                                                             "user_configs": user_configs, "config": user_config})
 
 
 @login_required
-def project_settings_action(request, project_pk, config_pk, action):
-    config = Config.objects.get(pk=config_pk)
+def download_data_for_project(request, project_pk):
+    sensor_date = UserProject.objects.get(pk=project_pk).sensor.start_date
+    return render(request, "project/download.html", {"project_pk": project_pk, "sensor_date": sensor_date})
+
 
 

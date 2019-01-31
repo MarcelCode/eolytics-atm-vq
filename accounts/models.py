@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from geodata.models import Country
 
 
 class UserManager(BaseUserManager):
@@ -56,6 +57,7 @@ class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     project_name = models.CharField(max_length=255)
     region_code = models.CharField(max_length=3)
+    download_region = models.ManyToManyField(Country)
 
     def __str__(self):
         return f"{self.user}"

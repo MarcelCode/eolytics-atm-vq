@@ -3,20 +3,20 @@
 {% load crispy_forms_tags %}
 
 {% block body %}
-    <div class="container main-settings-window">
+    <div class="container main-settings-window" style="margin-top: 50px">
         <div class="row">
             <div class="col-12" style="background-color: var(--main-color-lgrey2)">
-                <h2 style="margin: 1rem;">Configuration</h2>
+                <h2 style="margin: 1rem;">Configuration {{ user_project.user_project_name }}</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-6" style="background-color: var(--main-color-lgrey2)">
+            <div class="col-sm" style="background-color: var(--main-color-lgrey2)">
                 <a class="navbar-brand back-to-projects" href="{% url 'project' project_pk=project_pk %}">
                     <i class="fas fa-arrow-left"></i>
                     Back to project
                 </a>
             </div>
-            <div class="col-6" style="background-color: var(--main-color-lgrey2)">
+            <div class="col-sm" style="background-color: var(--main-color-lgrey2)">
                 <div class="dropdown float-right">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

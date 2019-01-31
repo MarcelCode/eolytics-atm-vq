@@ -1,20 +1,18 @@
 from rest_framework import serializers
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from geodata import models
 
 
-class Landsat8Serializer(serializers.HyperlinkedModelSerializer):
+
+class CountrySerializer(GeoFeatureModelSerializer):
+    """ A class to serialize locations as GeoJSON compatible data """
+
     class Meta:
-        model = models.GeoDataLandsat8
+        model = models.Country
+        geo_field = "geom"
         fields = "__all__"
 
 
-class Sentinel2Serializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.GeoDataSentinel2
-        fields = "__all__"
 
 
-class Sentinel3Serializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.GeoDataSentinel3
-        fields = "__all__"
+

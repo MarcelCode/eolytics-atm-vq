@@ -32,7 +32,7 @@ class UserProject(models.Model):
         return f"{self.user},  {self.project_abbrevation}-{self.user_project_name}"
 
     def save(self, *args, **kwargs):
-        form = ConfigForm(self.sensor.sensor_name)
+        form = ConfigForm(self.sensor.s)
         form_data = {name: form.fields[name].initial for name in form.fields.keys()}
         form_data.pop("name")
         form_data.pop("description")
