@@ -19,20 +19,27 @@
 
     <!-- Load Leaflet from CDN -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-    crossorigin=""/>
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-    crossorigin=""></script>
-    
+            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+            crossorigin=""></script>
+
     <!-- Load Esri Leaflet from CDN -->
     <script src="https://unpkg.com/esri-leaflet@2.2.3/dist/esri-leaflet.js"
-    integrity="sha512-YZ6b5bXRVwipfqul5krehD9qlbJzc6KOGXYsDjU9HHXW2gK57xmWl2gU6nAegiErAqFXhygKIsWPKbjLPXVb2g=="
-    crossorigin=""></script>
+            integrity="sha512-YZ6b5bXRVwipfqul5krehD9qlbJzc6KOGXYsDjU9HHXW2gK57xmWl2gU6nAegiErAqFXhygKIsWPKbjLPXVb2g=="
+            crossorigin=""></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+
 {% endblock %}
 
 
 {% block body %}
+    <script>
+        let user_project_pk = {{ project_pk }};
+    </script>
     <div class="container main-settings-window" style="margin-top: 50px">
         <div class="row">
             <div class="col-sm" style="background-color: var(--main-color-lgrey2)">
@@ -57,16 +64,16 @@
             <div class="col-sm" style="padding: 1rem;">
                 <h4>2. Define Date Range</h4>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <div style="padding: 0.5rem">
-                            <label for="startDate">Start date</label>
-                            <input id="startDate" data-date-format='yy-mm-dd'/>
+                            <label for="startDate">Start date (earliest: {{ sensor_date }})</label>
+                            <input id="startDate"/>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-lg-4">
                         <div style="padding: 0.5rem">
                             <label for="endDate">End date</label>
-                            <input id="endDate" data-date-format='yy-mm-dd'/>
+                            <input id="endDate"/>
                         </div>
                     </div>
                 </div>
@@ -89,7 +96,7 @@
         <div class="row">
             <div class="col-sm">
                 <button type="button" class="btn btn-primary" style="float: right; margin:0 0.5rem;"
-                        name="default"> Download Data
+                        name="default" id="download-form-button"> Download Data
                 </button>
             </div>
         </div>
@@ -116,7 +123,7 @@
             minDate: function () {
                 return $('#startDate').val();
             },
-            maxDate: today
+            maxDate: today,
         });
 
 

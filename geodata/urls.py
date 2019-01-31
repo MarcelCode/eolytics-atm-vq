@@ -1,14 +1,9 @@
-from django.conf.urls import include
-from django.urls import path
-from rest_framework import routers
+from django.contrib import admin
+from django.urls import path, include
 from geodata import views
 
-router = routers.DefaultRouter()
-router.register(r'countries', views.CountryViewSet)
-
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path("", include(router.urls)),
-    path("api-auth/", include('rest_framework.urls', namespace='rest_framework'))
+    path("user-data/", views.geodata_for_user, name="allowed-region"),
+    path("aoi-union/", views.check_geodata, name="aoi-union"),
+    path("start-download/", views.download_data, name="start-download"),
 ]

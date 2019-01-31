@@ -218,3 +218,29 @@ class WaterType(models.Model):
     class Meta:
         managed = False
         db_table = 'water_type'
+
+
+class DownloadQuery(models.Model):
+    ulx = models.FloatField(blank=True, null=True)
+    uly = models.FloatField(blank=True, null=True)
+    lrx = models.FloatField(blank=True, null=True)
+    lry = models.FloatField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    ews_project = models.ForeignKey('EwsProject', models.DO_NOTHING, db_column='ews_project')
+    cloud_cover = models.FloatField(blank=True, null=True)
+    query_name = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'download_query'
+
+
+class FileDownload(models.Model):
+    filename = models.CharField(max_length=1000, blank=True, null=True)
+    download_state = models.CharField(max_length=50, blank=True, null=True)
+    download_query = models.ForeignKey(DownloadQuery, models.DO_NOTHING, db_column='download_query')
+
+    class Meta:
+        managed = False
+        db_table = 'file_download'

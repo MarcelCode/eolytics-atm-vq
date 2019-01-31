@@ -24,7 +24,7 @@ def create_ews_project(user_project_name, project_abbrevation, sensor_id, watert
             "sensor_id": sensor_id,
             "water_type": watertype,
             "project": project,
-            "region": region,   # br + region
+            "region": region,  # br + region
             "imagepart": imagepart
         },
         "jsonrpc": "2.0",
@@ -153,17 +153,35 @@ def stop_automatic_mode(ews_name):
     return True
 
 
-def download_raw_data(sensor, ulx, uly, lrx, lry, cloud_cover, start_datetime, end_datetime):
+def download_raw_data(ews_name, sensor_id, ulx, uly, lrx, lry, cloud_cover, start_date, end_date):
     """
-
-    :param sensor: Sensor id or name??
+    :param ews_name: EWS name
+    :param sensor_id: Sensor id
     :param ulx: upper left x (which coordinate system??)
     :param uly: upper left y
     :param lrx: lower right x
     :param lry: lower right y
     :param cloud_cover: floating point [0.0, 100.0]
-    :param start_datetime: string YYYYMMDD
-    :param end_datetime:
+    :param start_date: string YYYYMMDD
+    :param end_date: string YYYYMMDD
     :return:
     """
-    pass
+    payload = {
+        "method": "downloadSatelliteRawdata",
+        "params": {
+            "ews_name": ews_name,
+            "sensor_id": sensor_id,
+            "ulx": ulx,
+            "uly": uly,
+            "lrx": lrx,
+            "lry": lry,
+            "cloud_cover": int(cloud_cover),
+            "start_date": start_date,
+            "end_date": end_date
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+
+    return True
