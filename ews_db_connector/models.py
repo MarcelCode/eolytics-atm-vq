@@ -230,6 +230,7 @@ class DownloadQuery(models.Model):
     ews_project = models.ForeignKey('EwsProject', models.DO_NOTHING, db_column='ews_project')
     cloud_cover = models.FloatField(blank=True, null=True)
     query_name = models.CharField(max_length=500, blank=True, null=True)
+    creation_datetime = models.DateTimeField()
 
     class Meta:
         managed = False

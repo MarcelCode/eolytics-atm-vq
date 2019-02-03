@@ -4,6 +4,7 @@ from ews_db_connector.ews_requests import EwsUserQueries
 from accounts.models import Profile
 from ews_communication import ews_commands
 from ews_db_connector import ews_requests
+from ews_db_connector.models import DownloadQuery, FileDownload, EwsProject
 from collections import Counter
 from django.contrib import messages
 import json
@@ -93,13 +94,13 @@ def automatic_mode(request, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
     automatic = json.loads(request.GET.get('automatic'))
 
-    # if automatic:
-    #     ews_commands.start_automatic_mode()
-    # else:
-    #     ews_commands.stop_automatic_mode()
+    if automatic:
+        ews_commands.start_automatic_mode(ews_project.ews_name)
+    else:
+        ews_commands.stop_automatic_mode(ews_project.ews_name)
 
     ews_project.automatic_mode = automatic
-    ews_project.save()
+    ews_project.save(update=True)
 
     return JsonResponse({"automatic": automatic})
 
@@ -175,6 +176,18 @@ def project_settings(request, project_pk, config_pk, action=None):
 def download_data_for_project(request, project_pk):
     sensor_date = UserProject.objects.get(pk=project_pk).sensor.start_date
     return render(request, "project/download.html", {"project_pk": project_pk, "sensor_date": sensor_date})
+
+
+def download_status_for_project(request, project_pk):
+    user_project = UserProject.objects.get(pk=project_pk)
+    ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
+    download_queries = DownloadQuery.objects.using("ews").filter(ews_project=ews_project)
+    results = {d_query: FileDownload.objects.using("ews").filter(download_query=d_query) for d_query in
+               download_queries}
+
+    return render(request, "project/download-status.html", {"user_project": user_project,
+                                                            "results": results,
+                                                            "project_pk": project_pk})
 
 
 

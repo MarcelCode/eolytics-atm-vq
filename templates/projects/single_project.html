@@ -46,8 +46,17 @@
                     <a class="btn btn-primary"
                        href="{% url 'config-pk' project_pk=ews_project.pk config_pk=config_pk %}" role="button">
                         Default settings</a>
-                    <a class="btn btn-primary" href="{% url 'project-download' project_pk=ews_project.pk %}"
-                       style="margin: 15px 0" role="button"><i class="fas fa-download"></i> Download raw data</a>
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown-download"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="margin: 15px 0">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-download">
+                        <a class="dropdown-item" href="{% url 'project-download' project_pk=ews_project.pk %}">Raw
+                            Data</a>
+                        <a class="dropdown-item" href="{% url 'project-download-status' project_pk=ews_project.pk %}">Status</a>
+                        <a class="dropdown-item" href="#">Results</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,24 +100,10 @@
                             <td>{{ mission.actiondatetime }}</td>
                             <td>
                                 <a href="#" class="dots">
-                                    {% if mission.state == "new" %}
-                                        <div class="menu-mission-start" data-id="{{ mission.pk }}"
-                                             style="width: 50px; height: 30px; position: relative">
-                                            <div class="dot"></div>
-                                        </div>
-                                    {% elif mission.state == "finished" %}
-                                        <div class="menu-mission-finished" data-id="{{ mission.pk }}"
-                                             style="width: 50px; height: 30px; position: relative">
-                                            <div class="dot"></div>
-                                        </div>
-                                    {% else %}
-                                        <div class="menu-mission-stopped" data-id="{{ mission.pk }}"
-                                             style="width: 50px; height: 30px; position: relative">
-                                            <div class="dot"></div>
-                                        </div>
-                                    {% endif %}
-
-
+                                    <div class="menu-mission" data-ews-id="{{ mission.pk }}" data-ews-state="{{ mission.state }}"
+                                         style="width: 50px; height: 30px; position: relative">
+                                        <div class="dot"></div>
+                                    </div>
                                 </a>
                             </td>
                         </tr>

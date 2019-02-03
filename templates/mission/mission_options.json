@@ -1,0 +1,273 @@
+{
+  "block_false": {
+    "new": {
+      "start": {
+        "name": "Start"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "failed": {
+      "continue": {
+        "name": "Continue"
+      },
+      "restart": {
+        "name": "Restart"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "stopped": {
+      "continue": {
+        "name": "Continue"
+      },
+      "restart": {
+        "name": "Restart"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "finished": {
+      "restart": {
+        "name": "Restart"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "running": {
+      "stop": {
+        "name": "Stop"
+      }
+    }
+  },
+  "block_true": {
+    "new": {
+      "start": {
+        "name": "Start"
+      },
+      "remove_stop": {
+        "name": "Remove Stop"
+      },
+      "rerun_block": {
+        "name": "Rerun Block"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "failed": {
+      "continue": {
+        "name": "Continue"
+      },
+      "restart": {
+        "name": "Restart"
+      },
+      "remove_stop": {
+        "name": "Remove Stop"
+      },
+      "rerun_block": {
+        "name": "Rerun Block"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "stopped": {
+      "continue": {
+        "name": "Continue"
+      },
+      "restart": {
+        "name": "Restart"
+      },
+      "remove_stop": {
+        "name": "Remove Stop"
+      },
+      "rerun_block": {
+        "name": "Rerun Block"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "finished": {
+      "restart": {
+        "name": "Restart"
+      },
+      "remove_stop": {
+        "name": "Remove Stop"
+      },
+      "stop_after_block": {
+        "name": "Stop after block",
+        "items": {
+          "stop_after_1": {
+            "name": "Scene clipping and masking"
+          },
+          "stop_after_2": {
+            "name": "Regfil"
+          },
+          "stop_after_3": {
+            "name": "Land-Water-Mask"
+          },
+          "stop_after_4": {
+            "name": "Adjacency correction"
+          },
+          "stop_after_5": {
+            "name": "Glint Correction"
+          },
+          "stop_after_6": {
+            "name": "Water Species Retrieval"
+          }
+        }
+      }
+    },
+    "running": {
+      "stop": {
+        "name": "Stop"
+      }
+    }
+  }
+}

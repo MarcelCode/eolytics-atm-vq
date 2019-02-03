@@ -60,6 +60,15 @@
                 <div id="map" style="height: 400px;"></div>
             </div>
         </div>
+        <div class="row" style="padding-bottom: 1rem">
+            <div class="col-12" style="padding: 0 1rem;">
+                <h5> AOI Coordinates</h5>
+            </div>
+            <div class="col-md-3 col-sm-6" style="padding: 0.5rem 1rem">Upper left X:<br><b><span id="coord-ulx"></span></b></div>
+            <div class="col-md-3 col-sm-6" style="padding: 0.5rem 1rem">Upper left Y:<br><b><span id="coord-uly"></span></b></div>
+            <div class="col-md-3 col-sm-6" style="padding: 0.5rem 1rem">Lower right X:<br><b><span id="coord-lrx"></span></b></div>
+            <div class="col-md-3 col-sm-6" style="padding: 0.5rem 1rem">Lower right Y:<br><b><span id="coord-lry"></span></b></div>
+        </div>
         <div class="row">
             <div class="col-sm" style="padding: 1rem;">
                 <h4>2. Define Date Range</h4>
@@ -87,7 +96,7 @@
                         <div style="padding: 0.5rem">
                             <input type="range" min="0" max="100" value="25" class="slider" id="cloud-range">
                             <span id="cloud-range-label">Maximum cloud cover: <span
-                                    id="cloud-slide-val">25</span> %</span>
+                                    id="cloud-slide-val"></span> %</span>
                         </div>
                     </div>
                 </div>
@@ -126,6 +135,7 @@
             maxDate: today,
         });
 
+        $("#cloud-slide-val").text($("#cloud-range").val());
 
         $("#cloud-range").on("input", function () {
             $("#cloud-slide-val").text(this.value);

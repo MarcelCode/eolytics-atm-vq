@@ -22,4 +22,5 @@ urlpatterns = [
     path("", include("accounts.urls")),
     path("geodata/", include("geodata.urls")),
     path("", include("projects.urls")),
+    path("mission/", include("missions.urls")),
 ]

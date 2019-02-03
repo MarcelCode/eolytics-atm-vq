@@ -1,0 +1,97 @@
+{
+	"blue_treshold": {
+		"model": "FloatField",
+		"name": "Threshold for BLUE channel",
+		"kwargs": {
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"initial": 0.4,
+			"help_text": "Reflectance threshold for BLUE channel (around 450nm). Only pixels ABOVE that value can become water!"
+		}
+	},
+	"cloud_ir_treshold": {
+		"model": "FloatField",
+		"name": "Threshold for NIR channel (for clouds)",
+		"kwargs": {
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"initial": 0.08,
+			"help_text": "Reflectance threshold for NIR channel (around 850nm). Only pixels BELOW that value can become water!"
+		}
+	},
+	"swir_snow_treshold": {
+		"model": "FloatField",
+		"name": "Threshold for SWIR channel (for snow)",
+		"kwargs": {
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"initial": 0.6,
+			"help_text": "Reflectance threshold for SWIR channel (around 1600nm). Cloud/snow pixels BELOW that value will become snow!"
+		}
+	},
+	"red_treshold": {
+		"model": "FloatField",
+		"name": "Threshold for RED channel (for land)",
+		"kwargs": {
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"initial": 0.35,
+			"help_text": "Reflectance threshold for RED channel (around 650nm). Potential water pixels ABOVE that value can become land!"
+		}
+	},
+	"ir_treshold": {
+		"model": "FloatField",
+		"name": "Threshold for NIR channel (for land)",
+		"kwargs": {
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"initial": 0.08,
+			"help_text": "Reflectance threshold for NIR channel (around 850nm). Potential water pixels ABOVE that value can become land!"
+		}
+	},
+	"water_swir_treshold": {
+		"model": "FloatField",
+		"name": "Threshold for SWIR channel (for land)",
+		"kwargs": {
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"initial": 0.05,
+			"help_text": "Reflectance threshold for SWIR channel (around 1600nm). Potential water pixels ABOVE that value can become land!"
+		}
+	},
+	"red_slope_threshold": {
+		"model": "FloatField",
+		"name": "Threshold for RED to SWIR difference",
+		"kwargs": {
+			"initial": 0.0,
+			"help_text": "Threshold for the difference between RED and SWIR channel. Pixels with a difference ABOVE that value will become land!"
+		}
+	},
+	"ir_cloud_factor_red": {
+		"model": "FloatField",
+		"name": "Threshold for NIR to RED ratio (for cloudshadow and water)",
+		"kwargs": {
+			"min_value": 0.0,
+			"initial": 1.5,
+			"help_text": "Factor for NIR channel (around 1600nm). Potential water pixels can become water, if the signal from the NIR band divided by that value are BELOW the signal from the RED band!"
+		}
+	},
+	"ir_cloud_factor_swir": {
+		"model": "FloatField",
+		"name": "Threshold for NIR to SWIR ratio (for cloudshadow and water)",
+		"kwargs": {
+			"min_value": 0.0,
+			"initial": 1.5,
+			"help_text": "Factor NIR channel (around 1600nm). Potential water pixels can become water, if the signal from the NIR band divided by that value are BELOW the signal from the SWIR band!"
+		}
+	},
+	"ir_to_blue_threshold": {
+		"model": "FloatField",
+		"name": "Threshold for IR to BLUE ratio (for clouds and land)",
+		"kwargs": {
+			"min_value": 0.0,
+			"initial": 1.05,
+			"help_text": "Ratio between IR and BLUE channel. Pixels that are already classified as land will become cloud if IR divided by BLUE is BELOW that value!"
+		}
+	}
+}

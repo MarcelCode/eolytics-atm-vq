@@ -31,15 +31,16 @@ class UserProject(models.Model):
     def __str__(self):
         return f"{self.user},  {self.project_abbrevation}-{self.user_project_name}"
 
-    def save(self, *args, **kwargs):
-        form = ConfigForm(self.sensor.s)
-        form_data = {name: form.fields[name].initial for name in form.fields.keys()}
-        form_data.pop("name")
-        form_data.pop("description")
-        Config.objects.create(user_project=self,
-                              name="Default",
-                              default=True,
-                              json_configs=form_data)
+    def save(self, update=False, *args, **kwargs):
+        if not update:
+            form = ConfigForm(self.sensor)
+            form_data = {name: form.fields[name].initial for name in form.fields.keys()}
+            form_data.pop("name")
+            form_data.pop("description")
+            Config.objects.create(user_project=self,
+                                  name="Default",
+                                  default=True,
+                                  json_configs=form_data)
         super().save(*args, **kwargs)
 
 

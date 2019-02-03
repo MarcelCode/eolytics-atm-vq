@@ -9,4 +9,5 @@ urlpatterns = [
     path("project/<int:project_pk>/config/<int:config_pk>/", views.project_settings, name="config-pk"),
     path("project/<int:project_pk>/config/<int:config_pk>/<slug:action>/", views.project_settings, name="config-action"),
     path("project/<int:project_pk>/download/", views.download_data_for_project, name="project-download"),
+    path("project/<int:project_pk>/download/status", views.download_status_for_project, name="project-download-status"),
 ]

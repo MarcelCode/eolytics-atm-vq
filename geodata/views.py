@@ -61,3 +61,6 @@ def download_data(request):
 
     return JsonResponse({"type": "error", "status": False, "message": "Pleas try again later.",
                          "title": 'Something went wrong!'})
+
+
+

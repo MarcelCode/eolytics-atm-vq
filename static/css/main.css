@@ -162,3 +162,19 @@ span.toggle-handle.btn.btn-light{
 .slider:hover {
   opacity: 1;
 }
+
+.status-heading{
+    background-color: var(--main-color-orangel);
+}
+
+.status-entry{
+    margin: 2rem 0;
+}
+
+.status-content{
+    padding: 1rem;
+}
+
+.bold-menu{
+    font-weight: bold;
+}

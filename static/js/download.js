@@ -50,7 +50,12 @@ async function add_union_layer(aoi) {
             })
         } else {
             let geo_region = L.geoJSON(JSON.parse(union_data.data));
-            drawnItems.addLayer(geo_region)
+            drawnItems.addLayer(geo_region);
+            let layer_bounds = geo_region.getBounds();
+            $("#coord-ulx").text(layer_bounds._southWest.lng);
+            $("#coord-uly").text(layer_bounds._northEast.lat);
+            $("#coord-lrx").text(layer_bounds._northEast.lng);
+            $("#coord-lry").text(layer_bounds._southWest.lat);
         }
     } catch (e) {
         console.error(e);
@@ -152,10 +157,10 @@ $("#download-form-button").click(function () {
         })
             .then(function (response) {
                 Swal.fire({
-                type: response.data.title,
-                title: response.data.title,
-                text: union_data.data.message,
-            })
+                    type: response.data.title,
+                    title: response.data.title,
+                    text: response.data.message,
+                })
             })
     }
 });
