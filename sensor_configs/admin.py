@@ -5,3 +5,4 @@ from sensor_configs import models
 admin.site.register(models.Sensor, admin.ModelAdmin)
 admin.site.register(models.Watertype, admin.ModelAdmin)
 admin.site.register(models.Config, admin.ModelAdmin)
+admin.site.register(models.Masking, admin.ModelAdmin)

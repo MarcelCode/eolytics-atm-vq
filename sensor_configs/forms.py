@@ -33,3 +33,36 @@ class ConfigForm(forms.Form):
                                                                            widget=forms.CheckboxSelectMultiple)
                 else:
                     self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
+
+
+class MaskingForm(forms.Form):
+
+    name = forms.CharField(max_length=255)
+    description = forms.CharField(max_length=255, required=False)
+
+    def __init__(self, db_config=None, *args, **kwargs, ):
+        super(MaskingForm, self).__init__(*args, **kwargs)
+        with open(f"templates/mask_definition/mask_definitions.json") as f:
+            sensor_config = json.load(f)
+        if db_config:
+            for field, settings in sensor_config.items():
+                settings["kwargs"]["initial"] = db_config[field]
+                if settings["model"] == "BooleanField":
+                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                           required=False, widget=forms.CheckboxInput)
+                elif settings["model"] == "MultipleChoiceField":
+                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                           widget=forms.CheckboxSelectMultiple)
+                else:
+                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
+
+        else:
+            for field, settings in sensor_config.items():
+                if settings["model"] == "BooleanField":
+                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                           required=False, widget=forms.CheckboxInput)
+                elif settings["model"] == "MultipleChoiceField":
+                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                           widget=forms.CheckboxSelectMultiple)
+                else:
+                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])

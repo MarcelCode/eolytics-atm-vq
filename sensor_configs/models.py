@@ -42,3 +42,15 @@ class Config(models.Model):
 
     class Meta:
         unique_together = ("user_project", "name")
+
+
+class Masking(models.Model):
+    user_project = models.ForeignKey("projects.UserProject", on_delete=models.CASCADE)
+    ews_ident = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    default = models.BooleanField(default=False)
+    json_configs = JSONField()
+
+    class Meta:
+        unique_together = ("user_project", "name")

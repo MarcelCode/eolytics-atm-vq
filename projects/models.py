@@ -1,7 +1,22 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from sensor_configs.forms import ConfigForm
-from sensor_configs.models import Config, Sensor, Watertype
+from sensor_configs.forms import ConfigForm, MaskingForm
+from sensor_configs.models import Config, Sensor, Watertype, Masking
+
+
+def create_initial_settings(user_project, element):
+    FORM, CONFIG = element
+    if FORM.__name__ == "ConfigForm":
+        form = FORM(user_project.sensor.config_name)
+    else:
+        form = FORM()
+    form_data = {name: form.fields[name].initial for name in form.fields.keys()}
+    form_data.pop("name")
+    form_data.pop("description")
+    CONFIG.objects.create(user_project=user_project,
+                          name="Default",
+                          default=True,
+                          json_configs=form_data)
 
 
 # Define which user is allowed to use which Sensors
@@ -32,15 +47,11 @@ class UserProject(models.Model):
         return f"{self.user},  {self.project_abbrevation}-{self.user_project_name}"
 
     def save(self, update=False, *args, **kwargs):
-        if not update:
-            form = ConfigForm(self.sensor)
-            form_data = {name: form.fields[name].initial for name in form.fields.keys()}
-            form_data.pop("name")
-            form_data.pop("description")
-            Config.objects.create(user_project=self,
-                                  name="Default",
-                                  default=True,
-                                  json_configs=form_data)
         super().save(*args, **kwargs)
+        if not update:
+            for element in [(MaskingForm, Masking), (ConfigForm, Config)]:
+                create_initial_settings(self, element)
+
+
 
 

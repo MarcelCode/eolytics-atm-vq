@@ -11,8 +11,8 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from projects import forms
-from sensor_configs.models import Config
-from sensor_configs.forms import ConfigForm
+from sensor_configs.models import Config, Masking
+from sensor_configs.forms import ConfigForm, MaskingForm
 
 
 def get_filtered_user_projects(project_states, user_projects, status):
@@ -83,10 +83,11 @@ def delete_project(request, status, project_pk):
 def project(request, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
     config = Config.objects.get(user_project=ews_project, default=True)
+    masking = Masking.objects.get(user_project=ews_project, default=True)
     ews_missions = EwsUserQueries().get_missions(ews_project.ews_name)
 
     return render(request, "projects/single_project.html", {"ews_missions": ews_missions, "ews_project": ews_project,
-                                                            "config_pk": config.pk})
+                                                            "config_pk": config.pk, "masking_pk": masking.pk})
 
 
 @login_required
@@ -169,6 +170,73 @@ def project_settings(request, project_pk, config_pk, action=None):
             user_configs = Config.objects.filter(user_project=user_project)
 
             return render(request, "project/config.html", {"form": user_form, "project_pk": project_pk,
+                                                            "user_configs": user_configs, "config": user_config})
+
+
+@login_required
+def masking_settings(request, project_pk, masking_pk, action=None):
+    user_project = UserProject.objects.get(pk=project_pk)
+    config = Masking.objects.get(pk=masking_pk)
+
+    if request.method == "GET":
+        user_configs = Masking.objects.filter(user_project=user_project)
+        form = MaskingForm(config.json_configs,
+                          initial={"name": config.name, "description": config.description,
+                                   "default": config.default})
+
+        if action == "delete":
+            config.delete()
+            config = Masking.objects.get(default=True)
+
+            return redirect("config-pk", project_pk, config.pk)
+
+        elif action == "reset":
+            form = MaskingForm(
+                              initial={"name": config.name, "description": config.description,
+                                       "default": config.default})
+
+        return render(request, "project/masking.html", {"form": form, "project_pk": project_pk,
+                                                       "user_configs": user_configs, "config": config,
+                                                       "user_project": user_project})
+
+    if request.method == "POST":
+        user_form = MaskingForm(None, request.POST)
+        if user_form.is_valid():
+            form_data = user_form.cleaned_data
+            name = form_data.pop("name")
+            description = form_data.pop("description")
+
+            config_check = Masking.objects.filter(name=name)
+
+            if bool(int(request.POST["default"])):
+                Masking.objects.filter(user_project=user_project).update(default=False)
+
+            if config_check.exists():
+                user_config = config_check.first()
+                user_config.name = name
+                user_config.description = description
+                user_config.json_configs = form_data
+                if bool(int(request.POST["default"])):
+                    user_config.default = True
+                user_config.save()
+
+                messages.add_message(request, messages.SUCCESS,
+                                     f'Configuration {name} was updated successfully!',
+                                     extra_tags='alert-success')
+            else:
+                user_config = Masking.objects.create(user_project=user_project,
+                                                    name=name,
+                                                    description=description,
+                                                    default=bool(int(request.POST["default"])),
+                                                    json_configs=form_data)
+
+                messages.add_message(request, messages.SUCCESS,
+                                     f'Configuration {name} was created successfully!',
+                                     extra_tags='alert-success')
+
+            user_configs = Masking.objects.filter(user_project=user_project)
+
+            return render(request, "project/masking.html", {"form": user_form, "project_pk": project_pk,
                                                             "user_configs": user_configs, "config": user_config})
 
 

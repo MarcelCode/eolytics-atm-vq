@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="float-left">
-                    <button class="btn btn-primary" type="button" style="margin: 15px 1rem 15px 0" value="Refresh Page"
+                    <button class="btn btn-primary" type="button" style="margin: 15px 0.5rem 15px 0" value="Refresh Page"
                             onClick="window.location.reload()"><img alt="refresh website"
                                                                     src="{% static 'img/refresh-page-option.svg' %}"
                                                                     width="20"/>
@@ -43,9 +43,17 @@
                     <label for="ews-mode" class="form-check-label">Automatic mode</label>
                 </div>
                 <div class="float-right">
-                    <a class="btn btn-primary"
-                       href="{% url 'config-pk' project_pk=ews_project.pk config_pk=config_pk %}" role="button">
-                        Default settings</a>
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown-settings"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="margin: 15px 0.5rem 15px 0">
+                        <i class="fas fa-sliders-h"></i> Settings
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-settings">
+                        <a class="dropdown-item" href="{% url 'config-pk' project_pk=ews_project.pk config_pk=config_pk %}">Workflow</a>
+                        <a class="dropdown-item" href="{% url 'masking-pk' project_pk=ews_project.pk masking_pk=masking_pk %}">Masking</a>
+                    </div>
+
+
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdown-download"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                             style="margin: 15px 0">
