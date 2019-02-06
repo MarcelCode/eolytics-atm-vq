@@ -102,7 +102,7 @@ def stop_job(ews_name, mission_ident):
     return True
 
 
-def updateQueue(ews_name):
+def update_queue(ews_name):
     """
     Creates new missions from raw data
     Should be triggered if user presses reload
@@ -185,3 +185,144 @@ def download_raw_data(ews_name, sensor_id, ulx, uly, lrx, lry, cloud_cover, star
     response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
 
     return True
+
+
+def set_local_job_settings(ews_name, json_configuration, mission_ident):
+    """
+    Sets local job settings: job_settings.json
+    :param ews_name: e.g. EWS0001
+    :param json_configuration: e.g. {"product_list":["abs", "aot", ...], "scaled_workflow":false, ...}
+    :param mission_ident: e.g. bra180718ls8.132117
+    :return: True
+    """
+    payload = {
+        "method": "setLocalJobSettings",
+        "params": {
+            "ews_name": ews_name,
+            "json_configuration": json_configuration,
+            "order_ident": mission_ident
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO remove hash
+    print("set_local_job_settings")
+    return True
+
+
+def reset_local_job_settings(ews_name, mission_ident):
+    """
+
+    :param ews_name: e.g. EWS0001
+    :param mission_ident: e.g. bra180718ls8.132117
+    :return:
+    """
+
+    payload = {
+        "method": "resetLocalJobSettings",
+        "params": {
+            "ews_name": ews_name,
+            "order_ident": mission_ident
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO remove hash
+    print("reset_local_job_settings")
+    return True
+
+
+def set_global_job_settings(ews_name, json_configuration):
+    payload = {
+        "method": "setGlobalJobSettings",
+        "params": {
+            "ews_name": ews_name,
+            "json_configuration": json_configuration,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO delete hash
+    return True
+
+
+def set_local_mask_definitions(ews_name, json_configuration, mission_ident):
+    """
+    Sets local mask_definitions.cfg
+    :param ews_name: e.g. EWS0001
+    :param json_configuration: e.g. {"blue_treshold": 0.4, "cloud_ir_treshold": ...}
+    :param mission_ident: e.g. bra180718ls8.132117
+    :return:
+    """
+    payload = {
+        "method": "setLocalMaskDefinitions",
+        "params": {
+            "ews_name": ews_name,
+            "json_configuration": json_configuration,
+            "order_ident": mission_ident
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO delete hash
+    print("set_local_mask_definitions")
+    return True
+
+
+def reset_local_mask_definitions(ews_name, mission_ident):
+    """
+    Resets local mask_definitions.cfg
+    :param ews_name: e.g. EWS0001
+    :param mission_ident: e.g. bra180718ls8.132117
+    :return:
+    """
+    payload = {
+        "method": "resetLocalMaskDefinitions",
+        "params": {
+            "ews_name": ews_name,
+            "order_ident": mission_ident
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO delete hash
+    print("reset_local_mask_definitions")
+    return True
+
+
+def set_global_mask_definitions(ews_name, json_configuration):
+    payload = {
+        "method": "setGlobalMaskDefinitions",
+        "params": {
+            "ews_name": ews_name,
+            "json_configuration": json_configuration,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
+
+
+def continue_job_in_automatic_mode(ews_name, mission_ident):
+    # TODO: needs state interrupted!
+    # only in automatic mode
+    return True
+
+
+def reset_job_in_automatic_mode(ews_name, mission_ident):
+    # TODO: needs state interrupted!
+    # only in automatic mode
+    return True
+
+
+def prepare_download_selected(ews_name, ews_ident_list):
+    """
+
+    :param ews_name: EWS Name
+    :param ews_ident_list: List of selected Missions --> ews_ident
+    :return: status --> True (download will be prepared), False (memory full)
+    """
+
+    return True
+    # for testing

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.contrib.gis.db import models as geomodels
+from geodata.models import UserProjectShape
 import os
 
 
@@ -39,6 +40,19 @@ class Config(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     default = models.BooleanField(default=False)
     json_configs = JSONField()
+    imgpart = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name='imgpart',
+                                null=True, blank=True, help_text="Process only a pre-defined area of interest (AOI),"
+                                                                 " provided as a ESRI Shapefile.")
+    mask_image = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name='mask_image',
+                                   null=True, blank=True, help_text="Mask out regions that shall not be processed by"
+                                                                    " defining a precise area of interest, e.g. the"
+                                                                    " exact water body you are interested in.",
+                                   )
+    polygonstatistics = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name='polygonstatistics',
+                                          null=True, blank=True, help_text="Calculate statistics within specific"
+                                                                           " regions, defined as single features within"
+                                                                           " an ESRI Shapefile.",
+                                          )
 
     class Meta:
         unique_together = ("user_project", "name")

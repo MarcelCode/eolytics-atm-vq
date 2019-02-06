@@ -4,6 +4,8 @@ from django.http import HttpResponse, JsonResponse
 from ews_db_connector.models import Mission
 import json
 import copy
+from missions.tools import MissionMenuPoints, SetMissionSettings
+
 
 with open(r"templates/mission/mission_options.json") as fo:
     MISSION_OPTIONS = json.load(fo)
@@ -13,6 +15,7 @@ def check_mission_block(request):
     data = json.loads(request.body)
     ews_mission_pk = data['ews_mission_pk']
     state = data['ews_state']
+    project_pk = data["project_pk"]
 
     mission_block, created = MissionActionBlock.objects.get_or_create(id=ews_mission_pk)
     mission_options = copy.deepcopy(MISSION_OPTIONS)
@@ -24,6 +27,14 @@ def check_mission_block(request):
             pass
     else:
         items = mission_options["block_false"][state]
+
+    mission_menu = MissionMenuPoints(items, project_pk)
+    items = mission_menu.add_menus()
+
+    if mission_block.config:
+        items["workflow_setting"]["items"][f"workflow_{mission_block.config.pk}"]["className"] = "bold-menu"
+    if mission_block.masking:
+        items["masking_setting"]["items"][f"masking_{mission_block.masking.pk}"]["className"] = "bold-menu"
 
     return JsonResponse(items)
 
@@ -52,7 +63,7 @@ def handle_mission_block(request):
         elif action == "remove_stop":
             block_info.stop_after_block = False
             block_info.block_name = None
-            block_info.save()
+            block_info.save(update_fields=("stop_after_block", "block_name"))
             print(action)
         elif action == "rerun_block":
             ews_commands.start_job(ews_mission.ews_project.ews_name, ews_mission.ident,
@@ -63,7 +74,10 @@ def handle_mission_block(request):
             stop_block = action.split("_")[-1]
             block_info.stop_after_block = True
             block_info.block_name = stop_block
-            block_info.save()
+            block_info.save(update_fields=("stop_after_block", "block_name"))
+
+        elif "masking" in action or "workflow" in action:
+            SetMissionSettings(action, block_info, ews_mission).save_config()
 
         return HttpResponse(status=200)
 

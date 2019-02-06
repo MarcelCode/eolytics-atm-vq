@@ -178,3 +178,11 @@ span.toggle-handle.btn.btn-light{
 .bold-menu{
     font-weight: bold;
 }
+
+table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected{
+    background-color: var(--main-color-orangell) !important;
+}
+
+table.dataTable tbody tr.selected{
+    color: black !important;
+}

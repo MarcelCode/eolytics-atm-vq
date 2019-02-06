@@ -26,6 +26,19 @@
             "name": "Water Species Retrieval"
           }
         }
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
+        }
       }
     },
     "failed": {
@@ -56,6 +69,19 @@
           "stop_after_6": {
             "name": "Water Species Retrieval"
           }
+        }
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
         }
       }
     },
@@ -88,6 +114,19 @@
             "name": "Water Species Retrieval"
           }
         }
+      },
+      "sep1": "---------",
+     "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
+        }
       }
     },
     "finished": {
@@ -115,6 +154,19 @@
           "stop_after_6": {
             "name": "Water Species Retrieval"
           }
+        }
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
         }
       }
     },
@@ -157,6 +209,19 @@
             "name": "Water Species Retrieval"
           }
         }
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
+        }
       }
     },
     "failed": {
@@ -193,6 +258,19 @@
           "stop_after_6": {
             "name": "Water Species Retrieval"
           }
+        }
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
         }
       }
     },
@@ -231,6 +309,19 @@
             "name": "Water Species Retrieval"
           }
         }
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
+        }
       }
     },
     "finished": {
@@ -261,6 +352,19 @@
           "stop_after_6": {
             "name": "Water Species Retrieval"
           }
+        }
+      },
+      "sep1": "---------",
+     "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
         }
       }
     },

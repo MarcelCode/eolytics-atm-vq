@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/projects.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container main-settings-window" style="margin-top: 50px">
+        <div class="row">
+            <div class="col-12" style="background-color: var(--main-color-lgrey2)">
+                <h2 style="margin: 1rem;">Choose products to download</h2>
+                <a class="navbar-brand back-to-projects" href="{% url 'project' project_pk=project_pk %}">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to project
+                </a>
+                <nav class="projects navbar navbar-light bg-light float-right">
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2"
+                               style="margin-bottom: 0.5rem; border-radius: 19px;"
+                               type="search" placeholder="Search missions" aria-label="Search"
+                               id="search-project-table">
+                    </form>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="float-left">
+                    <button class="btn btn-primary" type="button" id="select_all" style="margin: 15px 0.5rem 15px 0">
+                        Select All
+                    </button>
+                    <button class="btn btn-primary" type="button" id="deselect_all" style="margin: 15px 0.5rem 15px 0">
+                        Deselect All
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table id="mission-table" class="table table-striped hover" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Create Date</th>
+                        <th>Create Time</th>
+                        <th>State</th>
+                        <th>Action Nr.</th>
+                        <th>Action Name</th>
+                        <th>Action Description</th>
+                        <th>Last Change</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for mission in ews_missions %}
+                        <tr data-ews_ident="{{ mission.ident }}">
+                            <td>{{ mission.year }}-{{ mission.month }}-{{ mission.day }}</td>
+                            <td>{{ mission.hour }}:{{ mission.minute }}</td>
+                            <td>{{ mission.state }}</td>
+                            <td>{{ mission.activeaction }}</td>
+                            <td>{{ mission.actionname }}</td>
+                            <td>{{ mission.actiondescription }}</td>
+                            <td>{{ mission.actiondatetime }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Create Date</th>
+                        <th>Create Time</th>
+                        <th>State</th>
+                        <th>Action Nr.</th>
+                        <th>Action Name</th>
+                        <th>Action Description</th>
+                        <th>Last Change</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" style="float:right; margin:0 0.5rem;"
+                        id="prepare-download">
+                    Prepare for Download
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let table = $('#mission-table').DataTable({
+            "lengthChange": false,
+            "scrollX": true,
+            "searching": true,
+            "dom": 't<"bottom"pi>',
+            select: {
+                style: 'multi'
+            },
+        });
+
+        $("#select_all").click(function () {
+            table.rows().select();
+        });
+
+        $("#deselect_all").click(function () {
+            table.rows().deselect();
+        });
+
+        $("#prepare-download").click(function () {
+            let selected = table.rows(".selected").nodes().to$();
+            let selected_idents = $.map(selected, function (a) {
+                    return $(a).data("ews_ident");
+                })
+            ;
+            axios.post("{% url 'project-download' project_pk=project_pk %}", {
+                selected_idents: selected_idents
+            }).then(function (response) {
+                if (response.data.status) {
+                    Swal.fire(
+                        'Download prepared!',
+                        'Please check your access via FTP to receive your data.',
+                        'success'
+                    )
+                } else {
+                    Swal.fire(
+                        'FTP memory full!',
+                        'Please delete data on your FTP to receive your data.',
+                        'error'
+                    )
+                }
+            }).catch(error => {
+                console.log(error);
+                Swal.fire(
+                    'Something went wrong!',
+                    'Please try again later.',
+                    'error'
+                )
+            })
+        });
+
+        $('#search-project-table').keyup(function () {
+            table.search($(this).val()).draw();
+        });
+
+        $('#search-project-table').wrap('<span class="deleteicon" />').after($('<span/>').click(function () {
+            $(this).prev('input').val('').trigger('change').focus();
+            table.search("").draw();
+        }));
+    </script>
+{% endblock %}
+
+
+{% block js %}
+{% endblock %}
