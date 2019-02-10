@@ -1,5 +1,5 @@
 from ews_db_connector import models as ews_models
-from projects import models as web_models
+from projects.models import UserProject
 
 
 class EwsUserQueries(object):
@@ -7,6 +7,10 @@ class EwsUserQueries(object):
     def __init__(self):
         self.ews_project_db_object = ews_models.EwsProject.objects.using("ews")
         self.ews_mission_db_object = ews_models.Mission.objects.using("ews")
+
+    def get_ews_project(self, ews_name):
+        ews_project = self.ews_project_db_object.get(ews_name=ews_name)
+        return ews_project
 
     def get_states_for_projects(self, user_projects):
         ews_numbers = user_projects.values_list("ews_name", flat=True)
@@ -30,7 +34,15 @@ class EwsUserQueries(object):
         return project_status
 
     def get_missions(self, ews_name):
-        ews_project = self.ews_project_db_object.get(ews_name=ews_name)
+        ews_project = self.get_ews_project(ews_name)
         missions = self.ews_mission_db_object.filter(ews_project=ews_project)
 
         return missions
+
+    def get_core_usage(self, user):
+        user_project_ews_names = list(UserProject.objects.filter(user=user).values_list("ews_name", flat=True))
+        ews_projects = self.ews_project_db_object.filter(ews_name__in=user_project_ews_names)
+        user_missions = self.ews_mission_db_object.filter(ews_project__in=ews_projects)
+        cores_in_usage = list(user_missions.values_list("state", flat=True)).count("running")
+
+        return cores_in_usage

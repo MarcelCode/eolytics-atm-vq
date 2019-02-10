@@ -5,7 +5,20 @@ $(function () {
                 axios.post('/mission/action/', {
                     ews_mission_pk: ews_mission_pk,
                     action: key
-                })
+                }).then(function (response) {
+                        if (response.data.status === false) {
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Maximum Core usage reached!',
+                                text: response.data.message
+                            })
+                        } else {
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1000);
+                        }
+                    }
+                )
             },
             items: items
         };
@@ -16,10 +29,10 @@ $(function () {
         e.preventDefault();
         let $this = $(this);
         let ews_mission_pk = $this.data("ews-id");
-        let ews_state = $this.data("ews-state");
+        let ews_mode = $("#ews-mode").prop("checked");
         axios.post('/mission/check/', {
+            ews_mode: ews_mode,
             ews_mission_pk: ews_mission_pk,
-            ews_state: ews_state,
             project_pk: project_pk
         }).then(function (response) {
             $this.data('runCallback', createMenu(response.data, ews_mission_pk));

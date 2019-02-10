@@ -119,15 +119,20 @@ def update_queue(ews_name):
     return True
 
 
-def start_automatic_mode(ews_name):
+# TODO: number of free cores must be checked every time (start_job, start_automatic_mode)
+def start_automatic_mode(ews_name, use_local_settings=False, cores=2):
     """
     Sets all running missions to 'interrupted'.
     Starts server.py
+    :param cores: number of parallel running jobs
     """
     payload = {
         "method": "automaticModeStarted",
         "params": {
-            "ews_name": ews_name
+            "ews_name": ews_name,
+            "use_local_settings": use_local_settings,
+            "cores": cores,
+
         },
         "jsonrpc": "2.0",
         "id": 0,
@@ -205,7 +210,7 @@ def set_local_job_settings(ews_name, json_configuration, mission_ident):
         "jsonrpc": "2.0",
         "id": 0,
     }
-    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO remove hash
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     print("set_local_job_settings")
     return True
 
@@ -227,7 +232,7 @@ def reset_local_job_settings(ews_name, mission_ident):
         "jsonrpc": "2.0",
         "id": 0,
     }
-    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO remove hash
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     print("reset_local_job_settings")
     return True
 
@@ -242,7 +247,7 @@ def set_global_job_settings(ews_name, json_configuration):
         "jsonrpc": "2.0",
         "id": 0,
     }
-    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO delete hash
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     return True
 
 
@@ -264,7 +269,7 @@ def set_local_mask_definitions(ews_name, json_configuration, mission_ident):
         "jsonrpc": "2.0",
         "id": 0,
     }
-    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO delete hash
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     print("set_local_mask_definitions")
     return True
 
@@ -285,7 +290,7 @@ def reset_local_mask_definitions(ews_name, mission_ident):
         "jsonrpc": "2.0",
         "id": 0,
     }
-    # requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json() # TODO delete hash
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     print("reset_local_mask_definitions")
     return True
 
@@ -305,24 +310,82 @@ def set_global_mask_definitions(ews_name, json_configuration):
 
 
 def continue_job_in_automatic_mode(ews_name, mission_ident):
-    # TODO: needs state interrupted!
-    # only in automatic mode
+    """
+    Sets stopped job to "interrupted". Job will be started with action = last_action
+    in automatic mode when a core is free.
+    """
+    payload = {
+        "method": "reactivateJobInAutomaticMode",
+        "params": {
+            "ews_name": ews_name,
+            "order_ident": mission_ident,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     return True
 
 
 def reset_job_in_automatic_mode(ews_name, mission_ident):
-    # TODO: needs state interrupted!
-    # only in automatic mode
+    """
+    Sets stopped job to "new" and action_nb to 0.
+    """
+    payload = {
+        "method": "resetJobInAutomaticMode",
+        "params": {
+            "ews_name": ews_name,
+            "order_ident": mission_ident,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     return True
 
 
-def prepare_download_selected(ews_name, ews_ident_list):
+def set_project_cores(ews_name, cores):
+    """
+    Set the Maxmimum Cores for this Project
+    :param ews_name: e.g. EWS0001
+    :param cores: Int number
+    :return: True
     """
 
+    payload = {
+        "method": "resetJobInAutomaticMode",
+        "params": {
+            "ews_name": ews_name,
+            "cores": cores,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
+
+
+# TODO: change "download" to "upload_to_ftp"
+def prepare_download_selected(ews_name, ews_ident_list):
+    """
     :param ews_name: EWS Name
     :param ews_ident_list: List of selected Missions --> ews_ident
     :return: status --> True (download will be prepared), False (memory full)
     """
-
+    # payload = {
+    #     "method": "uploadResults",
+    #     "params": {
+    #         "ews_name": ews_name,
+    #         "order_idents": ews_ident_list,
+    #     },
+    #     "jsonrpc": "2.0",
+    #     "id": 0,
+    # }
+    # response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    # try:
+    #     has_enough_memory_left = response["result"]
+    # except KeyError:
+    #     has_enough_memory_left = True
+    #     print(response['error'])
+    # return has_enough_memory_left
     return True
-    # for testing

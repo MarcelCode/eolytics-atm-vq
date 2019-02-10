@@ -92,6 +92,7 @@
                         <th>Sensor</th>
                         <th>Watertype</th>
                         <th>Created</th>
+                        <th>Cores</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
@@ -112,6 +113,16 @@
                             <td>{{ project.sensor }}</td>
                             <td>{{ project.watertype }}</td>
                             <td>{{ project.created }}</td>
+                            <td>
+                                <select class="select-cores">
+                                    {% for core in cores %}
+                                        <option class="select-single-core"
+                                                data-project_pk="{{ project.pk }}" data-ews_name="{{ project.ews_name }}"
+                                                        value={{ core }}
+                                        {% if core == project.cores %}selected{% endif %}>{{ core }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
                             <td>
                                 <button type="button" class="del-button btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#DeleteWarningModal"
@@ -147,6 +158,7 @@
                         <th>Sensor</th>
                         <th>Watertype</th>
                         <th>Created</th>
+                        <th>Cores</th>
                         <th>Edit</th>
                     </tr>
                     </tfoot>
@@ -160,22 +172,6 @@
          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="CreateProject">Create Project</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" data-toggle="validator">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -201,6 +197,12 @@
     </div>
 
     <script>
+        $('#CreateProjectModal').on('show.bs.modal', function (event) {
+            axios.get("{% url 'create-project' %}").then(response => {
+                var modal = $(this);
+                modal.find('.modal-content').replaceWith(response.data);
+            });
+        });
 
         let table = $('#example').DataTable({
             "lengthChange": false,
@@ -234,6 +236,21 @@
             var modal = $(this);
             modal.find('.modal-body').html("Are you sure you want to delete " + project_name + "?<br>All data will be deleted!");
             $("#delete-project").attr("href", url)
+        });
+
+        $(".select-cores").on("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        $(".select-single-core").on("click", function (event) {
+            axios.post("{% url 'change-cores' %}", {
+                cores: $(this).val(),
+                project_pk: $(this).data("project_pk"),
+                ews_name: $(this).data("ews_name")
+            });
+            event.preventDefault();
+            event.stopPropagation();
         })
     </script>
 {% endblock %}

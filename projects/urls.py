@@ -14,4 +14,8 @@ urlpatterns = [
 
     path("project/<int:project_pk>/masking/<int:masking_pk>/", views.masking_settings, name="masking-pk"),
     path("project/<int:project_pk>/masking/<int:masking_pk>/<slug:action>/", views.masking_settings, name="masking-action"),
+
+    path("project/create_project/", views.create_project, name="create-project"),
+
+    path("project/change_cores/", views.change_project_cores, name="change-cores"),
 ]

@@ -72,7 +72,8 @@
                                 Data</a>
                             <a class="dropdown-item"
                                href="{% url 'project-download-status' project_pk=ews_project.pk %}">Status</a>
-                            <a class="dropdown-item" href="{% url 'project-download-final' project_pk=ews_project.pk %}">Results</a>
+                            <a class="dropdown-item"
+                               href="{% url 'project-download-final' project_pk=ews_project.pk %}">Results</a>
                         </div>
                     </div>
                 </div>
@@ -96,8 +97,8 @@
                 <table id="mission-table" class="table table-striped hover" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Create Date</th>
-                        <th>Create Time</th>
+                        <th>Ident</th>
+                        <th>Datetime</th>
                         <th>State</th>
                         <th>Action Nr.</th>
                         <th>Action Name</th>
@@ -109,8 +110,8 @@
                     <tbody>
                     {% for mission in ews_missions %}
                         <tr data-ews_ident="{{ mission.ident }}">
-                            <td>{{ mission.year }}-{{ mission.month }}-{{ mission.day }}</td>
-                            <td>{{ mission.hour }}:{{ mission.minute }}</td>
+                            <td>{{ mission.ident }}</td>
+                            <td>{{ mission.year }}-{{ mission.month }}-{{ mission.day }} {{ mission.hour }}:{{ mission.minute }}</td>
                             <td>{{ mission.state }}</td>
                             <td>{{ mission.activeaction }}</td>
                             <td>{{ mission.actionname }}</td>
@@ -130,8 +131,8 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th>Create Date</th>
-                        <th>Create Time</th>
+                        <th>Ident</th>
+                        <th>Datetime</th>
                         <th>State</th>
                         <th>Action Nr.</th>
                         <th>Action Name</th>
@@ -172,17 +173,16 @@
                     automatic: automatic
                 }
             }).then(function (response) {
-                if (response.data.automatic === true) {
-                    table.column(7).visible(false);
-                } else {
-                    table.column(7).visible(true);
+                if (response.data.status === false) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Not enough CPU cores left!',
+                        text: "Reduce number of cores for this project or stop other missions."
+                    });
+                    $('#ews-mode').bootstrapToggle('off')
                 }
             })
         });
-
-        {% if ews_project.automatic_mode %}
-            table.column(7).visible(false);
-        {% endif %}
     </script>
     <script src="{% static 'js/single_project.js' %}"></script>
 {% endblock %}

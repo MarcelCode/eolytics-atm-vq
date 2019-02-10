@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from ews_db_connector.models import Mission
 import json
 import copy
-from missions.tools import MissionMenuPoints, SetMissionSettings
+from missions.tools import MissionMenuPoints, SetMissionSettings, check_core_usage
 
 
 with open(r"templates/mission/mission_options.json") as fo:
@@ -14,27 +14,35 @@ with open(r"templates/mission/mission_options.json") as fo:
 def check_mission_block(request):
     data = json.loads(request.body)
     ews_mission_pk = data['ews_mission_pk']
-    state = data['ews_state']
+    state = Mission.objects.using("ews").get(pk=ews_mission_pk).state
     project_pk = data["project_pk"]
+    ews_mode = data["ews_mode"]
 
-    mission_block, created = MissionActionBlock.objects.get_or_create(id=ews_mission_pk)
-    mission_options = copy.deepcopy(MISSION_OPTIONS)
-    if mission_block.stop_after_block:
-        items = mission_options["block_true"][state]
-        try:
-            items["stop_after_block"]["items"][f"stop_after_{mission_block.block_name}"]["className"] = "bold-menu"
-        except:
-            pass
+    if not ews_mode:
+        mission_block, created = MissionActionBlock.objects.get_or_create(id=ews_mission_pk)
+        mission_options = copy.deepcopy(MISSION_OPTIONS)
+
+        # Stop Block menu integration
+        if mission_block.stop_after_block:
+            items = mission_options["block_true"][state]
+            try:
+                items["stop_after_block"]["items"][f"stop_after_{mission_block.block_name}"]["className"] = "bold-menu"
+            except:
+                pass
+        else:
+            items = mission_options["block_false"][state]
+
+        # Config Menus
+        if state != "running":
+            mission_menu = MissionMenuPoints(items, project_pk)
+            items = mission_menu.add_menus()
+
+            if mission_block.config:
+                items["workflow_setting"]["items"][f"workflow_{mission_block.config.pk}"]["className"] = "bold-menu"
+            if mission_block.masking:
+                items["masking_setting"]["items"][f"masking_{mission_block.masking.pk}"]["className"] = "bold-menu"
     else:
-        items = mission_options["block_false"][state]
-
-    mission_menu = MissionMenuPoints(items, project_pk)
-    items = mission_menu.add_menus()
-
-    if mission_block.config:
-        items["workflow_setting"]["items"][f"workflow_{mission_block.config.pk}"]["className"] = "bold-menu"
-    if mission_block.masking:
-        items["masking_setting"]["items"][f"masking_{mission_block.masking.pk}"]["className"] = "bold-menu"
+        pass    # TODO Automatic mode menu
 
     return JsonResponse(items)
 
@@ -46,6 +54,12 @@ def handle_mission_block(request):
         action = data["action"]
         ews_mission = Mission.objects.using("ews").get(pk=ews_mission_pk)
         block_info, created = MissionActionBlock.objects.get_or_create(pk=ews_mission_pk)
+
+        if action in ["start", "continue", "restart", "reactivate"]:
+            check, message = check_core_usage(request.user)
+            print(message)  # TODO delete
+            if not check:
+                return JsonResponse({"status": False, "message": message})
 
         if action == "start":
             ews_commands.start_job(ews_mission.ews_project.ews_name, ews_mission.ident, block_name=block_info.block_name)

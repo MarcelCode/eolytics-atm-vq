@@ -26,9 +26,9 @@ def get_filtered_user_projects(project_states, user_projects, status):
 
 @login_required
 def projects(request, status):
-    create_project_form = forms.CreateProjectForm(user=request.user)
     if request.method == "POST":
         user_project_form = forms.CreateProjectForm(request.user, request.POST)
+
         if user_project_form.is_valid():
             # EWS Command
             user_info = Profile.objects.get(user=request.user)
@@ -54,6 +54,10 @@ def projects(request, status):
                                      extra_tags='alert-danger')
 
     user_projects = UserProject.objects.filter(user=request.user)
+
+    # Cores
+    cores = Profile.objects.get(user=request.user).cpu_cores
+    cores = list(range(1, cores+1))
     ews_queries = ews_requests.EwsUserQueries()
     project_states = ews_queries.get_states_for_projects(user_projects)
     state_count = Counter(project_states.values())
@@ -66,9 +70,9 @@ def projects(request, status):
     for project_object in user_projects:
         project_object.state = project_states[project_object.ews_name]
 
-    return render(request, "projects/projects.html", {"form": create_project_form, "status": status,
+    return render(request, "projects/projects.html", {"status": status,
                                                       "project_states": project_states, "table": user_projects,
-                                                      "state_count": state_count})
+                                                      "state_count": state_count, "cores": cores, })
 
 
 @login_required
@@ -98,6 +102,11 @@ def automatic_mode(request, project_pk):
     automatic = json.loads(request.GET.get('automatic'))
 
     if automatic:
+        core_usage = EwsUserQueries().get_core_usage(request.user)
+        available_cores = Profile.objects.get(user=request.user).cpu_cores
+        rest_cores = available_cores - core_usage
+        if ews_project.cores > rest_cores:
+            return JsonResponse({"status": False})
         ews_commands.start_automatic_mode(ews_project.ews_name)
     else:
         ews_commands.stop_automatic_mode(ews_project.ews_name)
@@ -292,7 +301,7 @@ def download_data_for_project(request, project_pk):
 def download_status_for_project(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
-    download_queries = DownloadQuery.objects.using("ews").filter(ews_project=ews_project)
+    download_queries = DownloadQuery.objects.using("ews").filter(ews_project=ews_project).order_by('-creation_datetime')
     results = {d_query: FileDownload.objects.using("ews").filter(download_query=d_query) for d_query in
                download_queries}
 
@@ -304,5 +313,19 @@ def download_status_for_project(request, project_pk):
 def download_final_results(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
-    final_downloads = Mission.objects.using("ews").filter(ews_project=ews_project)  # TODO , state="finished"
+    final_downloads = Mission.objects.using("ews").filter(ews_project=ews_project, state="finished")  # TODO , state="finished"
     return render(request, "project/download-results.html", {"project_pk": project_pk, "ews_missions": final_downloads})
+
+
+def create_project(request):
+    create_project_form = forms.CreateProjectForm(user=request.user)
+
+    return render(request, "projects/create_project_modal.html", {"form": create_project_form})
+
+
+def change_project_cores(request):
+    data = json.loads(request.body)
+    ews_commands.set_project_cores(data["ews_name"], data["cores"])
+    UserProject.objects.filter(pk=data["project_pk"]).update(cores=data["cores"])
+
+    return JsonResponse({"status": True})

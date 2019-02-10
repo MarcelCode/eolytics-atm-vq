@@ -18,7 +18,7 @@ class Country(gismodels.Model):
 
 class UserData(gismodels.Model):
     user_shape = models.ForeignKey("geodata.UserProjectShape", on_delete=models.CASCADE)
-    geometry = gismodels.MultiPolygonField()
+    geometry = gismodels.MultiPolygonField(srid=4326)
 
 
 class UserProjectShape(models.Model):

@@ -8,22 +8,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -52,22 +46,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -96,22 +84,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -137,22 +119,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -173,6 +149,24 @@
     "running": {
       "stop": {
         "name": "Stop"
+      }
+    },
+    "empty": {
+      "restart": {
+        "name": "Restart"
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
+        }
       }
     }
   },
@@ -191,22 +185,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -241,22 +229,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -291,22 +273,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -335,22 +311,16 @@
         "name": "Stop after block",
         "items": {
           "stop_after_1": {
-            "name": "Scene clipping and masking"
+            "name": "RGB Creation"
           },
           "stop_after_2": {
-            "name": "Regfil"
-          },
-          "stop_after_3": {
             "name": "Land-Water-Mask"
           },
-          "stop_after_4": {
-            "name": "Adjacency correction"
-          },
-          "stop_after_5": {
+          "stop_after_3": {
             "name": "Glint Correction"
           },
-          "stop_after_6": {
-            "name": "Water Species Retrieval"
+          "stop_after_4": {
+            "name": "Product Generation"
           }
         }
       },
@@ -372,6 +342,27 @@
       "stop": {
         "name": "Stop"
       }
+    },
+    "empty": {
+      "restart": {
+        "name": "Restart"
+      },
+      "sep1": "---------",
+      "workflow_setting": {
+        "name": "Set Workflow",
+        "items": {
+          "workflow_reset": {}
+        }
+      },
+      "masking_setting": {
+        "name": "Set Masking",
+        "items": {
+          "masking_reset": {}
+        }
+      }
     }
+  },
+  "automatic": {
+    "test": {}
   }
 }

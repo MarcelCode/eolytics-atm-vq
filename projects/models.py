@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from sensor_configs.forms import ConfigForm, MaskingForm
 from sensor_configs.models import Config, Sensor, Watertype, Masking
+from accounts.models import Profile
 
 
 def create_initial_settings(user_project, element):
@@ -39,6 +40,7 @@ class UserProject(models.Model):
     state = models.CharField(max_length=20, blank=True, null=True)
     automatic_mode = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
+    cores = models.IntegerField(default=6)
 
     class Meta:
         unique_together = ("user", "user_project_name")
@@ -47,6 +49,7 @@ class UserProject(models.Model):
         return f"{self.user},  {self.project_abbrevation}-{self.user_project_name}"
 
     def save(self, update=False, *args, **kwargs):
+        self.cores = Profile.objects.get(user=self.user).cpu_cores
         super().save(*args, **kwargs)
         if not update:
             for element in [(MaskingForm, Masking), (ConfigForm, Config)]:

@@ -1,13 +1,20 @@
 from django import forms
 from projects.models import UserProject, UserSensor
 from ews_db_connector.models import EwsProject, Mission
+from projects.tools import get_available_cores
 import json
+
+
+def create_core_choices(cores):
+    cores += 1
+    choices = [(x, x) for x in range(cores)]
+    return choices
 
 
 class CreateProjectForm(forms.ModelForm):
     class Meta:
         model = UserProject
-        exclude = ("user", "ews_name", "state", "automatic_mode")
+        exclude = ("user", "ews_name", "state", "automatic_mode", "cores")
 
     def __init__(self, user, *args, **kwargs):
         super(CreateProjectForm, self).__init__(*args, **kwargs)

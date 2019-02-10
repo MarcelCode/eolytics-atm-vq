@@ -2,6 +2,8 @@ from sensor_configs.models import Masking, Config
 from projects.models import UserProject
 from ews_communication import ews_commands
 from sensor_configs.tools import serialize_config_model
+from accounts.models import Profile
+from ews_db_connector.ews_requests import EwsUserQueries
 
 
 class MissionMenuPoints(object):
@@ -79,3 +81,15 @@ class SetMissionSettings(object):
                                                     self.ews_mission.ident)
 
         return self.block_info
+
+
+def check_core_usage(user):
+    allowed_cores = Profile.objects.get(user=user).cpu_cores
+    cores_in_usage = EwsUserQueries().get_core_usage(user)
+
+    usage_string = f"{cores_in_usage} of {allowed_cores} cores in usage."
+
+    if allowed_cores > cores_in_usage:
+        return True, usage_string
+    else:
+        return False, usage_string
