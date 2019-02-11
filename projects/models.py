@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from sensor_configs.forms import ConfigForm, MaskingForm
 from sensor_configs.models import Config, Sensor, Watertype, Masking
 from accounts.models import Profile
+from ews_communication import ews_commands
 
 
 def create_initial_settings(user_project, element):
@@ -18,6 +19,11 @@ def create_initial_settings(user_project, element):
                           name="Default",
                           default=True,
                           json_configs=form_data)
+
+    if FORM.__name__ == "ConfigForm":
+        ews_commands.set_global_job_settings(user_project.ews_name, form_data)
+    else:
+        ews_commands.set_global_mask_definitions(user_project.ews_name, form_data)
 
 
 # Define which user is allowed to use which Sensors

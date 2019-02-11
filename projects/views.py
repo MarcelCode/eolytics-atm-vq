@@ -102,12 +102,13 @@ def automatic_mode(request, project_pk):
     automatic = json.loads(request.GET.get('automatic'))
 
     if automatic:
-        core_usage = EwsUserQueries().get_core_usage(request.user)
+        core_usage = EwsUserQueries().get_core_usage(request.user, ews_project.ews_name)
         available_cores = Profile.objects.get(user=request.user).cpu_cores
         rest_cores = available_cores - core_usage
         if ews_project.cores > rest_cores:
             return JsonResponse({"status": False})
-        ews_commands.start_automatic_mode(ews_project.ews_name)
+        else:
+            ews_commands.start_automatic_mode(ews_project.ews_name, cores=ews_project.cores)
     else:
         ews_commands.stop_automatic_mode(ews_project.ews_name)
 
@@ -213,6 +214,10 @@ def project_settings(request, project_pk, config_pk, action=None):
                                      extra_tags='alert-success')
                 config_pk = new_config.pk
 
+            if bool(int(request.POST["default"])):
+                json_config = tools.serialize_config_model(Config.objects.get(pk=config_pk))
+                ews_commands.set_global_job_settings(user_project.ews_name, json_config)
+
             return redirect("config-pk", project_pk, config_pk)
 
 
@@ -279,6 +284,9 @@ def masking_settings(request, project_pk, masking_pk, action=None):
 
             user_configs = Masking.objects.filter(user_project=user_project)
 
+            if bool(int(request.POST["default"])):
+                ews_commands.set_global_mask_definitions(user_project.ews_name, user_config.json_configs)
+
             return render(request, "project/masking.html", {"form": user_form, "project_pk": project_pk,
                                                             "user_configs": user_configs, "config": user_config})
 
@@ -325,7 +333,6 @@ def create_project(request):
 
 def change_project_cores(request):
     data = json.loads(request.body)
-    ews_commands.set_project_cores(data["ews_name"], data["cores"])
     UserProject.objects.filter(pk=data["project_pk"]).update(cores=data["cores"])
 
     return JsonResponse({"status": True})

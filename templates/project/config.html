@@ -89,7 +89,7 @@
                 {% endif %}
             </div>
         </div>
-        <form method="post" data-toggle="validator" enctype="multipart/form-data">
+        <form method="post" data-toggle="validator" enctype="multipart/form-data" id="config-form">
             {% csrf_token %}
             {{ form|crispy }}
             {{ shape_settings_form|crispy }}
@@ -110,8 +110,12 @@
         <a href="{% url 'config-action' project_pk=project_pk config_pk=config.pk action='reset' %}"
            class="btn btn-warning" role="button" aria-disabled="true" style="margin:0 0.5rem;">Reset Settings</a>
     </div>
+    <script>
+
+    </script>
 {% endblock %}
 
 
 {% block js %}
+     <script src="{% static 'js/config_checks.js' %}"></script>
 {% endblock %}

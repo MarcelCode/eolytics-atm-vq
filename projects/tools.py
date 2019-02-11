@@ -2,6 +2,7 @@ from geodata.models import UserProjectShape
 from projects.models import UserProject
 from accounts.models import Profile
 
+
 def get_entry_by_pk(pk):
     try:
         entry = UserProjectShape.objects.get(pk=pk)

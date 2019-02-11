@@ -363,6 +363,18 @@
     }
   },
   "automatic": {
-    "test": {}
+    "failed": {
+      "automatic_reset": {
+        "name": "Reset"
+      }
+    },
+    "stopped": {
+      "automatic_continue": {
+        "name": "Continue"
+      },
+      "automatic_reset": {
+        "name": "Reset"
+      }
+    }
   }
 }

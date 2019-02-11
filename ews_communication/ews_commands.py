@@ -102,29 +102,14 @@ def stop_job(ews_name, mission_ident):
     return True
 
 
-def update_queue(ews_name):
-    """
-    Creates new missions from raw data
-    Should be triggered if user presses reload
-    """
-    payload = {
-        "method": "updateOrderQueue",
-        "params": {
-            "ews_name": ews_name
-        },
-        "jsonrpc": "2.0",
-        "id": 0,
-    }
-    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
-    return True
-
-
 # TODO: number of free cores must be checked every time (start_job, start_automatic_mode)
 def start_automatic_mode(ews_name, use_local_settings=False, cores=2):
     """
-    Sets all running missions to 'interrupted'.
-    Starts server.py
-    :param cores: number of parallel running jobs
+
+    :param ews_name:
+    :param use_local_settings:
+    :param cores:
+    :return:
     """
     payload = {
         "method": "automaticModeStarted",
@@ -336,27 +321,6 @@ def reset_job_in_automatic_mode(ews_name, mission_ident):
         "params": {
             "ews_name": ews_name,
             "order_ident": mission_ident,
-        },
-        "jsonrpc": "2.0",
-        "id": 0,
-    }
-    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
-    return True
-
-
-def set_project_cores(ews_name, cores):
-    """
-    Set the Maxmimum Cores for this Project
-    :param ews_name: e.g. EWS0001
-    :param cores: Int number
-    :return: True
-    """
-
-    payload = {
-        "method": "resetJobInAutomaticMode",
-        "params": {
-            "ews_name": ews_name,
-            "cores": cores,
         },
         "jsonrpc": "2.0",
         "id": 0,

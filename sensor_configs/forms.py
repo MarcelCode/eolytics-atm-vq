@@ -2,6 +2,7 @@ from django import forms
 from geodata.models import UserProjectShape
 import json
 from sensor_configs.tools import config_initial
+from django.forms.widgets import NumberInput
 
 
 class ConfigForm(forms.Form):
@@ -15,25 +16,26 @@ class ConfigForm(forms.Form):
         if db_config:
             for field, settings in sensor_config.items():
                 settings["kwargs"]["initial"] = db_config[field]
-                if settings["model"] == "BooleanField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           required=False, widget=forms.CheckboxInput)
-                elif settings["model"] == "MultipleChoiceField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           widget=forms.CheckboxSelectMultiple)
-                else:
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
+                self.create_fields(field, settings)
 
         else:
             for field, settings in sensor_config.items():
-                if settings["model"] == "BooleanField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           required=False, widget=forms.CheckboxInput)
-                elif settings["model"] == "MultipleChoiceField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           widget=forms.CheckboxSelectMultiple)
-                else:
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
+                self.create_fields(field, settings)
+
+    def create_fields(self, field, settings):
+        if settings["model"] == "BooleanField":
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                   required=False, widget=forms.CheckboxInput)
+        elif settings["model"] == "MultipleChoiceField":
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                   widget=forms.CheckboxSelectMultiple)
+        elif "step" in settings:
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                   widget=forms.NumberInput(
+                                                                       attrs={"step": settings["step"]}
+                                                                   ))
+        else:
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
 
 
 class ConfigShapeForm(forms.Form):
@@ -63,6 +65,12 @@ class ConfigShapeForm(forms.Form):
                                                              help_text="Calculate statistics within specific"
                                                                        " regions, defined as single features within"
                                                                        " an ESRI Shapefile.")
+
+        self.fields['static_mask'] = forms.ChoiceField(choices=choices, label="Static Mask",
+                                                       initial=config_initial(config.static_mask),
+                                                       required=False,
+                                                       help_text="Use static shapes for product masking,"
+                                                                 " e.g. shallow water areas.")
 
 
 class MaskingForm(forms.Form):

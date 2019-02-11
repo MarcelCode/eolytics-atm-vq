@@ -54,6 +54,10 @@ class Config(models.Model):
                                                                            " an ESRI Shapefile.",
                                           )
 
+    static_mask = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name="static_mask",
+                                    null=True, blank=True, help_text="Use static shapes for product masking, "
+                                    "e.g. shallow water areas.")
+
     class Meta:
         unique_together = ("user_project", "name")
 

@@ -180,9 +180,33 @@
                         text: "Reduce number of cores for this project or stop other missions."
                     });
                     $('#ews-mode').bootstrapToggle('off')
+                } else {
+                    if (automatic) {
+                        $(".menu-mission").each(function () {
+                            if (!["failed", "stopped"].includes($(this).data("ews-state"))) {
+                                $(this).hide()
+                            }
+                        })
+                    } else {
+                        $(".menu-mission").show();
+                    }
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+
                 }
             })
         });
+
+        if ($('#ews-mode').prop("checked")) {
+            $(".menu-mission").each(function () {
+                if (!["failed", "stopped"].includes($(this).data("ews-state"))) {
+                    $(this).hide()
+                }
+            })
+        } else {
+            $(".menu-mission").show();
+        }
     </script>
     <script src="{% static 'js/single_project.js' %}"></script>
 {% endblock %}

@@ -17,10 +17,10 @@ def check_mission_block(request):
     state = Mission.objects.using("ews").get(pk=ews_mission_pk).state
     project_pk = data["project_pk"]
     ews_mode = data["ews_mode"]
+    mission_options = copy.deepcopy(MISSION_OPTIONS)
 
     if not ews_mode:
         mission_block, created = MissionActionBlock.objects.get_or_create(id=ews_mission_pk)
-        mission_options = copy.deepcopy(MISSION_OPTIONS)
 
         # Stop Block menu integration
         if mission_block.stop_after_block:
@@ -42,7 +42,7 @@ def check_mission_block(request):
             if mission_block.masking:
                 items["masking_setting"]["items"][f"masking_{mission_block.masking.pk}"]["className"] = "bold-menu"
     else:
-        pass    # TODO Automatic mode menu
+        items = mission_options["automatic"][state]
 
     return JsonResponse(items)
 
@@ -55,7 +55,7 @@ def handle_mission_block(request):
         ews_mission = Mission.objects.using("ews").get(pk=ews_mission_pk)
         block_info, created = MissionActionBlock.objects.get_or_create(pk=ews_mission_pk)
 
-        if action in ["start", "continue", "restart", "reactivate"]:
+        if action in ["start", "continue", "restart", "automatic_continue", "automatic_reset"]:
             check, message = check_core_usage(request.user)
             print(message)  # TODO delete
             if not check:
@@ -83,6 +83,12 @@ def handle_mission_block(request):
             ews_commands.start_job(ews_mission.ews_project.ews_name, ews_mission.ident,
                                    block_name=block_info.block_name, rerun_block=True)
             print(action)
+
+        elif action == "automatic_reset":
+            ews_commands.reset_job_in_automatic_mode(ews_mission.ews_project.ews_name, ews_mission.ident)
+
+        elif action == "automatic_continue":
+            ews_commands.continue_job_in_automatic_mode(ews_mission.ews_project.ews_name, ews_mission.ident)
 
         elif "stop_after" in action:
             stop_block = action.split("_")[-1]
