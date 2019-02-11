@@ -106,9 +106,9 @@ venv.bak/
 
 *settings.py
 
-.idea/
+.idea/git commit -m "Removed folder from repository"
 
-
+#.env
 accounts/migrations/0001_initial.py
 accounts/migrations/0002_profile_download_region.py
 accounts/migrations/0003_profile_cpu_cores.py
