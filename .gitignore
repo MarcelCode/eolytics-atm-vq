@@ -108,21 +108,7 @@ venv.bak/
 
 .idea/git commit -m "Removed folder from repository"
 
-#.env
-accounts/migrations/0001_initial.py
-accounts/migrations/0002_profile_download_region.py
-accounts/migrations/0003_profile_cpu_cores.py
-ews_db_connector/migrations/0001_initial.py
-ews_db_connector/migrations/0002_downloadquery_filedownload.py
-geodata/migrations/0001_initial.py
-geodata/migrations/0002_auto_20190130_1253.py
-geodata/migrations/0003_country.py
-geodata/migrations/0004_auto_20190130_1255.py
-geodata/migrations/0005_auto_20190130_1301.py
-geodata/migrations/0006_auto_20190131_1738.py
-geodata/migrations/0007_userdata_userprojectshape.py
-geodata/migrations/0008_auto_20190205_1259.py
-geodata/migrations/0009_auto_20190205_1307.py
+.env
 media/
 missions/migrations/0001_initial.py
 missions/migrations/0002_auto_20190206_1806.py
@@ -217,20 +203,3 @@ node_modules/nodent-runtime/thenable.js
 node_modules/nodent-runtime/thenableFactory.js
 node_modules/nodent-runtime/zousan.js
 package-lock.json
-projects/migrations/0001_initial.py
-projects/migrations/0002_auto_20190125_1555.py
-projects/migrations/0003_userproject_cores.py
-projects/migrations/0004_remove_userproject_cores.py
-projects/migrations/0005_userproject_cores.py
-projects/migrations/0006_auto_20190207_1754.py
-sensor_configs/migrations/0001_initial.py
-sensor_configs/migrations/0002_auto_20190125_1837.py
-sensor_configs/migrations/0003_auto_20190126_1611.py
-sensor_configs/migrations/0004_auto_20190126_1850.py
-sensor_configs/migrations/0005_auto_20190128_1148.py
-sensor_configs/migrations/0006_sensor_start_date.py
-sensor_configs/migrations/0007_auto_20190203_1800.py
-sensor_configs/migrations/0008_auto_20190205_1244.py
-sensor_configs/migrations/0009_auto_20190205_1420.py
-sensor_configs/migrations/0010_auto_20190206_1806.py
-sensor_configs/migrations/0011_config_static_mask.py
