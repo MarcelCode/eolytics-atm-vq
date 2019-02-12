@@ -186,7 +186,11 @@
                             if (!["failed", "stopped"].includes($(this).data("ews-state"))) {
                                 $(this).hide()
                             }
-                        })
+                        });
+                        automatic.prop("disabled", true);
+                        setTimeout(function () {
+                            automatic.prop('disabled', false);
+                        }, 5000);
                     } else {
                         $(".menu-mission").show();
                     }

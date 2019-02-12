@@ -2,11 +2,12 @@
 	"product_list": {
 		"model": "MultipleChoiceField",
 	    "name": "Choose products",
+		"seperator": "test",
     	"kwargs": {
       		"choices": [["abs", "ABS"],["aot", "AOT"], ["chl", "CHL"], ["cdm", "CDM"], ["div", "DIV"], ["hab", "HAB"], ["eva", "EVA"], ["kdc", "KDC"], ["quc", "QUC"], ["qut", "QUT"], ["rgb", "RGB"], 
       				["rra", "RRA"], ["rrs", "RRS"], ["rrw", "RRW"], ["sdd", "SDD"], ["sia", "SIA"], ["soa", "SOA"], ["ssr", "SSR"], ["sst", "SST"], ["tur", "TUR"], ["tsc", "TSC"], 
       				["tsm", "TSM"], ["wex", " WEX"], ["z90", "Z90"]],
-      		"initial": ["abs", "aot", "chl", "hab", "quc", "qut", "rgb", "tur", "tsm", "z90"],
+      		"initial": ["abs", "chl", "quc", "qut", "rgb", "tur", "tsm", "z90"],
       		"help_text": "Product list for processing."
   		}
 	},
@@ -54,6 +55,17 @@
 			"help_text": "Threshold for comparison of the water surface area (see above)."
 		}
 	},
+	"aot_for_adj": {
+		"model": "FloatField",
+		"name": "Strength of Adjacency Correction",
+		"step": 0.01,
+		"kwargs": {
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"initial": 0.1,
+			"help_text": "Strength of adjacency correction. Lower values result in less correction."
+		}
+	},
 	"use_gleasy": {
 		"model": "BooleanField",
 		"name": "Sunglint Correction",
@@ -62,24 +74,25 @@
 			"help_text": "Run sunglint correction. Use this option only in case sunglint is very obvious."
 		}
 	},
-	"aot_for_adj": {
+	"aot_for_gleasy": {
 		"model": "FloatField",
-		"name": "Strength of Adjacency Correction",
+		"name": "Strength of Sunglint Correction",
+		"step": 0.01,
 		"kwargs": {
 			"min_value": 0.0,
 			"max_value": 1.0,
-			"initial": 0.1,
-			"help_text": "Strength of Adjacency correction. Lower values result in less correction."
+			"initial": 0.2,
+			"help_text": "Strength of sunglint correction. Lower values result in less correction."
 		}
 	},
 	"polygonstatistics_products": {
 		"model": "MultipleChoiceField",
 		"name": "Products for Polygonstatistics Calculation",
 		"kwargs": {
-			"choices": [["abs", "ABS"],["aot", "AOT"], ["chl", "CHL"], ["cdm", "CDM"], ["div", "DIV"], ["hab", "HAB"], ["qut", "QUT"],
-      				["sdd", "SDD"], ["sia", "SIA"], ["soa", "SOA"], ["ssr", "SSR"], ["tur", "TUR"], ["tsc", "TSC"], 
+			"choices": [["abs", "ABS"],["aot", "AOT"], ["chl", "CHL"], ["cdm", "CDM"], ["div", "DIV"], ["eva", "EVA"], ["hab", "HAB"], ["qut", "QUT"],
+      				["sdd", "SDD"], ["sia", "SIA"], ["soa", "SOA"], ["sst", "SST"], ["tur", "TUR"], ["tsc", "TSC"], 
       				["tsm", "TSM"], ["z90", "Z90"]],
-      		"initial": ["abs", "aot", "chl", "hab", "qut", "tur", "tsm", "z90"],
+      		"initial": ["abs", "chl", "qut", "tur", "tsm", "z90"],
       		"help_text": "Product list for polygonstatistics calculation."
 		}
 	},
@@ -89,12 +102,12 @@
 		"kwargs": {
 			"choices": [
 				[4, "Standard Type"],
-				[42, "Chlorophyll Type"],
-				[71, "Boreal Type"],
-				[80, "Highly Turbid Water Type"]
+				[42, "Chlorophyll Type (for waters with high CHL concentrations)"],
+				[71, "Boreal Type (mainly absorption-driven / high concentrations of yellow substance)"],
+				[80, "Highly Turbid Water Type (mainly scattering-driven, high turbidity values (mostly very turbid rivers))"]
 				],
 			"initial": 4,
-			"help_text": "Original water type to be used for the retrieval of the water constituents."
+			"help_text": "Water type to be used for the retrieval of the water constituents."
 		}
 	},
 	"watertype_mixing": {
@@ -114,12 +127,12 @@
 		}
 	},
 	"tsc_base_product": {
-		"model": "MultipleChoiceField",
+		"model": "ChoiceField",
 		"name": "TSC base Product",
 		"kwargs": {
 			"choices": [["chl", "CHL"], ["sdd", "SDD"], ["tur", "TUR"]],
 			"initial": "chl",
-			"help_text": "The product on which the trophical state index is based. Either CHL, SDD or TUR."
+			"help_text": "The product on which the trophical state index is based."
 		}
 	},
 	"use_static_mask": {
@@ -148,6 +161,15 @@
 			"help_text": "Calibrate product ABS (and all products based on it, like SIA, SOA, DIV or CDM)."
 		}
 	},
+	"formula_abs":{
+		"model": "CharField",
+		"name": "Formula ABS",
+		"kwargs": {
+			"required": false,
+			"initial": "",
+			"help_text": "Provide a formula for ABS calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
+		}
+	},
 	"calibrate_chl": {
 		"model": "BooleanField",
 		"name": "Calibrate CHL",
@@ -155,6 +177,15 @@
 		"kwargs": {
 			"initial": false,
 			"help_text": "Calibrate product CHL (and all products based on it, like (possibly) TSC)."
+		}
+	},
+	"formula_chl":{
+		"model": "CharField",
+		"name": "Formula CHL",
+		"kwargs": {
+			"required": false,
+			"initial": "",
+			"help_text": "Provide a formula for CHL calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
 		}
 	},
 	"calibrate_tur": {
@@ -166,6 +197,15 @@
 			"help_text": "Calibrate product TUR (and all products based on it, like TSM)."
 		}
 	},
+	"formula_tur":{
+		"model": "CharField",
+		"name": "Formula TUR",
+		"kwargs": {
+			"required": false,
+			"initial": "",
+			"help_text": "Provide a formula for TUR calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
+		}
+	},
 	"calibrate_tsm": {
 		"model": "BooleanField",
 		"name": "Calibrate TSM",
@@ -173,6 +213,15 @@
 		"kwargs": {
 			"initial": false,
 			"help_text": "Calibrate product TSM."
+		}
+	},
+	"formula_tsm":{
+		"model": "CharField",
+		"name": "Formula TSM",
+		"kwargs": {
+			"required": false,
+			"initial": "",
+			"help_text": "Provide a formula for TSM calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
 		}
 	},
 	"calibrate_tur_tsm": {
@@ -184,22 +233,22 @@
 			"help_text": "Calibrate the conversion from TUR to TSM."
 		}
 	},
+	"formula_tur_tsm":{
+		"model": "CharField",
+		"name": "Formula TUR/TSM",
+		"kwargs": {
+			"required": false,
+			"initial": "",
+			"help_text": "Provide a formula for the conversion of TUR to TSM, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Standard conversion formula looks like this: '10**(1.02*log10(A)-0.04)'. Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
+		}
+	},
 	"calibrate_sst": {
 		"model": "BooleanField",
 		"name": "Calibrate SST",
 		"need_formula": true,
 		"kwargs": {
 			"initial": false,
-			"help_text": "Calibrate product SST (and all products based on it, like EVA)."
-		}
-	},
-	"calibrate_eva": {
-		"model": "BooleanField",
-		"name": "Calibrate EVA",
-		"need_formula": true,
-		"kwargs": {
-			"initial": false,
-			"help_text": "Calibrate product EVA."
+			"help_text": "Provide a formula for SST calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
 		}
 	}
 }

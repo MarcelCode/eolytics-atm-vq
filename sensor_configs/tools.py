@@ -90,14 +90,26 @@ def serialize_config_model(config):
     if config.imgpart:
         json_dict["imgpart_name"] = config.imgpart.name
         json_dict["imgpart"] = json.loads(config.imgpart.json_geometry)
+    else:
+        json_dict["imgpart_name"] = ""
+        json_dict["imgpart"] = {}
     if config.mask_image:
         json_dict["mask_image_name"] = config.mask_image.name
         json_dict["mask_image"] = json.loads(config.imgpart.json_geometry)
+    else:
+        json_dict["mask_image_name"] = ""
+        json_dict["mask_image"] = {}
     if config.polygonstatistics:
         json_dict["polygonstatistics_name"] = config.polygonstatistics.name
         json_dict["polygonstatistics"] = json.loads(config.polygonstatistics.json_geometry)
+    else:
+        json_dict["polygonstatistics_name"] = ""
+        json_dict["polygonstatistics"] = {}
     if config.static_mask:
         json_dict["static_mask_name"] = config.static_mask.name
         json_dict["static_mask"] = json.loads(config.static_mask.json_geometry)
+    else:
+        json_dict["static_mask_name"] = ""
+        json_dict["static_mask"] = {}
 
     return json_dict

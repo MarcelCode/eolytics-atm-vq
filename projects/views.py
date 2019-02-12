@@ -15,6 +15,7 @@ from sensor_configs.models import Config, Masking
 from sensor_configs.forms import ConfigForm, MaskingForm, UploadShapeForm, ConfigShapeForm
 from sensor_configs import tools
 from projects.tools import get_entry_by_pk
+from projects.decorators import owns_user_project
 
 
 def get_filtered_user_projects(project_states, user_projects, status):
@@ -76,6 +77,7 @@ def projects(request, status):
 
 
 @login_required
+@owns_user_project
 def delete_project(request, status, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
     ews_commands.remove_ews_project(ews_project.ews_name)
@@ -86,6 +88,7 @@ def delete_project(request, status, project_pk):
 
 
 @login_required
+@owns_user_project
 def project(request, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
     config = Config.objects.get(user_project=ews_project, default=True)
@@ -97,6 +100,7 @@ def project(request, project_pk):
 
 
 @login_required
+@owns_user_project
 def automatic_mode(request, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
     automatic = json.loads(request.GET.get('automatic'))
@@ -119,6 +123,7 @@ def automatic_mode(request, project_pk):
 
 
 @login_required
+@owns_user_project
 def project_settings(request, project_pk, config_pk, action=None):
     user_project = UserProject.objects.get(pk=project_pk)
     config = Config.objects.get(pk=config_pk)
@@ -178,7 +183,7 @@ def project_settings(request, project_pk, config_pk, action=None):
             name = form_data.pop("name")
             description = form_data.pop("description")
 
-            config_check = Config.objects.filter(name=name)
+            config_check = Config.objects.filter(user_project=user_project, name=name)
 
             if bool(int(request.POST["default"])):
                 Config.objects.filter(user_project=user_project).update(default=False)
@@ -199,7 +204,7 @@ def project_settings(request, project_pk, config_pk, action=None):
                                      f'Configuration {name} was updated successfully!',
                                      extra_tags='alert-success')
             else:
-                new_config = Config.objects.create(user_project=user_project,
+                user_config = Config.objects.create(user_project=user_project,
                                                    name=name,
                                                    description=description,
                                                    default=bool(int(request.POST["default"])),
@@ -212,16 +217,16 @@ def project_settings(request, project_pk, config_pk, action=None):
                 messages.add_message(request, messages.SUCCESS,
                                      f'Configuration {name} was created successfully!',
                                      extra_tags='alert-success')
-                config_pk = new_config.pk
 
             if bool(int(request.POST["default"])):
-                json_config = tools.serialize_config_model(Config.objects.get(pk=config_pk))
+                json_config = tools.serialize_config_model(user_config)
                 ews_commands.set_global_job_settings(user_project.ews_name, json_config)
 
             return redirect("config-pk", project_pk, config_pk)
 
 
 @login_required
+@owns_user_project
 def masking_settings(request, project_pk, masking_pk, action=None):
     user_project = UserProject.objects.get(pk=project_pk)
     config = Masking.objects.get(pk=masking_pk)
@@ -292,6 +297,7 @@ def masking_settings(request, project_pk, masking_pk, action=None):
 
 
 @login_required
+@owns_user_project
 def download_data_for_project(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     if request.method == "GET":
@@ -306,6 +312,8 @@ def download_data_for_project(request, project_pk):
         return JsonResponse({"status": status})
 
 
+@login_required
+@owns_user_project
 def download_status_for_project(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
@@ -318,6 +326,8 @@ def download_status_for_project(request, project_pk):
                                                             "project_pk": project_pk})
 
 
+@login_required
+@owns_user_project
 def download_final_results(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
@@ -325,14 +335,18 @@ def download_final_results(request, project_pk):
     return render(request, "project/download-results.html", {"project_pk": project_pk, "ews_missions": final_downloads})
 
 
+@login_required
 def create_project(request):
     create_project_form = forms.CreateProjectForm(user=request.user)
 
     return render(request, "projects/create_project_modal.html", {"form": create_project_form})
 
 
+@login_required
 def change_project_cores(request):
     data = json.loads(request.body)
-    UserProject.objects.filter(pk=data["project_pk"]).update(cores=data["cores"])
+    user_project = UserProject.objects.filter(pk=data["project_pk"])
+    if user_project.first().user == request.user:
+        user_project.update(cores=data["cores"])
 
     return JsonResponse({"status": True})

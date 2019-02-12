@@ -93,6 +93,7 @@
             {% csrf_token %}
             {{ form|crispy }}
             {{ shape_settings_form|crispy }}
+            <div style="padding-bottom: 1rem"><b>* = Required</b></div>
             <button type="submit" class="btn btn-success" style="float: right; margin:0 0.5rem;"
                     name="default" value="0">
                 Save

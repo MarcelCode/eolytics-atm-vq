@@ -4,6 +4,7 @@ from sensor_configs.forms import ConfigForm, MaskingForm
 from sensor_configs.models import Config, Sensor, Watertype, Masking
 from accounts.models import Profile
 from ews_communication import ews_commands
+from sensor_configs.tools import serialize_config_model
 
 
 def create_initial_settings(user_project, element):
@@ -15,13 +16,14 @@ def create_initial_settings(user_project, element):
     form_data = {name: form.fields[name].initial for name in form.fields.keys()}
     form_data.pop("name")
     form_data.pop("description")
-    CONFIG.objects.create(user_project=user_project,
-                          name="Default",
-                          default=True,
-                          json_configs=form_data)
+    user_config = CONFIG.objects.create(user_project=user_project,
+                                        name="Default",
+                                        default=True,
+                                        json_configs=form_data)
 
     if FORM.__name__ == "ConfigForm":
-        ews_commands.set_global_job_settings(user_project.ews_name, form_data)
+        json_config = serialize_config_model(user_config)
+        ews_commands.set_global_job_settings(user_project.ews_name, json_config)
     else:
         ews_commands.set_global_mask_definitions(user_project.ews_name, form_data)
 

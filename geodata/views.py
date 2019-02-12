@@ -37,7 +37,7 @@ def check_geodata(request):
         aoi_intersection_layer = mpoly.intersection(country_layer)
         return JsonResponse(aoi_intersection_layer.geojson, safe=False)
     else:
-        return JsonResponse({"status": False, "message": "Pleas draw a rectangle inside your allowed download region.",
+        return JsonResponse({"status": False, "message": "Please draw a rectangle inside your allowed download region.",
                              "title": 'Area of Interest not valid!'})
 
 
@@ -45,21 +45,23 @@ def check_geodata(request):
 def download_data(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        data["start_date"] = convert_date(data["start_date"])
-        data["end_date"] = convert_date(data["end_date"])
         user_project_pk = data.pop("user_project_pk")
         user_project = UserProject.objects.get(pk=int(user_project_pk))
-        ews_name = user_project.ews_name
-        sensor_id = user_project.sensor.ews_id
+        if user_project.user == request.user:
+            data["start_date"] = convert_date(data["start_date"])
+            data["end_date"] = convert_date(data["end_date"])
 
-        status = ews_commands.download_raw_data(ews_name=ews_name, sensor_id=sensor_id, **data)
+            ews_name = user_project.ews_name
+            sensor_id = user_project.sensor.ews_id
 
-        if status:
-            return JsonResponse({"type": "succes", "status": True,
-                                 "message": "Pleas check the download status to get more information.",
-                                 "title": 'Download was started!'})
+            status = ews_commands.download_raw_data(ews_name=ews_name, sensor_id=sensor_id, **data)
 
-    return JsonResponse({"type": "error", "status": False, "message": "Pleas try again later.",
+            if status:
+                return JsonResponse({"type": "success", "status": True,
+                                     "message": "Pleas check the download status to get more information.",
+                                     "title": 'Download was started!'})
+
+    return JsonResponse({"type": "error", "status": False, "message": "Please try again later.",
                          "title": 'Something went wrong!'})
 
 

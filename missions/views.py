@@ -5,12 +5,14 @@ from ews_db_connector.models import Mission
 import json
 import copy
 from missions.tools import MissionMenuPoints, SetMissionSettings, check_core_usage
+from django.contrib.auth.decorators import login_required
 
 
 with open(r"templates/mission/mission_options.json") as fo:
     MISSION_OPTIONS = json.load(fo)
 
 
+@login_required
 def check_mission_block(request):
     data = json.loads(request.body)
     ews_mission_pk = data['ews_mission_pk']
@@ -47,6 +49,7 @@ def check_mission_block(request):
     return JsonResponse(items)
 
 
+@login_required
 def handle_mission_block(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -55,7 +58,7 @@ def handle_mission_block(request):
         ews_mission = Mission.objects.using("ews").get(pk=ews_mission_pk)
         block_info, created = MissionActionBlock.objects.get_or_create(pk=ews_mission_pk)
 
-        if action in ["start", "continue", "restart", "automatic_continue", "automatic_reset"]:
+        if action in ["start", "continue", "restart"]:
             check, message = check_core_usage(request.user)
             print(message)  # TODO delete
             if not check:

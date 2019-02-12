@@ -8,5 +8,23 @@ $(function () {
         else if (($this.attr("name").startsWith("calibrate")) && !($this.prop("checked"))) {
             $("#"+formula_id).removeAttr("required");
         }
+    });
+
+    $("#id_scaled_workflow").click(function () {
+        if ($(this).prop( "checked" )){
+            $("#id_pan_sharpening").attr("disabled", true)
+        }
+        else{
+            $("#id_pan_sharpening").attr("disabled", false)
+        }
+    });
+
+    $("#id_pan_sharpening").click(function () {
+        if ($(this).prop( "checked" )){
+            $("#id_scaled_workflow").attr("disabled", true)
+        }
+        else{
+            $("#id_scaled_workflow").attr("disabled", false)
+        }
     })
 });

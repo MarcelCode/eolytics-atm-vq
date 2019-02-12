@@ -37,6 +37,9 @@ class ConfigForm(forms.Form):
         else:
             self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
 
+        if "seperator" in settings:
+            self.fields[field].widget.attrs['class'] = 'seperator'
+
 
 class ConfigShapeForm(forms.Form):
     def __init__(self, user_project, config, *args, **kwargs):

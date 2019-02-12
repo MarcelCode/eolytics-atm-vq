@@ -81,7 +81,7 @@
 		"name": "Products for Polygonstatistics Calculation",
 		"kwargs": {
 			"choices": [["abs", "ABS"],["aot", "AOT"], ["chl", "CHL"], ["cdm", "CDM"], ["div", "DIV"], ["hab", "HAB"], ["qut", "QUT"],
-      				["sdd", "SDD"], ["sia", "SIA"], ["soa", "SOA"], ["ssr", "SSR"], ["tur", "TUR"], ["tsc", "TSC"],
+      				["sdd", "SDD"], ["sia", "SIA"], ["soa", "SOA"], ["tur", "TUR"], ["tsc", "TSC"],
       				["tsm", "TSM"], ["z90", "Z90"]],
       		"initial": ["abs", "chl", "qut", "tur", "tsm", "z90"],
       		"help_text": "Product list for polygonstatistics calculation."
@@ -98,7 +98,7 @@
 				[80, "Highly Turbid Water Type (mainly scattering-driven, high turbidity values (mostly very turbid rivers))"]
 				],
 			"initial": 4,
-			"help_text": "Original water type to be used for water constituents retrieval."
+			"help_text": "Water type to be used for water constituents retrieval."
 		}
 	},
 	"watertype_mixing": {

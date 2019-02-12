@@ -14,7 +14,7 @@ def get_config_choices():
 
 class Watertype(models.Model):
     ews_id = models.IntegerField()
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=255)
 
     class Meta:
         ordering = ["ews_id"]
