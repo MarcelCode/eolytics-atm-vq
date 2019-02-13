@@ -3,20 +3,16 @@ from sensor_configs.models import Masking, Config
 
 
 class MissionActionBlock(models.Model):
-    SCENE_CLIPPING = 1
-    REGFIL = 2
-    LAND_WATER_MASK = 3
-    ADJACENCY = 4
-    GLINT = 5
-    WATER_SPECIES = 6
+    RGB_CREATION = 1
+    LAND_WATER_MASK = 2
+    GLINT_CORRECTION = 3
+    PRODUCT_GENERATION = 4
 
     CHOICES = [
-        (SCENE_CLIPPING, "Scene clipping and masking"),
-        (REGFIL, "Regfil"),
+        (RGB_CREATION, "RGB Creation"),
         (LAND_WATER_MASK, "Land-Water-Mask"),
-        (ADJACENCY, "Adjacency correction"),
-        (GLINT, "Glint Correction"),
-        (WATER_SPECIES, "Water Species Retrieval")
+        (GLINT_CORRECTION, "Glint Correction"),
+        (PRODUCT_GENERATION, "Product Generation"),
     ]
 
     id = models.IntegerField(primary_key=True)
