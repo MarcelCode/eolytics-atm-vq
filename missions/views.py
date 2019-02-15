@@ -6,6 +6,7 @@ import json
 import copy
 from missions.tools import MissionMenuPoints, SetMissionSettings, check_core_usage
 from django.contrib.auth.decorators import login_required
+from projects.models import UserProject
 
 
 with open(r"templates/mission/mission_options.json") as fo:
@@ -33,6 +34,10 @@ def check_mission_block(request):
                 pass
         else:
             items = mission_options["block_false"][state]
+
+        # Remove glint correction sentinel 3
+        if UserProject.objects.get(pk=project_pk).sensor.ews_id == 67:
+            del items["stop_after_block"]["items"]["stop_after_3"]
 
         # Config Menus
         if state != "running":

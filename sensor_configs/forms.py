@@ -2,7 +2,8 @@ from django import forms
 from geodata.models import UserProjectShape
 import json
 from sensor_configs.tools import config_initial
-from django.forms.widgets import NumberInput
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 class ConfigForm(forms.Form):
@@ -17,10 +18,12 @@ class ConfigForm(forms.Form):
             for field, settings in sensor_config.items():
                 settings["kwargs"]["initial"] = db_config[field]
                 self.create_fields(field, settings)
+            print("test")
 
         else:
             for field, settings in sensor_config.items():
                 self.create_fields(field, settings)
+            print("test")
 
     def create_fields(self, field, settings):
         if settings["model"] == "BooleanField":

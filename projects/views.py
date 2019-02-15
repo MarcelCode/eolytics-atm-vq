@@ -205,14 +205,14 @@ def project_settings(request, project_pk, config_pk, action=None):
                                      extra_tags='alert-success')
             else:
                 user_config = Config.objects.create(user_project=user_project,
-                                                   name=name,
-                                                   description=description,
-                                                   default=bool(int(request.POST["default"])),
-                                                   json_configs=form_data,
-                                                   imgpart=get_entry_by_pk(aoi_form_data["imgpart"]),
-                                                   mask_image=get_entry_by_pk(aoi_form_data["mask_image"]),
-                                                   polygonstatistics=get_entry_by_pk(aoi_form_data["polygonstatistics"])
-                                                   )
+                                                    name=name,
+                                                    description=description,
+                                                    default=bool(int(request.POST["default"])),
+                                                    json_configs=form_data,
+                                                    imgpart=get_entry_by_pk(aoi_form_data["imgpart"]),
+                                                    mask_image=get_entry_by_pk(aoi_form_data["mask_image"]),
+                                                    polygonstatistics=get_entry_by_pk(aoi_form_data["polygonstatistics"])
+                                                    )
 
                 messages.add_message(request, messages.SUCCESS,
                                      f'Configuration {name} was created successfully!',
