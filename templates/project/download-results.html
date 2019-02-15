@@ -46,37 +46,31 @@
                 <table id="mission-table" class="table table-striped hover" style="width:100%">
                     <thead>
                     <tr>
+                        <th>Ident</th>
+                        <th>Sensor</th>
+                        <th>Resolution</th>
                         <th>Create Date</th>
                         <th>Create Time</th>
-                        <th>State</th>
-                        <th>Action Nr.</th>
-                        <th>Action Name</th>
-                        <th>Action Description</th>
-                        <th>Last Change</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for mission in ews_missions %}
                         <tr data-ews_ident="{{ mission.ident }}">
+                            <td>{{ mission.ident }}</td>
+                            <td>{{ mission.ews_project.sensor.sensor_name }}</td>
+                            <td>{{ mission.ews_project.sensor.resolution }} m</td>
                             <td>{{ mission.year }}-{{ mission.month }}-{{ mission.day }}</td>
                             <td>{{ mission.hour }}:{{ mission.minute }}</td>
-                            <td>{{ mission.state }}</td>
-                            <td>{{ mission.activeaction }}</td>
-                            <td>{{ mission.actionname }}</td>
-                            <td>{{ mission.actiondescription }}</td>
-                            <td>{{ mission.actiondatetime }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                     <tfoot>
                     <tr>
+                        <th>Ident</th>
+                        <th>Sensor</th>
+                        <th>Resolution</th>
                         <th>Create Date</th>
                         <th>Create Time</th>
-                        <th>State</th>
-                        <th>Action Nr.</th>
-                        <th>Action Name</th>
-                        <th>Action Description</th>
-                        <th>Last Change</th>
                     </tr>
                     </tfoot>
                 </table>

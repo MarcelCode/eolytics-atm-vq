@@ -42,7 +42,8 @@ class EwsUserQueries(object):
     def get_core_usage(self, user, exclude_ews_name=None):
         user_project_ews_names = list(UserProject.objects.filter(user=user).values_list("ews_name", flat=True))
         if exclude_ews_name:
-            if exclude_ews_name in user_project_ews_names: user_project_ews_names.remove(exclude_ews_name)
+            if exclude_ews_name in user_project_ews_names:
+                user_project_ews_names.remove(exclude_ews_name)
         ews_projects = self.ews_project_db_object.filter(ews_name__in=user_project_ews_names)
         user_missions = self.ews_mission_db_object.filter(ews_project__in=ews_projects)
         cores_in_usage = list(user_missions.values_list("state", flat=True)).count("running")

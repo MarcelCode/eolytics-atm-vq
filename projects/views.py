@@ -116,8 +116,8 @@ def automatic_mode(request, project_pk):
     else:
         ews_commands.stop_automatic_mode(ews_project.ews_name)
 
-    ews_project.automatic_mode = automatic
-    ews_project.save(update=True)
+    ews_project_query = UserProject.objects.filter(pk=project_pk)
+    ews_project_query.update(automatic_mode=automatic)
 
     return JsonResponse({"automatic": automatic})
 

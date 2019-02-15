@@ -1,227 +1,361 @@
 {
-	"product_list": {
-		"model": "MultipleChoiceField",
-	    "name": "Choose products",
-    	"kwargs": {
-      		"choices": [["abs", "ABS"],["aot", "AOT"], ["chl", "CHL"], ["cdm", "CDM"], ["div", "DIV"], ["hab", "HAB"], ["kdc", "KDC"], ["quc", "QUC"], ["qut", "QUT"], ["rgb", "RGB"], 
-      				["rra", "RRA"], ["rrs", "RRS"], ["rrw", "RRW"], ["sdd", "SDD"], ["sia", "SIA"], ["soa", "SOA"], ["ssr", "SSR"], ["tur", "TUR"], ["tsc", "TSC"], 
-      				["tsm", "TSM"], ["wex", " WEX"], ["z90", "Z90"]],
-      		"initial": ["abs", "chl", "quc", "qut", "rgb", "tur", "tsm", "z90"],
-      		"help_text": "Product list for processing."
-  		}
-	},
-	"scaled_workflow": {
-		"model": "BooleanField",
-		"name": "Scaled Workflow",
-		"kwargs": {
-			"initial": false,
-			"help_text": "Run whole product generation on scaled image (native resolution times scaling factor)."
-		}
-	},
-	"scale_factor": {
-		"model": "IntegerField",
-		"name": "Scaling Factor",
-		"kwargs": {
-			"min_value": 1,
-			"max_value": 99,
-			"initial": 3,
-			"help_text": "Scaling factor for scaled processing (native resolution is multiplied by this number)."
-		}
-	},
-	"compare_gmask_geomask": {
-		"model": "BooleanField",
-		"name": "Compare gmask with geomask",
-		"kwargs": {
-			"initial": true,
-			"help_text": "Compares the land-water-mask derived from the actual scene with an archived, potential land-water-mask. If the detected water surface area is below the given threshold in 'Min. Water Percentage', the image is declared as 'empty' and processing will stop."
-		}
-	},
-	"min_water_percent": {
-		"model": "IntegerField",
-		"name": "Min. Water Percentage",
-		"kwargs": {
-			"min_value": 1,
-			"max_value": 100,
-			"initial": 10,
-			"help_text": "Threshold for comparison of the water surface area (see above)."
-		}
-	},
-	"aot_for_adj": {
-		"model": "FloatField",
-		"name": "Strength of Adjacency Correction",
-		"step": 0.01,
-		"kwargs": {
-			"min_value": 0.0,
-			"max_value": 1.0,
-			"initial": 0.1,
-			"help_text": "Strength of adjacency correction. Lower values result in less correction."
-		}
-	},
-	"use_gleasy": {
-		"model": "BooleanField",
-		"name": "Sunglint Correction",
-		"kwargs": {
-			"initial": false,
-			"help_text": "Run sunglint correction. Use this option only in case sunglint is very obvious."
-		}
-	},
-	"aot_for_gleasy": {
-		"model": "FloatField",
-		"name": "Strength of Sunglint Correction",
-		"step": 0.01,
-		"kwargs": {
-			"min_value": 0.0,
-			"max_value": 1.0,
-			"initial": 0.2,
-			"help_text": "Strength of sunglint correction. Lower values result in less correction."
-		}
-	},
-	"polygonstatistics_products": {
-		"model": "MultipleChoiceField",
-		"name": "Products for Polygonstatistics Calculation",
-		"kwargs": {
-			"choices": [["abs", "ABS"],["aot", "AOT"], ["chl", "CHL"], ["cdm", "CDM"], ["div", "DIV"], ["hab", "HAB"], ["qut", "QUT"],
-      				["sdd", "SDD"], ["sia", "SIA"], ["soa", "SOA"], ["tur", "TUR"], ["tsc", "TSC"],
-      				["tsm", "TSM"], ["z90", "Z90"]],
-      		"initial": ["abs", "chl", "qut", "tur", "tsm", "z90"],
-      		"help_text": "Product list for polygonstatistics calculation."
-		}
-	},
-	"main_watertype": {
-		"model": "ChoiceField",
-		"name": "Main watertype",
-		"kwargs": {
-			"choices": [
-				[4, "Standard Type"],
-				[42, "Chlorophyll Type (for waters with high CHL concentrations)"],
-				[71, "Boreal Type (mainly absorption-driven / high concentrations of yellow substance)"],
-				[80, "Highly Turbid Water Type (mainly scattering-driven, high turbidity values (mostly very turbid rivers))"]
-				],
-			"initial": 4,
-			"help_text": "Water type to be used for water constituents retrieval."
-		}
-	},
-	"watertype_mixing": {
-		"model": "BooleanField",
-		"name": "Watertype Mixing",
-		"kwargs": {
-			"initial": false,
-			"help_text": "Choose the water type automatically (experimental)."
-		}
-	},
-	"coupled_wsr": {
-		"model": "BooleanField",
-		"name": "Coupled Retrieval",
-		"kwargs": {
-			"initial": true,
-			"help_text": "Retrieve atmospheric and water properties at once."
-		}
-	},
-	"tsc_base_product": {
-		"model": "ChoiceField",
-		"name": "TSC base Product",
-		"kwargs": {
-			"choices": [["chl", "CHL"], ["sdd", "SDD"], ["tur", "TUR"]],
-			"initial": "chl",
-			"help_text": "The product on which the trophical state index is based."
-		}
-	},
-	"create_datasheet": {
-		"model": "BooleanField",
-		"name": "Create overview PDF",
-		"kwargs": {
-			"initial": false,
-			"help_text": "Create overview PDF for each product with basic metadata and quality information."
-		}
-	},
-	"calibrate_abs": {
-		"model": "BooleanField",
-		"name": "Calibrate ABS",
-		"need_formula": true,
-		"kwargs": {
-			"initial": false,
-			"help_text": "Calibrate product ABS (and all products based on it, like SIA, SOA, DIV or CDM)."
-		}
-	},
-	"formula_abs":{
-		"model": "CharField",
-		"name": "Formula ABS",
-		"kwargs": {
-			"required": false,
-			"initial": "",
-			"help_text": "Provide a formula for ABS calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
-		}
-	},
-	"calibrate_chl": {
-		"model": "BooleanField",
-		"name": "Calibrate CHL",
-		"need_formula": true,
-		"kwargs": {
-			"initial": false,
-			"help_text": "Calibrate product CHL (and all products based on it, like (possibly) TSC)."
-		}
-	},
-	"formula_chl":{
-		"model": "CharField",
-		"name": "Formula CHL",
-		"kwargs": {
-			"required": false,
-			"initial": "",
-			"help_text": "Provide a formula for CHL calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
-		}
-	},
-	"calibrate_tur": {
-		"model": "BooleanField",
-		"name": "Calibrate TUR",
-		"need_formula": true,
-		"kwargs": {
-			"initial": false,
-			"help_text": "Calibrate product TUR (and all products based on it, like TSM)."
-		}
-	},
-	"formula_tur":{
-		"model": "CharField",
-		"name": "Formula TUR",
-		"kwargs": {
-			"required": false,
-			"initial": "",
-			"help_text": "Provide a formula for TUR calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
-		}
-	},
-	"calibrate_tsm": {
-		"model": "BooleanField",
-		"name": "Calibrate TSM",
-		"need_formula": true,
-		"kwargs": {
-			"initial": false,
-			"help_text": "Calibrate product TSM."
-		}
-	},
-	"formula_tsm":{
-		"model": "CharField",
-		"name": "Formula TSM",
-		"kwargs": {
-			"required": false,
-			"initial": "",
-			"help_text": "Provide a formula for TSM calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
-		}
-	},
-	"calibrate_tur_tsm": {
-		"model": "BooleanField",
-		"name": "Calibrate TUR/TSM Conversion",
-		"need_formula": true,
-		"kwargs": {
-			"initial": false,
-			"help_text": "Calibrate the conversion from TUR to TSM."
-		}
-	},
-	"formula_tur_tsm":{
-		"model": "CharField",
-		"name": "Formula TUR/TSM",
-		"kwargs": {
-			"required": false,
-			"initial": "",
-			"help_text": "Provide a formula for the conversion of TUR to TSM, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Standard conversion formula looks like this: '10**(1.02*log10(A)-0.04)'. Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
-		}
-	}
+  "product_list": {
+    "model": "MultipleChoiceField",
+    "name": "Choose products",
+    "separator": "Product Definitions",
+    "kwargs": {
+      "choices": [
+        [
+          "abs",
+          "ABS (Total Absorption)"
+        ],
+        [
+          "aot",
+          "AOT (Aerosol Optical Thickness)"
+        ],
+        [
+          "chl",
+          "CHL (Chlorophyll-a)"
+        ],
+        [
+          "cdm",
+          "CDM (Colored Dissolved Organic Matter / Yellow Substance)"
+        ],
+        [
+          "div",
+          "DIV (Ratio of Absorption and Scattering)"
+        ],
+        [
+          "hab",
+          "HAB (Harmful Algae Bloom Indicator)"
+        ],
+        [
+          "kdc",
+          "KDC (Diffuse Attenuation Coefficient)"
+        ],
+        [
+          "quc",
+          "QUC (EOMAP Quality Coding)"
+        ],
+        [
+          "qut",
+          "QUT (Total Quality)"
+        ],
+        [
+          "rgb",
+          "RGB ('True Color' Image)"
+        ],
+        [
+          "rra",
+          "RRA (above-surface Remote Sensing Reflectance [0+])"
+        ],
+        [
+          "rrs",
+          "RRS (sub-surface Remote Sensing Reflectance [0-])"
+        ],
+        [
+          "rrw",
+          "RRW (Remote Sensing Reflectance at WISP angle [0+]"
+        ],
+        [
+          "sdd",
+          "SDD (Secchi Disc Depth)"
+        ],
+        [
+          "sia",
+          "SIA (Sum of Inorganic Absorption)"
+        ],
+        [
+          "soa",
+          "SOA (Sum of Organic Absorption"
+        ],
+        [
+          "ssr",
+          "SSR (Sub-surface Irradiance Reflectance [0-])"
+        ],
+        [
+          "tur",
+          "TUR (Turbidity)"
+        ],
+        [
+          "tsc",
+          "TSC (Trophic State Index)"
+        ],
+        [
+          "tsm",
+          "TSM (Total Suspended Matter)"
+        ],
+        [
+          "wex",
+          "WEX (Water Extent)"
+        ],
+        [
+          "z90",
+          "Z90 (Signal Depth)"
+        ]
+      ],
+      "initial": [
+        "abs",
+        "chl",
+        "quc",
+        "qut",
+        "rgb",
+        "tur",
+        "tsm",
+        "z90"
+      ],
+      "help_text": "Product list for processing."
+    }
+  },
+  "tsc_base_product": {
+    "model": "ChoiceField",
+    "name": "TSC base Product",
+    "kwargs": {
+      "choices": [
+        [
+          "chl",
+          "CHL"
+        ],
+        [
+          "sdd",
+          "SDD"
+        ],
+        [
+          "tur",
+          "TUR"
+        ]
+      ],
+      "initial": "chl",
+      "help_text": "The product on which the trophical state index is based."
+    }
+  },
+  "polygonstatistics_products": {
+    "model": "MultipleChoiceField",
+    "name": "Products for Polygonstatistics Calculation",
+    "kwargs": {
+      "choices": [
+        [
+          "abs",
+          "ABS (Total Absorption)"
+        ],
+        [
+          "aot",
+          "AOT (Aerosol Optical Thickness)"
+        ],
+        [
+          "chl",
+          "CHL (Chlorophyll-a)"
+        ],
+        [
+          "cdm",
+          "CDM (Colored Dissolved Organic Matter / Yellow Substance)"
+        ],
+        [
+          "div",
+          "DIV (Ratio of Absorption and Scattering)"
+        ],
+        [
+          "hab",
+          "HAB (Harmful Algae Bloom Indicator)"
+        ],
+        [
+          "qut",
+          "QUT (Total Quality)"
+        ],
+        [
+          "sdd",
+          "SDD (Secchi Disc Depth)"
+        ],
+        [
+          "sia",
+          "SIA (Sum of Inorganic Absorption)"
+        ],
+        [
+          "soa",
+          "SOA (Sum of Organic Absorption"
+        ],
+        [
+          "tur",
+          "TUR (Turbidity)"
+        ],
+        [
+          "tsc",
+          "TSC (Trophic State Index)"
+        ],
+        [
+          "tsm",
+          "TSM (Total Suspended Matter)"
+        ],
+        [
+          "z90",
+          "Z90 (Signal Depth)"
+        ]
+      ],
+      "initial": [
+        "abs",
+        "chl",
+        "qut",
+        "tur",
+        "tsm",
+        "z90"
+      ],
+      "help_text": "Product list for polygonstatistics calculation."
+    }
+  },
+  "scaled_workflow": {
+    "model": "BooleanField",
+    "name": "Scaled Workflow",
+    "separator": "Processing",
+    "kwargs": {
+      "initial": false,
+      "help_text": "Run whole product generation on scaled image (10m * scale_factor)."
+    }
+  },
+  "scale_factor": {
+    "model": "IntegerField",
+    "name": "Scaling Factor",
+    "kwargs": {
+      "min_value": 1,
+      "max_value": 99,
+      "initial": 3,
+      "help_text": "Scaling factor for scaled processing (native resolution is multiplied by this number). Only used if 'Scaled Workflow' is set."
+    }
+  },
+  "compare_gmask_geomask": {
+    "model": "BooleanField",
+    "name": "Compare gmask with geomask",
+    "kwargs": {
+      "initial": true,
+      "help_text": "Compares the land-water-mask derived from the actual scene with the initial land-water-mask. If the detected water surface area is below the given threshold in 'Min. Water Percentage', the image is declared as 'empty' and processing will stop."
+    }
+  },
+  "min_water_percent": {
+    "model": "IntegerField",
+    "name": "Min. Water Percentage",
+    "kwargs": {
+      "min_value": 1,
+      "max_value": 100,
+      "initial": 10,
+      "help_text": "Threshold for comparison of the water surface area (see above)."
+    }
+  },
+  "aot_for_adj": {
+    "model": "FloatField",
+    "name": "Strength of Adjacency Correction",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.1,
+      "help_text": "Strength of adjacency correction. Lower values result in less correction."
+    }
+  },
+  "use_gleasy": {
+    "model": "BooleanField",
+    "name": "Sunglint Correction",
+    "kwargs": {
+      "initial": false,
+      "help_text": "Run sunglint correction. Use this option only in case sunglint is very obvious."
+    }
+  },
+  "aot_for_gleasy": {
+    "model": "FloatField",
+    "name": "Strength of Sunglint Correction",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.2,
+      "help_text": "Strength of sunglint correction. Lower values result in less correction."
+    }
+  },
+  "main_watertype": {
+    "model": "ChoiceField",
+    "name": "Main watertype",
+    "kwargs": {
+      "choices": [
+        [
+          4,
+          "Standard Type"
+        ],
+        [
+          42,
+          "Chlorophyll Type (for waters with high CHL concentrations)"
+        ],
+        [
+          71,
+          "Boreal Type (mainly absorption-driven / high concentrations of yellow substance)"
+        ],
+        [
+          80,
+          "Highly Turbid Water Type (mainly scattering-driven, high turbidity values (mostly very turbid rivers))"
+        ]
+      ],
+      "initial": 4,
+      "help_text": "Water type to be used for the retrieval of the water constituents."
+    }
+  },
+  "create_datasheet": {
+    "model": "BooleanField",
+    "name": "Create overview PDF",
+    "kwargs": {
+      "initial": false,
+      "help_text": "Create overview PDF for each product with basic metadata and quality information."
+    }
+  },
+  "calibrate_chl": {
+    "model": "BooleanField",
+    "name": "Calibrate CHL",
+    "need_formula": true,
+    "separator": "Calibration",
+    "kwargs": {
+      "initial": false,
+      "help_text": "Calibrate product CHL (and all products based on it, like (possibly) TSC)."
+    }
+  },
+  "formula_chl": {
+    "model": "CharField",
+    "name": "Formula CHL",
+    "kwargs": {
+      "required": false,
+      "initial": "",
+      "help_text": "Provide a formula for CHL calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
+    }
+  },
+  "calibrate_sdd": {
+    "model": "BooleanField",
+    "name": "Calibrate SDD",
+    "need_formula": true,
+    "kwargs": {
+      "initial": false,
+      "help_text": "Provide a formula for SDDT calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
+    }
+  },
+  "formula_sdd": {
+    "model": "CharField",
+    "name": "Formula SDD",
+    "kwargs": {
+      "required": false,
+      "initial": "",
+      "help_text": "Provide a formula for SDD calibration, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
+    }
+  },
+  "calibrate_tur_tsm": {
+    "model": "BooleanField",
+    "name": "Calibrate TUR/TSM Conversion",
+    "need_formula": true,
+    "kwargs": {
+      "initial": false,
+      "help_text": "Calibrate the conversion from TUR to TSM."
+    }
+  },
+  "formula_tur_tsm": {
+    "model": "CharField",
+    "name": "Formula TUR/TSM",
+    "kwargs": {
+      "required": false,
+      "initial": "",
+      "help_text": "Provide a formula for the conversion of TUR to TSM, e.g. 'gain * A + offset'. The product you are calibrating is always referred to as 'A' in the formula, so make sure you do not use any other letter for that! Standard conversion formula looks like this: '10**(1.02*log10(A)-0.04)'. Calibration is based on 'gdal_calc', see help here: https://www.gdal.org/gdal_calc.html"
+    }
+  }
 }

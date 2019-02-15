@@ -87,25 +87,29 @@ class MaskingForm(forms.Form):
         if db_config:
             for field, settings in sensor_config.items():
                 settings["kwargs"]["initial"] = db_config[field]
-                if settings["model"] == "BooleanField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           required=False, widget=forms.CheckboxInput)
-                elif settings["model"] == "MultipleChoiceField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           widget=forms.CheckboxSelectMultiple)
-                else:
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
+                self.create_fields(field, settings)
 
         else:
             for field, settings in sensor_config.items():
-                if settings["model"] == "BooleanField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           required=False, widget=forms.CheckboxInput)
-                elif settings["model"] == "MultipleChoiceField":
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
-                                                                           widget=forms.CheckboxSelectMultiple)
-                else:
-                    self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
+                self.create_fields(field, settings)
+
+    def create_fields(self, field, settings):
+        if settings["model"] == "BooleanField":
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                   required=False, widget=forms.CheckboxInput)
+        elif settings["model"] == "MultipleChoiceField":
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                   widget=forms.CheckboxSelectMultiple)
+        elif "step" in settings:
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"],
+                                                                   widget=forms.NumberInput(
+                                                                       attrs={"step": settings["step"]}
+                                                                   ))
+        else:
+            self.fields[field] = getattr(forms, settings["model"])(label=settings["name"], **settings["kwargs"])
+
+        if "seperator" in settings:
+            self.fields[field].widget.attrs['class'] = 'seperator'
 
 
 class UploadShapeForm(forms.Form):

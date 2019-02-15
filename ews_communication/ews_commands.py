@@ -336,20 +336,20 @@ def prepare_download_selected(ews_name, ews_ident_list):
     :param ews_ident_list: List of selected Missions --> ews_ident
     :return: status --> True (download will be prepared), False (memory full)
     """
-    # payload = {
-    #     "method": "uploadResults",
-    #     "params": {
-    #         "ews_name": ews_name,
-    #         "order_idents": ews_ident_list,
-    #     },
-    #     "jsonrpc": "2.0",
-    #     "id": 0,
-    # }
-    # response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
-    # try:
-    #     has_enough_memory_left = response["result"]
-    # except KeyError:
-    #     has_enough_memory_left = True
-    #     print(response['error'])
-    # return has_enough_memory_left
+    payload = {
+        "method": "uploadResults",
+        "params": {
+            "ews_name": ews_name,
+            "order_idents_list": ews_ident_list,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    try:
+        has_enough_memory_left = response["result"]
+    except KeyError:
+        has_enough_memory_left = True
+        print(response['error'])
+    return has_enough_memory_left
     return True

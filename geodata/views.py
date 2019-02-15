@@ -58,7 +58,7 @@ def download_data(request):
 
             if status:
                 return JsonResponse({"type": "success", "status": True,
-                                     "message": "Pleas check the download status to get more information.",
+                                     "message": "Please check the download status to get more information.",
                                      "title": 'Download was started!'})
 
     return JsonResponse({"type": "error", "status": False, "message": "Please try again later.",
