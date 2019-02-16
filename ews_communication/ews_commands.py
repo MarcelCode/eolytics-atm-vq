@@ -1,7 +1,7 @@
 import requests
 import json
 
-URL_RPC_SERVER = "http://172.28.1.250:4691/jsonrpc"
+URL_RPC_SERVER = "http://192.168.254.10/jsonrpc"
 HEADERS = {'content-type': 'application/json'}
 
 
