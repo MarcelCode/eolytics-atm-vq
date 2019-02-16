@@ -106,7 +106,7 @@ venv.bak/
 
 *settings.py
 
-.idea/git commit -m "Removed folder from repository"
+.idea/
 
 .env
 
