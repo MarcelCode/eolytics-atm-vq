@@ -332,7 +332,7 @@ def download_status_for_project(request, project_pk):
 def download_final_results(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
-    final_downloads = Mission.objects.using("ews").filter(ews_project=ews_project, state="finished")  # TODO , state="finished"
+    final_downloads = Mission.objects.using("ews").filter(ews_project=ews_project, state="finished")
     return render(request, "project/download-results.html", {"project_pk": project_pk, "ews_missions": final_downloads})
 
 

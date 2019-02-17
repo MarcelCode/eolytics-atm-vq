@@ -4,7 +4,7 @@ import json
 URL_RPC_SERVER = "http://192.168.254.10/jsonrpc"
 HEADERS = {'content-type': 'application/json'}
 
-# TODO: USER: entspricht SFTP Ordner name
+
 def create_ews_project(user_project_name, project_abbrevation, sensor_id, watertype, region, project, imagepart=None, user='20030'):
     """
     :param project_abbrevation: <string> 3 chars f.e. bra
@@ -104,7 +104,6 @@ def stop_job(ews_name, mission_ident):
     return True
 
 
-# TODO: number of free cores must be checked every time (start_job, start_automatic_mode)
 def start_automatic_mode(ews_name, use_local_settings=False, cores=2):
     """
 
@@ -331,7 +330,6 @@ def reset_job_in_automatic_mode(ews_name, mission_ident):
     return True
 
 
-# TODO: change "download" to "upload_to_ftp"
 def prepare_download_selected(ews_name, ews_ident_list):
     """
     :param ews_name: EWS Name

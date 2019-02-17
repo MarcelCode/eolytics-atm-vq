@@ -65,32 +65,30 @@ def handle_mission_block(request):
 
         if action in ["start", "continue", "restart"]:
             check, message = check_core_usage(request.user)
-            print(message)  # TODO delete
             if not check:
                 return JsonResponse({"status": False, "message": message})
 
         if action == "start":
             ews_commands.start_job(ews_mission.ews_project.ews_name, ews_mission.ident, block_name=block_info.block_name)
-            print(action)
+
         elif action == "continue":
             ews_commands.start_job(ews_mission.ews_project.ews_name, ews_mission.ident, block_name=block_info.block_name)
-            print(action)
+
         elif action == "restart":
             ews_commands.start_job(ews_mission.ews_project.ews_name, ews_mission.ident,
                                    block_name=block_info.block_name, begin_action=1)
-            print(action)
+
         elif action == "stop":
             ews_commands.stop_job(ews_mission.ews_project.ews_name, ews_mission.ident)
-            print(action)
+
         elif action == "remove_stop":
             block_info.stop_after_block = False
             block_info.block_name = None
             block_info.save(update_fields=("stop_after_block", "block_name"))
-            print(action)
+
         elif action == "rerun_block":
             ews_commands.start_job(ews_mission.ews_project.ews_name, ews_mission.ident,
                                    block_name=block_info.block_name, rerun_block=True)
-            print(action)
 
         elif action == "automatic_reset":
             ews_commands.reset_job_in_automatic_mode(ews_mission.ews_project.ews_name, ews_mission.ident)
