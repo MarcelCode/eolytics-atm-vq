@@ -5,7 +5,7 @@ import os
 
 
 class Command(BaseCommand):
-    help = 'Add Landsat to db'
+    help = 'Add COUNTRY to db'
 
     def add_arguments(self, parser):
         parser.add_argument('filepath', type=str, help='Path to Shapefile')
@@ -22,7 +22,7 @@ class Command(BaseCommand):
     @staticmethod
     def save_file(filepath):
         layer_map = LayerMapping(
-            model=models.Landsat8,
+            model=models.Country,
             data=filepath,
             mapping={
                 "name": "ADMIN",
