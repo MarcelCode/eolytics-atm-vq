@@ -1,11 +1,12 @@
 import requests
 import json
 
-URL_RPC_SERVER = "http://192.168.254.10/jsonrpc"
+URL_RPC_SERVER = "http://192.168.254.10:4691/jsonrpc"
 HEADERS = {'content-type': 'application/json'}
 
 
-def create_ews_project(user_project_name, project_abbrevation, sensor_id, watertype, region, project, imagepart=None, user='20030'):
+def create_ews_project(user_project_name, project_abbrevation, sensor_id, watertype, region, project, imagepart=None,
+                       user='20030'):
     """
     :param project_abbrevation: <string> 3 chars f.e. bra
     :param user_project_name: User project name <string> f.e. Testproject 1.5 (Sensor 1)
