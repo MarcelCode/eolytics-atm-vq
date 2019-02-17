@@ -4,8 +4,8 @@ import json
 URL_RPC_SERVER = "http://192.168.254.10/jsonrpc"
 HEADERS = {'content-type': 'application/json'}
 
-
-def create_ews_project(user_project_name, project_abbrevation, sensor_id, watertype, region, project, imagepart=None):
+# TODO: USER: entspricht SFTP Ordner name
+def create_ews_project(user_project_name, project_abbrevation, sensor_id, watertype, region, project, imagepart=None, user='20030'):
     """
     :param project_abbrevation: <string> 3 chars f.e. bra
     :param user_project_name: User project name <string> f.e. Testproject 1.5 (Sensor 1)
@@ -14,6 +14,7 @@ def create_ews_project(user_project_name, project_abbrevation, sensor_id, watert
     :param region: region name f.e. br-lactec, br-project99
     :param project: project name <string>
     :param imagepart: imagepart: <string>; comma sep. geo coords: ul_lat,ul_lon,lr_lat,lr_lon
+    :param user: wird manuell vergeben und entspricht dem Ordner auf dem SFTP
     :return ews_number: created by ews generator e.g. EWS00001
     """
     payload = {
@@ -25,7 +26,8 @@ def create_ews_project(user_project_name, project_abbrevation, sensor_id, watert
             "water_type": watertype,
             "project": project,
             "region": region,  # br + region
-            "imagepart": imagepart
+            "imagepart": imagepart,
+            "user": user
         },
         "jsonrpc": "2.0",
         "id": 0,

@@ -59,6 +59,7 @@ class Profile(models.Model):
     region_code = models.CharField(max_length=3)
     download_region = models.ManyToManyField(Country)
     cpu_cores = models.IntegerField(default=6)
+    ews_user_id = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user}"

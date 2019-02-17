@@ -40,7 +40,8 @@ def projects(request, status):
                                                        sensor_id=form['sensor'].ews_id,
                                                        watertype=form["watertype"].ews_id,
                                                        region=ews_region,
-                                                       project=user_info.project_name)
+                                                       project=user_info.project_name,
+                                                       user=user_info.ews_user_id)
 
             if ews_name:
                 cleaned_form = user_project_form.cleaned_data
