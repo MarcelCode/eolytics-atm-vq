@@ -25,7 +25,7 @@ $(function () {
     }
 
     // some asynchronous click handler
-    $('.menu-mission').click(function (e) {
+    $( document ).on("click", '.menu-mission', function (e) {
         e.preventDefault();
         let $this = $(this);
         let ews_mission_pk = $this.data("ews-id");
