@@ -117,9 +117,10 @@
                                 <select class="select-cores">
                                     {% for core in cores %}
                                         <option class="select-single-core"
-                                                data-project_pk="{{ project.pk }}" data-ews_name="{{ project.ews_name }}"
-                                                        value={{ core }}
-                                        {% if core == project.cores %}selected{% endif %}>{{ core }}</option>
+                                                data-project_pk="{{ project.pk }}"
+                                                data-ews_name="{{ project.ews_name }}"
+                                                value={{ core }}
+                                                        {% if core == project.cores %}selected{% endif %}>{{ core }}</option>
                                     {% endfor %}
                                 </select>
                             </td>
@@ -251,6 +252,11 @@
             });
             event.preventDefault();
             event.stopPropagation();
-        })
+        });
+
+        // Project Table row trigger
+        $(document).on("click", "#example tbody tr", function () {
+            window.location = $(this).data("href");
+        });
     </script>
 {% endblock %}

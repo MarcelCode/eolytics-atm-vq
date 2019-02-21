@@ -24,7 +24,4 @@ $(function () {
 });
 
 
-// Project Table row trigger
-$("#example tbody tr").click(function () {
-    window.location = $(this).data("href");
-});
+
