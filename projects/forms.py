@@ -1,6 +1,7 @@
 from django import forms
 from projects.models import UserProject, UserSensor
 from ews_db_connector.models import EwsProject, Mission
+from crispy_forms.layout import Field
 from projects.tools import get_available_cores
 import json
 
@@ -19,6 +20,8 @@ class CreateProjectForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(CreateProjectForm, self).__init__(*args, **kwargs)
         self.fields['sensor'].queryset = UserSensor.objects.get(user=user).sensors
+        self.fields["project_abbrevation"].widget.attrs["pattern"] = ".{3,}"
+        self.fields["project_abbrevation"].help_text = "Has to be 3 characters long."
 
 
 class FinalDownloadForm(forms.Form):

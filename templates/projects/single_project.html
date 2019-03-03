@@ -40,9 +40,9 @@
                                                                     width="20"/>
                     </button>
                     {% if ews_project.automatic_mode %}
-                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle" checked disabled>
+                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle" checked> <!-- disabled> -->
                     {% else %}
-                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle" disabled>
+                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle"> <!-- disabled> -->
                     {% endif %}
                     <label for="ews-mode" class="form-check-label">Automatic mode</label>
                 </div>
