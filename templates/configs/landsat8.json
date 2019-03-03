@@ -141,6 +141,7 @@
     "model": "MultipleChoiceField",
     "name": "Products for Polygonstatistics Calculation",
     "kwargs": {
+      "required": false,
       "choices": [
         [
           "abs",
