@@ -8,6 +8,7 @@ from django.contrib.gis.utils import LayerMapping
 from geodata.models import UserData, UserProjectShape
 from django.core.serializers import serialize
 import shutil
+from django.contrib import messages
 
 
 class CustomLayerMapping(LayerMapping):
@@ -59,6 +60,7 @@ def shp_to_db(f, project_shape_object):
         }
     )
     layer_map.save()
+
     return tmpdirname
 
 

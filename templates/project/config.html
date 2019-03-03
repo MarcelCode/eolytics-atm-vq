@@ -87,6 +87,11 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+                {% if config.default %}
+                    <div>
+                        <h4>Global Default Configuration</h4>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <form method="post" data-toggle="validator" enctype="multipart/form-data" id="config-form">
