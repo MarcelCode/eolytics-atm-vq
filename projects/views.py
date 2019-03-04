@@ -16,6 +16,7 @@ from sensor_configs.forms import ConfigForm, MaskingForm, UploadShapeForm, Confi
 from sensor_configs import tools
 from projects.tools import get_entry_by_pk
 from projects.decorators import owns_user_project
+import re
 
 
 def get_filtered_user_projects(project_states, user_projects, status):
@@ -34,7 +35,7 @@ def projects(request, status):
             # EWS Command
             user_info = Profile.objects.get(user=request.user)
             form = user_project_form.cleaned_data
-            ews_region = user_info.region_code + form["region"].replace("-", "").replace(" ", "").replace("_", "")
+            ews_region = user_info.region_code + re.sub('[^A-Za-z]+', '', form["region"]).lower()
             ews_name = ews_commands.create_ews_project(user_project_name=form['user_project_name'],
                                                        project_abbrevation=form['project_abbrevation'],
                                                        sensor_id=form['sensor'].ews_id,
@@ -219,7 +220,7 @@ def project_settings(request, project_pk, config_pk, action=None):
                                      f'Configuration {name} was created successfully!',
                                      extra_tags='alert-success')
 
-            if bool(int(request.POST["default"])):
+            if user_config.default:
                 json_config = tools.serialize_config_model(user_config)
                 ews_commands.set_global_job_settings(user_project.ews_name, json_config)
 
