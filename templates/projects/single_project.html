@@ -40,9 +40,11 @@
                                                                     width="20"/>
                     </button>
                     {% if ews_project.automatic_mode %}
-                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle" checked> <!-- disabled> -->
+                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle" checked>
+                        <!-- disabled> -->
                     {% else %}
-                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle"> <!-- disabled> -->
+                        <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle">
+                        <!-- disabled> -->
                     {% endif %}
                     <label for="ews-mode" class="form-check-label">Automatic mode</label>
                 </div>
@@ -98,11 +100,11 @@
                     <thead>
                     <tr>
                         <th>Ident</th>
-                        <th>Datetime</th>
+                        <th>Datetime (UTC)</th>
                         <th>State</th>
-                        <th>Action Nr.</th>
-                        <th>Action Name</th>
-                        <th>Action Description</th>
+                        <th>Progress</th>
+                        <th>Description</th>
+                        <th>Time Elapsed</th>
                         <th>Last Change</th>
                         <th>menu</th>
                     </tr>
@@ -111,11 +113,18 @@
                     {% for mission in ews_missions %}
                         <tr data-ews_ident="{{ mission.ident }}">
                             <td>{{ mission.ident }}</td>
-                            <td>{{ mission.year }}-{{ mission.month }}-{{ mission.day }} {{ mission.hour }}:{{ mission.minute }}</td>
+                            <td>{{ mission.get_scene_datetime }}</td>
                             <td>{{ mission.state }}</td>
-                            <td>{{ mission.activeaction }}</td>
-                            <td>{{ mission.actionname }}</td>
+                            <td>
+                                <div class="progress" style="width: 100px;">
+                                    <div class="progress-bar" role="progressbar"
+                                         style="width: {{ mission.status_percentage }}%" aria-valuenow="100"
+                                         aria-valuemin="0" aria-valuemax="{{ mission.status_percentage }}"></div>
+                                </div>
+                                {{ mission.status_percentage }} %
+                            </td>
                             <td>{{ mission.actiondescription }}</td>
+                            <td>{{ mission.time_elapsed }}</td>
                             <td>{{ mission.actiondatetime }}</td>
                             <td>
                                 <a href="#" class="dots">
@@ -132,11 +141,11 @@
                     <tfoot>
                     <tr>
                         <th>Ident</th>
-                        <th>Datetime</th>
+                        <th>Datetime (UTC)</th>
                         <th>State</th>
-                        <th>Action Nr.</th>
-                        <th>Action Name</th>
-                        <th>Action Description</th>
+                        <th>Progress</th>
+                        <th>Description</th>
+                        <th>Time Elapsed</th>
                         <th>Last Change</th>
                         <th>menu</th>
                     </tr>

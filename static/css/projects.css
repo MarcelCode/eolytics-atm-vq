@@ -45,6 +45,10 @@ span.deleteicon input {
     cursor: pointer;
 }
 
-/*#example tbody tr:hover{*/
-   /*background-color: rgba(245,163,37,0.75);*/
-/*}*/
+.progress-bar{
+    background-color: var(--main-color-lblue);
+}
+
+.progress{
+    background-color: #cccccd;
+}

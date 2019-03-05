@@ -6,6 +6,9 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.contrib.gis.db import models
+import time
+import datetime
+from pytz import timezone
 
 
 class EwsProject(models.Model):
@@ -122,6 +125,30 @@ class Mission(models.Model):
     activeaction = models.IntegerField(blank=True, null=True)
     state = models.CharField(max_length=255, blank=True, null=True)
     ews_project = models.ForeignKey(EwsProject, models.DO_NOTHING, db_column='ews_project')
+    totalactionnb = models.IntegerField(blank=True, null=True)
+    timeelapsed = models.FloatField(blank=True, null=True)
+
+    @property
+    def status_percentage(self):
+        progress = int(self.activeaction / self.totalactionnb * 100)
+        if progress < 0:
+            progress = 0
+        elif progress > 100:
+            progress = 100
+        return progress
+
+    @property
+    def time_elapsed(self):
+        return time.strftime("%H:%M:%S", time.gmtime(self.timeelapsed))
+
+    @property
+    def get_scene_datetime(self):
+        date_time = datetime.datetime(self.year, self.month, self.day, self.hour, self.minute)
+        return date_time.strftime("%Y-%m-%d %H:%M")
+
+    @property
+    def get_local_change_datetime(self):
+        datetime_berlin = timezone('Europe/Berlin').localize(self.actiondatetime)
 
     class Meta:
         managed = False
