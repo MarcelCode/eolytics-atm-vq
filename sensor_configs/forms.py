@@ -54,13 +54,14 @@ class ConfigForm(forms.Form):
             formula = cleaned_data.get(formula_key)
             if "A" not in formula:
                 self.add_error(formula_key, "Formula does not contain 'A'.")
-                raise forms.ValidationError(f"A is missing in formula! Please check"
+                raise forms.ValidationError(f"Charactar \"A\" is missing in formula! Please check field"
                                             f" \"{self.fields[formula_key].label}\".")
             try:
                 ne.evaluate(formula)
             except:
                 self.add_error(formula_key, "Formula is invalid!")
-                raise forms.ValidationError(f"Formula is invalid! Please check \"{self.fields[formula_key].label}\".")
+                raise forms.ValidationError(f"Formula is invalid! Please check field"
+                                            f" \"{self.fields[formula_key].label}\".")
 
 
 class ConfigShapeForm(forms.Form):
