@@ -180,6 +180,27 @@ def download_raw_data(ews_name, sensor_id, ulx, uly, lrx, lry, cloud_cover, star
     return True
 
 
+def cancel_raw_download(download_query_id):
+    """
+
+    :param ews_name: EWS Name
+    :param download_query_id: Query for get the scenes
+    :return:
+    """
+
+    payload = {
+        "method": "cancelSatelliteRawdataDownload",
+        "params": {
+            "download_query_id": download_query_id
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+
+    return True
+
+
 def set_local_job_settings(ews_name, json_configuration, mission_ident):
     """
     Sets local job settings: job_settings.json
@@ -354,4 +375,4 @@ def prepare_download_selected(ews_name, ews_ident_list):
         has_enough_memory_left = True
         print(response['error'])
     return has_enough_memory_left
-    return True
+

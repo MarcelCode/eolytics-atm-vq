@@ -163,10 +163,6 @@ span.toggle-handle.btn.btn-light{
   opacity: 1;
 }
 
-.status-heading{
-    background-color: var(--main-color-orangel);
-}
-
 .status-entry{
     margin: 2rem 0;
 }

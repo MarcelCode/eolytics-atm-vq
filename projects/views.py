@@ -361,5 +361,15 @@ def change_project_cores(request):
     return JsonResponse({"status": True})
 
 
+@login_required
+@owns_user_project
+def download_cancel(request, project_pk):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        ews_commands.cancel_raw_download(data["download_query_id"])
+
+    return JsonResponse({"status": True})
+
+
 def table_test(request):
     return HttpResponse("hallo")
