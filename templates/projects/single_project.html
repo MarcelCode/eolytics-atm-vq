@@ -114,7 +114,22 @@
                         <tr data-ews_ident="{{ mission.ident }}">
                             <td>{{ mission.ident }}</td>
                             <td>{{ mission.get_scene_datetime }}</td>
-                            <td>{{ mission.state }}</td>
+                            <td>
+                                {% if mission.state == "running" %}
+                                    <span class="state-dot" style="background-color: #28a745"></span>
+                                    {{ mission.state }}
+                                {% elif mission.state == "failed" %}
+                                    <div style="display: inline">
+                                        <span class="state-dot" style="background-color: #dc3545"></span>
+                                        {{ mission.state }}
+                                    </div>
+
+                                {% else %}
+                                    <div style="display: inline">
+                                    <span class="state-dot"></span>
+                                    {{ mission.state }}
+                                    </div>
+                                {% endif %}</td>
                             <td>
                                 <div class="progress" style="width: 100px;">
                                     <div class="progress-bar" role="progressbar"
