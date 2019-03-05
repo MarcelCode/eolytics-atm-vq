@@ -2,6 +2,7 @@ from django import forms
 from geodata.models import UserProjectShape
 import json
 from sensor_configs.tools import config_initial
+import numexpr3 as ne
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
@@ -42,6 +43,24 @@ class ConfigForm(forms.Form):
 
         if "seperator" in settings:
             self.fields[field].widget.attrs['class'] = 'seperator'
+
+    def clean(self):
+        cleaned_data = super(ConfigForm, self).clean()
+        formula_keys = [key.replace("calibrate", "formula") for key, x in cleaned_data.items()
+                        if "calibrate" in key and x]
+
+        A = 4.22
+        for formula_key in formula_keys:
+            formula = cleaned_data.get(formula_key)
+            if "A" not in formula:
+                self.add_error(formula_key, "Formula does not contain 'A'.")
+                raise forms.ValidationError(f"A is missing in formula! Please check"
+                                            f" \"{self.fields[formula_key].label}\".")
+            try:
+                ne.evaluate(formula)
+            except:
+                self.add_error(formula_key, "Formula is invalid!")
+                raise forms.ValidationError(f"Formula is invalid! Please check \"{self.fields[formula_key].label}\".")
 
 
 class ConfigShapeForm(forms.Form):

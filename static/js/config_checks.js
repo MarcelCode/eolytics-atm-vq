@@ -20,9 +20,20 @@ $(function () {
         let $this = $(this);
         let formula_id = $this.attr("id").replace("calibrate", "formula");
         if (($this.attr("name").startsWith("calibrate")) && ($this.prop("checked"))) {
-            $("#" + formula_id).attr("required", "true");
+            $("#" + formula_id).attr("required", true);
+            $("#" + formula_id).attr("disabled", false);
         } else if (($this.attr("name").startsWith("calibrate")) && !($this.prop("checked"))) {
             $("#" + formula_id).removeAttr("required");
+            $("#" + formula_id).attr("disabled", true);
+            $("#" + formula_id).val("");
+        }
+    });
+
+    $( "input[id*='id_calibrate_']" ).each(function () {
+        let $this = $(this);
+        if (!$this.prop("checked")){
+            let formula_id = $this.attr("id").replace("calibrate", "formula");
+            $("#" + formula_id).attr("disabled", true);
         }
     });
 

@@ -226,6 +226,13 @@ def project_settings(request, project_pk, config_pk, action=None):
 
             return redirect("config-pk", project_pk, config_pk)
 
+        else:
+            return render(request, "project/config.html", {"form": user_form, "project_pk": project_pk,
+                                                           "user_configs": user_configs, "config": config,
+                                                           "user_project": user_project,
+                                                           "upload_form": upload_form,
+                                                           "shape_settings_form": aoi_form})
+
 
 @login_required
 @owns_user_project
@@ -352,3 +359,7 @@ def change_project_cores(request):
         user_project.update(cores=data["cores"])
 
     return JsonResponse({"status": True})
+
+
+def table_test(request):
+    return HttpResponse("hallo")
