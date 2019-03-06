@@ -2,7 +2,7 @@ from django import forms
 from geodata.models import UserProjectShape
 import json
 from sensor_configs.tools import config_initial
-import numexpr3 as ne
+import numexpr as ne
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 

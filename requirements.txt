@@ -12,7 +12,7 @@ djangorestframework-gis==0.14
 httpie==1.0.2
 idna==2.8
 Markdown==3.0.1
-numexpr3==3.0.1a1
+numexpr==2.6.9
 numpy==1.16.2
 psycopg2==2.7.6.1
 Pygments==2.3.1
