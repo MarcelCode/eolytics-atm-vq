@@ -39,6 +39,19 @@
                                                                     src="{% static 'img/refresh-page-option.svg' %}"
                                                                     width="20"/>
                     </button>
+
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="margin: 15px 0.5rem 15px 0">
+                        Reset by State
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for state in states %}
+                            <a class="dropdown-item reset-by-state" href="" data-state="{{ state }}"
+                            data-ews-name="{{ ews_project.ews_name }}" data-project-pk="{{ ews_project.pk }}">{{ state|title }}</a>
+                        {% endfor %}
+                    </div>
+
                     {% if ews_project.automatic_mode %}
                         <input id="ews-mode" class="form-check-input" type="checkbox" data-toggle="toggle" checked>
                         <!-- disabled> -->
@@ -126,8 +139,8 @@
 
                                 {% else %}
                                     <div style="display: inline">
-                                    <span class="state-dot"></span>
-                                    {{ mission.state }}
+                                        <span class="state-dot"></span>
+                                        {{ mission.state }}
                                     </div>
                                 {% endif %}</td>
                             <td>

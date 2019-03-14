@@ -96,9 +96,11 @@ def project(request, project_pk):
     config = Config.objects.get(user_project=ews_project, default=True)
     masking = Masking.objects.get(user_project=ews_project, default=True)
     ews_missions = EwsUserQueries().get_missions(ews_project.ews_name)
+    states = set(ews_missions.values_list("state", flat=True))
 
     return render(request, "projects/single_project.html", {"ews_missions": ews_missions, "ews_project": ews_project,
-                                                            "config_pk": config.pk, "masking_pk": masking.pk})
+                                                            "config_pk": config.pk, "masking_pk": masking.pk,
+                                                            "states": states})
 
 
 @login_required
@@ -373,3 +375,16 @@ def download_cancel(request, project_pk):
 
 def table_test(request):
     return HttpResponse("hallo")
+
+
+@login_required
+def reset_mission_by_state(request):
+    data = json.loads(request.body)
+    project_pk = data["project_pk"]
+    entry = UserProject.objects.get(pk=project_pk)
+    if entry.user == request.user:
+        ews_commands.reset_all_by_state(data["ews_name"], data["state"])
+
+        return JsonResponse({"status": True})
+
+    return JsonResponse({"status": False})

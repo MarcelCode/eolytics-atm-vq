@@ -1,8 +1,11 @@
 import requests
 import json
+import os
+from decouple import config
 
 # URL_RPC_SERVER = "http://192.168.254.10:4691/jsonrpc"
-URL_RPC_SERVER = "http://172.28.1.250:4691/jsonrpc"
+ews_ip = config("EWS_HOST")
+URL_RPC_SERVER = f"http://{ews_ip}:4691/jsonrpc"
 HEADERS = {'content-type': 'application/json'}
 
 
@@ -197,6 +200,28 @@ def cancel_raw_download(download_query_id):
         "id": 0,
     }
     response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+
+    return True
+
+
+def reset_all_by_state(ews_name, state):
+    """
+
+    :param ews_name: e.g. EWS0001
+    :param state: e.g. finished
+    :return: True
+    """
+
+    payload = {
+        "method": "resetAllByState",  # TODO Moritz method?
+        "params": {
+            "ews_name": ews_name,
+            "state": state
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
 
     return True
 

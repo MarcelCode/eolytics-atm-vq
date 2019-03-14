@@ -18,6 +18,8 @@ urlpatterns = [
 
     path("project/create_project/", views.create_project, name="create-project"),
 
+    path("project/reset-missions/", views.reset_mission_by_state, name="reset-missions"),
+
     path("project/change_cores/", views.change_project_cores, name="change-cores"),
 
     path("project/test/", views.table_test, name="table-test")
