@@ -213,7 +213,7 @@ def reset_all_by_state(ews_name, state):
     """
 
     payload = {
-        "method": "resetAllByState",  # TODO Moritz method?
+        "method": "resetAllByState",  # TODO Moritz method!
         "params": {
             "ews_name": ews_name,
             "state": state

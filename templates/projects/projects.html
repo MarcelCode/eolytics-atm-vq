@@ -242,9 +242,18 @@
         $(".select-cores").on("click", function (event) {
             event.preventDefault();
             event.stopPropagation();
+        }).change(function () {
+            let selected_cores = $(".select-cores option:selected");
+            axios.post("{% url 'change-cores' %}", {
+                cores: $(this).val(),
+                project_pk: selected_cores.data("project_pk"),
+                ews_name: selected_cores.data("ews_name")
+            });
+            event.preventDefault();
+            event.stopPropagation();
         });
 
-        $(".select-single-core").on("click", function (event) {
+        $(".select-single-core").click(function (event) {
             axios.post("{% url 'change-cores' %}", {
                 cores: $(this).val(),
                 project_pk: $(this).data("project_pk"),
