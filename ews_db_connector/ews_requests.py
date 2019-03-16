@@ -1,5 +1,5 @@
 from ews_db_connector import models as ews_models
-from projects.models import UserProject
+import projects.models
 
 
 class EwsUserQueries(object):
@@ -21,6 +21,11 @@ class EwsUserQueries(object):
 
         return project_states_dict
 
+    def get_state_for_project(self, ews_name):
+        user_ews_project = self.ews_project_db_object.get(ews_name=ews_name)
+        project_state = self.get_mission_state_single_project(user_ews_project)
+        return project_state
+
     def get_mission_state_single_project(self, project):
         mission_states = self.ews_mission_db_object.filter(ews_project=project).values_list("state", flat=True)
 
@@ -40,7 +45,7 @@ class EwsUserQueries(object):
         return missions
 
     def get_core_usage(self, user, exclude_ews_name=None):
-        user_project_ews_names = list(UserProject.objects.filter(user=user).values_list("ews_name", flat=True))
+        user_project_ews_names = list(projects.models.UserProject.objects.filter(user=user).values_list("ews_name", flat=True))
         if exclude_ews_name:
             if exclude_ews_name in user_project_ews_names:
                 user_project_ews_names.remove(exclude_ews_name)

@@ -96,13 +96,11 @@ def project(request, project_pk):
     config = Config.objects.get(user_project=ews_project, default=True)
     masking = Masking.objects.get(user_project=ews_project, default=True)
     ews_missions = EwsUserQueries().get_missions(ews_project.ews_name)
-    states = set(ews_missions.values_list("state", flat=True))
-    if "new" in states:
-        states = states.remove("new")
+    states = ["finished", "empty", "failed"]
 
     return render(request, "projects/single_project.html", {"ews_missions": ews_missions, "ews_project": ews_project,
                                                             "config_pk": config.pk, "masking_pk": masking.pk,
-                                                            "states": sorted(states)})
+                                                            "states": states})
 
 
 @login_required

@@ -5,6 +5,7 @@ from sensor_configs.models import Config, Sensor, Watertype, Masking
 from accounts.models import Profile
 from ews_communication import ews_commands
 from sensor_configs.tools import serialize_config_model
+import ews_db_connector.ews_requests as ews_req
 
 
 def create_initial_settings(user_project, element):
@@ -62,6 +63,11 @@ class UserProject(models.Model):
         if not update:
             for element in [(MaskingForm, Masking), (ConfigForm, Config)]:
                 create_initial_settings(self, element)
+
+    @property
+    def state_new(self):
+        state = ews_req.EwsUserQueries().get_state_for_project(self.ews_name)
+        return state
 
 
 

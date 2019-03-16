@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <script src=https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js></script>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th></th>
+        </tr>
+        </tfoot>
+    </table>
+    <script>
+        $(document).ready(function () {
+            table = $('#example').DataTable({
+                "ajax": {
+                    "url": "/api/project/test/",
+                    "dataSrc": ""
+                },
+                "columns": [
+                    {"data": "watertype"},
+                    {"data": "ews_name"},
+                    {"data": "region"},
+                    {
+                        "data": "region", render: function (data, type, row) {
+                            return "<button>test</button>"
+                        }
+                    }
+                ],
+            });
+        });
+    </script>
+{% endblock %}
