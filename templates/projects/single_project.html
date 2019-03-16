@@ -42,7 +42,7 @@
 
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            style="margin: 15px 0.5rem 15px 0">
+                            style="margin: 15px 0.5rem 15px 0" {% if states|length == 0 %}disabled{% endif %}>
                         Reset by State
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
