@@ -14,7 +14,7 @@ $(function () {
                             })
                         } else {
                             setTimeout(function () {
-                                location.reload();
+                                table.ajax.reload(null, false)
                             }, 1000);
                         }
                     }
@@ -83,7 +83,7 @@ $(function () {
                                 type: 'success',
                             }
                         ).then(function () {
-                            location.reload();
+                            table.ajax.reload(null, false);
                         })
                     } else {
                         Swal.fire(

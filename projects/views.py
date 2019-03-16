@@ -60,7 +60,7 @@ def projects(request, status):
 
     # Cores
     cores = Profile.objects.get(user=request.user).cpu_cores
-    cores = list(range(1, cores+1))
+    cores = list(range(1, cores + 1))
     ews_queries = ews_requests.EwsUserQueries()
     project_states = ews_queries.get_states_for_projects(user_projects)
     state_count = Counter(project_states.values())
@@ -95,11 +95,11 @@ def project(request, project_pk):
     ews_project = UserProject.objects.get(pk=project_pk)
     config = Config.objects.get(user_project=ews_project, default=True)
     masking = Masking.objects.get(user_project=ews_project, default=True)
-    ews_missions = EwsUserQueries().get_missions(ews_project.ews_name)
     states = ["finished", "empty", "failed"]
 
-    return render(request, "projects/single_project.html", {"ews_missions": ews_missions, "ews_project": ews_project,
-                                                            "config_pk": config.pk, "masking_pk": masking.pk,
+    return render(request, "projects/single_project.html", {"ews_project": ews_project,
+                                                            "config_pk": config.pk,
+                                                            "masking_pk": masking.pk,
                                                             "states": states})
 
 
@@ -215,7 +215,8 @@ def project_settings(request, project_pk, config_pk, action=None):
                                                     json_configs=form_data,
                                                     imgpart=get_entry_by_pk(aoi_form_data["imgpart"]),
                                                     mask_image=get_entry_by_pk(aoi_form_data["mask_image"]),
-                                                    polygonstatistics=get_entry_by_pk(aoi_form_data["polygonstatistics"])
+                                                    polygonstatistics=get_entry_by_pk(
+                                                        aoi_form_data["polygonstatistics"])
                                                     )
 
                 messages.add_message(request, messages.SUCCESS,
@@ -384,8 +385,3 @@ def reset_mission_by_state(request):
         return JsonResponse({"status": True})
 
     return JsonResponse({"status": False})
-
-
-def table_test(request):
-    return render(request, "table_test.html")
-
