@@ -60,7 +60,7 @@ $(function () {
         let project_pk = $(this).data("project-pk");
         event.preventDefault();
         Swal.fire({
-            title: 'Are you sure to reset state ' + state + '?',
+            title: 'Are you sure you want to reset all missions with the state \"' + state + '\"?',
             text: "You won't be able to revert this!",
             type: 'warning',
             showCancelButton: true,
