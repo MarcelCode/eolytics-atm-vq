@@ -168,11 +168,17 @@
                 },
                 {
                     "data": "status_percentage", render: function (data, type, row) {
-                        let html = "<div class=\"progress\" style=\"width: 100px;\">\n" +
+                        let html;
+                        if (row.state === "failed" || row.state === "stopped"){
+                            html = "<div class=\"progress\" style=\"width: 100px;\">\n" +
                             "                                    <div class=\"progress-bar\" role=\"progressbar\"\n" +
                             "                                         style=\"width: " + data + "%\" aria-valuenow=\"100\"\n" +
                             "                                         aria-valuemin=\"0\" aria-valuemax=\"" + data + "\"></div>\n" +
                             "                                </div> " + data + " %";
+                        }
+                        else {
+                            html = ""
+                        }
                         return html
                     }
                 },

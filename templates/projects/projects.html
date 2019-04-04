@@ -114,7 +114,7 @@
                             <td>{{ project.watertype }}</td>
                             <td>{{ project.created }}</td>
                             <td>
-                                <select class="select-cores">
+                                <select class="select-cores" data-project_pk="{{ project.pk }}" data-ews_name="{{ project.ews_name }}">
                                     {% for core in cores %}
                                         <option class="select-single-core"
                                                 data-project_pk="{{ project.pk }}"
@@ -198,6 +198,14 @@
     </div>
 
     <script>
+        const isChrome = () => {
+            if (typeof window.chrome !== "undefined") {
+                return true
+            } else {
+                return false
+            }
+        };
+
         $('#CreateProjectModal').on('show.bs.modal', function (event) {
             axios.get("{% url 'create-project' %}").then(response => {
                 var modal = $(this);
@@ -222,49 +230,51 @@
             table.search("").draw();
         }));
 
-        $('.del-button').on('click', function (event) {
-            let url = $(this).data("href");
-            let project_name = $(this).data("project-name");
-
-            $('#DeleteWarningModal').data("href", url).data("project-name", project_name).modal('show');
+        // Table Functions
+        $(document).on("click", ".del-button", function (event) {
             event.preventDefault();
             event.stopPropagation();
+
+            let $this = $(event.target).closest(".del-button");
+            let delete_url = $this.data("href");
+            let delete_project_name = $this.data("project-name");
+
+            let $modal = $('#DeleteWarningModal').modal('show');
+            $modal.find('.modal-body').html("Are you sure you want to delete " + delete_project_name + "?<br>All data will be deleted!");
+            $modal.find("#delete-project").attr("href", delete_url);
         });
 
-        $('#DeleteWarningModal').on('show.bs.modal', function (event) {
-            let url = $('#DeleteWarningModal').data("href");
-            let project_name = $('#DeleteWarningModal').data("project-name");
-            var modal = $(this);
-            modal.find('.modal-body').html("Are you sure you want to delete " + project_name + "?<br>All data will be deleted!");
-            $("#delete-project").attr("href", url)
-        });
-
-        $(".select-cores").on("click", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }).change(function () {
-            let selected_cores = $(".select-cores option:selected");
-            axios.post("{% url 'change-cores' %}", {
-                cores: $(this).val(),
-                project_pk: selected_cores.data("project_pk"),
-                ews_name: selected_cores.data("ews_name")
+        if (isChrome()) {
+            $(document).on("click", ".select-cores", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }).change(function (event) {
+                let selected_cores = $(event.target);
+                axios.post("{% url 'change-cores' %}", {
+                    cores: selected_cores.val(),
+                    project_pk: selected_cores.data("project_pk"),
+                    ews_name: selected_cores.data("ews_name")
+                });
+                event.preventDefault();
+                event.stopPropagation();
             });
-            event.preventDefault();
-            event.stopPropagation();
-        });
-
-        $(".select-single-core").click(function (event) {
-            axios.post("{% url 'change-cores' %}", {
-                cores: $(this).val(),
-                project_pk: $(this).data("project_pk"),
-                ews_name: $(this).data("ews_name")
+        } else {
+            $(document).on("click", ".select-cores", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
             });
-            event.preventDefault();
-            event.stopPropagation();
-        });
+
+            $(document).on("click", ".select-single-core", function (event) {
+                axios.post("{% url 'change-cores' %}", {
+                    cores: $(event.target).val(),
+                    project_pk: $(event.target).data("project_pk"),
+                    ews_name: $(event.target).data("ews_name")
+                });
+            });
+        }
 
         // Project Table row trigger
-        $( document ).on("click", "#example tbody tr", function () {
+        $(document).on("click", "#example tbody tr", function () {
             window.location = $(this).data("href");
         });
     </script>
