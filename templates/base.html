@@ -51,6 +51,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         axios.defaults.xsrfCookieName = 'csrftoken';
@@ -87,6 +89,12 @@
 {% endblock %}
 
 <script src="{% static 'js/main.js' %}"></script>
+
+<script>
+    let d = new Date();
+    let n = d.getTimezoneOffset();
+    Cookies.set('local_time', n);
+</script>
 {% block js %}
 {% endblock %}
 </body>
