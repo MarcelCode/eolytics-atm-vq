@@ -170,14 +170,14 @@
                     "data": "status_percentage", render: function (data, type, row) {
                         let html;
                         if (row.state === "failed" || row.state === "stopped"){
+                            html = ""
+                        }
+                        else {
                             html = "<div class=\"progress\" style=\"width: 100px;\">\n" +
                             "                                    <div class=\"progress-bar\" role=\"progressbar\"\n" +
                             "                                         style=\"width: " + data + "%\" aria-valuenow=\"100\"\n" +
                             "                                         aria-valuemin=\"0\" aria-valuemax=\"" + data + "\"></div>\n" +
                             "                                </div> " + data + " %";
-                        }
-                        else {
-                            html = ""
                         }
                         return html
                     }
@@ -263,7 +263,6 @@
         setInterval(function () {
             if (!$('.menu-mission').is(":hover")){
                 table.ajax.reload(null, false);
-                console.log("update")
             }
         }, 5000);
     </script>
