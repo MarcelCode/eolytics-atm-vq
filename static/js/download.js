@@ -143,6 +143,7 @@ $("#download-form-button").click(function () {
             let d = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
             end_date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
         }
+        let future_download = $("#future_download").prop("checked");
         let cloud_cover = $("#cloud-range").val();
 
         axios.post('/geodata/start-download/', {
@@ -153,7 +154,8 @@ $("#download-form-button").click(function () {
             lry: lry,
             start_date: start_date,
             end_date: end_date,
-            cloud_cover: cloud_cover
+            cloud_cover: cloud_cover,
+            future_download: future_download
         })
             .then(function (response) {
                 Swal.fire({
