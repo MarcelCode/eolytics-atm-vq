@@ -16,6 +16,7 @@
       "integrity": "sha512-7Ws63oC+215smeKJQCxzrK21VFVlCFBkwl0MOObt0HOpVQXs3u483sAmtkF33nNqZ5rSOQjB76fgyPBmAUrtCA==",
       "resolved": "https://registry.npmjs.org/nodent-runtime/-/nodent-runtime-3.2.1.tgz",
       "version": "3.2.1"
-    }
+    },
+    "spin.js": "^4.0.0"
   }
 }

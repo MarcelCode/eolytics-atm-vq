@@ -149,7 +149,7 @@ def stop_automatic_mode(ews_name):
     return True
 
 
-def download_raw_data(ews_name, sensor_id, ulx, uly, lrx, lry, cloud_cover, start_date, end_date, future_download):
+def download_raw_data(ews_name, sensor_id, ulx, uly, lrx, lry, cloud_cover, start_date, end_date, future_download=False):
     """
     :param ews_name: EWS name
     :param sensor_id: Sensor id
@@ -174,7 +174,7 @@ def download_raw_data(ews_name, sensor_id, ulx, uly, lrx, lry, cloud_cover, star
             "cloud_cover": int(cloud_cover),
             "start_date": start_date,
             "end_date": end_date,
-            "future_download": future_download
+            "is_future": future_download
         },
         "jsonrpc": "2.0",
         "id": 0,

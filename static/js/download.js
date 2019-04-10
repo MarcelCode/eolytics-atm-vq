@@ -13,7 +13,7 @@ let blue_style = {
 // Main map
 var map = L.map('map', {maxZoom: 17, zoomControl: false}).setView([15, 0], 3);
 
-baselayers = {
+let baselayers = {
     ocean_layer: L.layerGroup([L.esri.basemapLayer("Oceans"), L.esri.basemapLayer('OceansLabels')]),
     image_layer: L.esri.basemapLayer("Imagery"),
     topo_layer: L.esri.basemapLayer("Topographic")
@@ -132,6 +132,12 @@ $("#download-form-button").click(function () {
     } else if ($("#startDate").val() === "") {
         Swal.fire({type: 'error', title: "Start date is not defined!", text: "See section 2."})
     } else {
+        Swal.fire({
+            type: "success",
+            title: 'Download was started!',
+            text: "Please check the download status to get more information.",
+        });
+        $(this).prop("disabled", true);
         let layer_bounds = drawnItems.getLayers()[0].getBounds();
         let ulx = layer_bounds._southWest.lng;
         let uly = layer_bounds._northEast.lat;
@@ -158,11 +164,7 @@ $("#download-form-button").click(function () {
             future_download: future_download
         })
             .then(function (response) {
-                Swal.fire({
-                    type: response.data.title,
-                    title: response.data.title,
-                    text: response.data.message,
-                })
+                $(this).prop("disabled", false);
             })
     }
 });
