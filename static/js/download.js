@@ -164,7 +164,7 @@ $("#download-form-button").click(function () {
             future_download: future_download
         })
             .then(function (response) {
-                $(this).prop("disabled", false);
+                $("#download-form-button").prop("disabled", false);
             })
     }
 });
