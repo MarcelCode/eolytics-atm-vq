@@ -34,6 +34,14 @@
           "KDC (Diffuse Attenuation Coefficient)"
         ],
         [
+          "lrf",
+          "LRF (Land Reflectance (water is masked out))"
+        ],
+        [
+          "lwr",
+          "LWR (Land-Water Reflectance (combination of LRF and RRA)"
+        ],
+        [
           "quc",
           "QUC (EOMAP Quality Coding)"
         ],
@@ -55,7 +63,7 @@
         ],
         [
           "rrw",
-          "RRW (Remote Sensing Reflectance at WISP angle [0+]"
+          "RRW (Remote Sensing Reflectance at WISP angle [0+])"
         ],
         [
           "sdd",
@@ -67,7 +75,7 @@
         ],
         [
           "soa",
-          "SOA (Sum of Organic Absorption"
+          "SOA (Sum of Organic Absorption)"
         ],
         [
           "ssr",
@@ -127,6 +135,41 @@
       ],
       "initial": "chl",
       "help_text": "The product on which the trophical state index is based."
+    }
+  },
+  "vi_list":{
+    "model": "MultipleChoiceField",
+    "name": "Vegetation Indices",
+    "kwargs": {
+      "required": false,
+      "choices": [
+        [
+          "ndv",
+          "NDVI (Normalized Difference Vegetation Index)"
+        ],
+        [
+          "gnd",
+          "GNDVI (Green Normalized Difference Vegetation Index)"
+        ],
+        [
+          "evi",
+          "EVI (Enhanced Vegetation Index)"
+        ],
+        [
+          "ndw",
+          "NDWI (Normalized Difference Water Index)"
+        ],
+        [
+          "sav",
+          "SAVI (Soil-Adjusted Vegetation Index)"
+        ],
+        [
+          "gsa",
+          "GSAVI (Green Soil-Adjusted Vegetation Index)"
+        ]
+      ],
+      "initial": [],
+      "help_text": "List of vegetation indices"
     }
   },
   "polygonstatistics_products": {
