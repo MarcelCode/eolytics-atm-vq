@@ -17,7 +17,8 @@ class ConfigForm(forms.Form):
             sensor_config = json.load(f)
         if db_config:
             for field, settings in sensor_config.items():
-                settings["kwargs"]["initial"] = db_config[field]
+                if field in db_config:
+                    settings["kwargs"]["initial"] = db_config[field]
                 self.create_fields(field, settings)
             print("test")
 
