@@ -20,12 +20,9 @@ class ConfigForm(forms.Form):
                 if field in db_config:
                     settings["kwargs"]["initial"] = db_config[field]
                 self.create_fields(field, settings)
-            print("test")
-
         else:
             for field, settings in sensor_config.items():
                 self.create_fields(field, settings)
-            print("test")
 
     def create_fields(self, field, settings):
         if settings["model"] == "BooleanField":

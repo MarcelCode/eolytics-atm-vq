@@ -66,6 +66,10 @@
                             data-target="#GetMemoryInfo">Memory Info
                     </button>
                 </div>
+                <div class="float-left" style="margin: 15px 0; display: none;" id="memory-spinner">
+                    <img src="{% static 'img/Spinner-1s-200px.svg' %}" height="38px" width="38px">
+                    Please Wait
+                </div>
                 <div class="float-right">
                     <button class="btn btn-primary" type="button" style="margin: 15px 0" data-toggle="modal"
                             data-target="#CreateProjectModal">&#43; Create Project
@@ -119,7 +123,8 @@
                             <td>{{ project.watertype }}</td>
                             <td>{{ project.created }}</td>
                             <td>
-                                <select class="select-cores" data-project_pk="{{ project.pk }}" data-ews_name="{{ project.ews_name }}">
+                                <select class="select-cores" data-project_pk="{{ project.pk }}"
+                                        data-ews_name="{{ project.ews_name }}">
                                     {% for core in cores %}
                                         <option class="select-single-core"
                                                 data-project_pk="{{ project.pk }}"
@@ -228,9 +233,11 @@
         });
 
         $('#GetMemoryInfo').on('show.bs.modal', function (event) {
+            $("#memory-spinner").show();
             axios.get("{% url 'memory-info' %}").then(response => {
                 var modal = $(this);
                 modal.find('.modal-content').replaceWith(response.data);
+                $("#memory-spinner").hide();
             });
         });
 
