@@ -402,3 +402,26 @@ def prepare_download_selected(ews_name, ews_ident_list):
         print(response['error'])
     return has_enough_memory_left
 
+
+def get_free_space_by_user(user='20030'):
+    """
+    :param user: User id, defined in model Profile
+    :return: dict with space memory, free space memory and free space memory per ews_name
+    """
+
+    payload = {
+        "method": "getDataDiskSpaceByUser",
+        "params": {
+            "user": str(user),
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    try:
+        memory_dict = response["result"]
+    except KeyError:
+        memory_dict = None
+        print(response['error'])
+
+    return memory_dict

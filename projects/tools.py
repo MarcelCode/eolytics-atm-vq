@@ -19,3 +19,10 @@ def get_available_cores(user):
 
     return available_cores - cores
 
+
+def bytes_to_gb(bytes_value):
+    return bytes_value / 1000000000
+
+
+def get_percentage(sum_value, part_value):
+    return (part_value / sum_value) * 100

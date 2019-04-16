@@ -1,0 +1,107 @@
+{
+  "blue_treshold": {
+    "model": "FloatField",
+    "name": "Threshold for BLUE channel",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.3,
+      "help_text": "Reflectance threshold for BLUE channel (around 450nm). Decrease this value to allow for more water pixels."
+    }
+  },
+  "cloud_ir_treshold": {
+    "model": "FloatField",
+    "name": "Threshold for NIR channel (for clouds)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.08,
+      "help_text": "Reflectance threshold for NIR channel (around 850nm). Increase this value to allow for more water."
+    }
+  },
+  "swir_snow_treshold": {
+    "model": "FloatField",
+    "name": "Threshold for SWIR channel (for snow)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.45,
+      "help_text": "Reflectance threshold for SWIR channel (around 1600nm). Has no effect on the detection of water! Increase this value to shift the cloud / snow differentiation towards snow."
+    }
+  },
+  "red_treshold": {
+    "model": "FloatField",
+    "name": "Threshold for RED channel (for land)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.25,
+      "help_text": "Reflectance threshold for RED channel (around 650nm). Increase this value to allow for more water, especially in turbid environments."
+    }
+  },
+  "ir_treshold": {
+    "model": "FloatField",
+    "name": "Threshold for NIR channel (for land)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.05,
+      "help_text": "Reflectance threshold for NIR channel (around 850nm). Increase this value to allow for more water, especially in turbid or Chlorophyll-driven environments."
+    }
+  },
+  "water_swir_treshold": {
+    "model": "FloatField",
+    "name": "Threshold for SWIR channel (for land)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "max_value": 1.0,
+      "initial": 0.05,
+      "help_text": "Reflectance threshold for SWIR channel (around 1600nm). Increase this value to allow for more water, especially in turbid or Chlorophyll-driven environments."
+    }
+  },
+  "ir_to_blue_threshold": {
+    "model": "FloatField",
+    "name": "Threshold for IR to BLUE ratio (for clouds and land)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "initial": 1.2,
+      "help_text": "Ratio between IR and BLUE channel. Has no effect on the detection of water! Increase this value to shift the land / cloud differentiation towards cloud."
+    }
+  },
+  "ir_cloud_factor_red": {
+    "model": "FloatField",
+    "name": "Threshold for NIR to RED ratio (for cloudshadow and water)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "initial": 1.5,
+      "help_text": "Factor for NIR channel (around 1600nm). Increase this value to shift the cloudshadow / land / water differentiation towards water."
+    }
+  },
+  "ir_cloud_factor_swir": {
+    "model": "FloatField",
+    "name": "Threshold for NIR to SWIR ratio (for cloudshadow and water)",
+    "step": 0.01,
+    "kwargs": {
+      "min_value": 0.0,
+      "initial": 0.9,
+      "help_text": "Factor NIR channel (around 1600nm).  Increase this value to shift the cloudshadow / land / water differentiation towards water."
+    }
+  },
+  "red_slope_threshold": {
+    "model": "FloatField",
+    "name": "Threshold for RED to SWIR difference",
+    "step": 0.01,
+    "kwargs": {
+      "initial": 0.05,
+      "help_text": "Threshold for the difference between RED and SWIR channel. Increase that value to shift the land / water differentiation towards water."
+    }
+  }
+}

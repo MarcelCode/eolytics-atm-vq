@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="CreateProject">Memory Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Total space: <b>{{ memory_space|floatformat:0 }} GB</b></p>
+        <p>Free space: <b>{{ free_space|floatformat:0 }} GB, {{ space_left_percent|floatformat:2 }} %</b></p>
+        <p><b>Used space per project:</b></p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>GB used</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for key, values in memory_dict.items %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ values.0|floatformat:2 }} GB</td>
+                <td>{{ values.1|floatformat:2 }} %</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</div>

@@ -17,6 +17,7 @@ urlpatterns = [
     path("project/<int:project_pk>/masking/<int:masking_pk>/<slug:action>/", views.masking_settings, name="masking-action"),
 
     path("project/create_project/", views.create_project, name="create-project"),
+    path("project/memory_info/", views.get_memory_info, name="memory-info"),
 
     path("project/reset-missions/", views.reset_mission_by_state, name="reset-missions"),
 

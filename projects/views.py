@@ -16,6 +16,8 @@ from sensor_configs.forms import ConfigForm, MaskingForm, UploadShapeForm, Confi
 from sensor_configs import tools
 from projects.tools import get_entry_by_pk
 from projects.decorators import owns_user_project
+from .tools import bytes_to_gb, get_percentage
+from collections import OrderedDict
 import re
 
 
@@ -245,7 +247,7 @@ def masking_settings(request, project_pk, masking_pk, action=None):
 
     if request.method == "GET":
         user_configs = Masking.objects.filter(user_project=user_project)
-        form = MaskingForm(config.json_configs,
+        form = MaskingForm(user_project.sensor.config_name, config.json_configs,
                            initial={"name": config.name, "description": config.description,
                                     "default": config.default})
 
@@ -256,16 +258,16 @@ def masking_settings(request, project_pk, masking_pk, action=None):
             return redirect("config-pk", project_pk, config.pk)
 
         elif action == "reset":
-            form = MaskingForm(
-                initial={"name": config.name, "description": config.description,
-                         "default": config.default})
+            form = MaskingForm(user_project.sensor.config_name,
+                               initial={"name": config.name, "description": config.description,
+                                        "default": config.default})
 
         return render(request, "project/masking.html", {"form": form, "project_pk": project_pk,
                                                         "user_configs": user_configs, "config": config,
                                                         "user_project": user_project})
 
     if request.method == "POST":
-        user_form = MaskingForm(None, request.POST)
+        user_form = MaskingForm(user_project.sensor.config_name, None, request.POST)
         if user_form.is_valid():
             form_data = user_form.cleaned_data
             name = form_data.pop("name")
@@ -352,6 +354,27 @@ def create_project(request):
     create_project_form = forms.CreateProjectForm(user=request.user)
 
     return render(request, "projects/create_project_modal.html", {"form": create_project_form})
+
+
+@login_required
+def get_memory_info(request):
+    user = request.user
+    ews_user_id = Profile.objects.get(user=user).ews_user_id
+
+    memory_dict = ews_commands.get_free_space_by_user(user=str(ews_user_id))
+    memory_space = bytes_to_gb(memory_dict.pop("total_space"))
+    free_space = bytes_to_gb(memory_dict.pop("free_space"))
+    space_left_percent = get_percentage(memory_space, free_space)
+    memory_dict = {UserProject.objects.get(ews_name=key).user_project_name:
+                       [bytes_to_gb(value), get_percentage(memory_space, bytes_to_gb(value))]
+                   for key, value in memory_dict.items()}
+
+    memory_dict = OrderedDict(sorted(memory_dict.items()))
+
+    return render(request, "projects/memory_info_modal.html", {"memory_dict": memory_dict,
+                                                               "memory_space": memory_space,
+                                                               "free_space": free_space,
+                                                               "space_left_percent": space_left_percent})
 
 
 @login_required

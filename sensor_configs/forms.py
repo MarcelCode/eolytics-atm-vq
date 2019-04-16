@@ -104,13 +104,14 @@ class MaskingForm(forms.Form):
     name = forms.CharField(max_length=255)
     description = forms.CharField(max_length=255, required=False)
 
-    def __init__(self, db_config=None, *args, **kwargs, ):
+    def __init__(self, json_mask, db_config=None, *args, **kwargs, ):
         super(MaskingForm, self).__init__(*args, **kwargs)
-        with open(f"templates/mask_definition/mask_definitions.json") as f:
+        with open(f"templates/mask_definition/{json_mask}") as f:
             sensor_config = json.load(f)
         if db_config:
             for field, settings in sensor_config.items():
-                settings["kwargs"]["initial"] = db_config[field]
+                if field in db_config:
+                    settings["kwargs"]["initial"] = db_config[field]
                 self.create_fields(field, settings)
 
         else:

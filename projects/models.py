@@ -10,10 +10,7 @@ import ews_db_connector.ews_requests as ews_req
 
 def create_initial_settings(user_project, element):
     FORM, CONFIG = element
-    if FORM.__name__ == "ConfigForm":
-        form = FORM(user_project.sensor.config_name)
-    else:
-        form = FORM()
+    form = FORM(user_project.sensor.config_name)
     form_data = {name: form.fields[name].initial for name in form.fields.keys()}
     form_data.pop("name")
     form_data.pop("description")
