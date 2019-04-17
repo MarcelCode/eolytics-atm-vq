@@ -144,27 +144,27 @@
       "required": false,
       "choices": [
         [
-          "ndv",
+          "NDVI",
           "NDVI (Normalized Difference Vegetation Index)"
         ],
         [
-          "gnd",
+          "GNDVI",
           "GNDVI (Green Normalized Difference Vegetation Index)"
         ],
         [
-          "evi",
+          "EVI",
           "EVI (Enhanced Vegetation Index)"
         ],
         [
-          "ndw",
+          "NDWI",
           "NDWI (Normalized Difference Water Index)"
         ],
         [
-          "sav",
+          "SAVI",
           "SAVI (Soil-Adjusted Vegetation Index)"
         ],
         [
-          "gsa",
+          "GSAVI",
           "GSAVI (Green Soil-Adjusted Vegetation Index)"
         ]
       ],
@@ -252,7 +252,7 @@
     "separator": "Processing",
     "kwargs": {
       "initial": false,
-      "help_text": "Run whole product generation on scaled image (10m * scale_factor)."
+      "help_text": "Run whole product generation on scaled image (30m * scale_factor)."
     }
   },
   "scale_factor": {

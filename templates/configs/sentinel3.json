@@ -144,31 +144,31 @@
       "required": false,
       "choices": [
         [
-          "ndv",
+          "NDVI",
           "NDVI (Normalized Difference Vegetation Index)"
         ],
         [
-          "gnd",
+          "GNDVI",
           "GNDVI (Green Normalized Difference Vegetation Index)"
         ],
         [
-          "evi",
+          "EVI",
           "EVI (Enhanced Vegetation Index)"
         ],
         [
-          "ndw",
+          "NDWI",
           "NDWI (Normalized Difference Water Index)"
         ],
         [
-          "sav",
+          "SAVI",
           "SAVI (Soil-Adjusted Vegetation Index)"
         ],
         [
-          "gsa",
+          "GSAVI",
           "GSAVI (Green Soil-Adjusted Vegetation Index)"
         ],
         [
-          "otc",
+          "OTCI",
           "OTCI (OLCI Terrestrial Chlorophyll Index)"
         ]
       ],

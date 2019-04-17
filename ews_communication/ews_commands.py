@@ -187,7 +187,6 @@ def download_raw_data(ews_name, sensor_id, ulx, uly, lrx, lry, cloud_cover, star
 def cancel_raw_download(download_query_id):
     """
 
-    :param ews_name: EWS Name
     :param download_query_id: Query for get the scenes
     :return:
     """
@@ -202,6 +201,24 @@ def cancel_raw_download(download_query_id):
     }
     response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
 
+    return True
+
+
+def cancel_auto_raw_download(download_query_id):
+    """
+    :param download_query_id: Query for get the scenes
+    :return:
+    """
+
+    payload = {
+        "method": "cancelAutoRawdataDownload",
+        "params": {
+            "download_query_id": download_query_id
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    response = requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
     return True
 
 
