@@ -18,69 +18,40 @@
                     <i class="fas fa-arrow-left"></i>
                     Back to project
                 </a>
-            </div>
-        </div>
-        {% for key, element in results.items %}
-            <div class="status-entry card-3">
-                <div class="status-heading">
-                    <div class="row" style="padding: 1rem">
-                        <div class="col-sm-6" style="padding: 0 1rem;">
-                            <h5>{{ key.creation_datetime }}</h5>
-                        </div>
-                        <div class="col-sm-6" style="padding: 0 1rem 1rem 1rem;">
-                            <button class="btn btn-primary cancel-raw-download" type="button" style="float: right"
-                                    data-download-id="{{ key.pk }}"><i class="fa fa-trash"></i> Cancel Download
-                            </button>
-                        </div>
-                        <div class="col-sm-6" style="padding: 0 1rem;">
-                            Start date: {{ key.start_date }}<br>
-                            End date: {{ key.end_date }}<br>
-                            Max. Cloud cover: {{ key.cloud_cover }} %<br>
-                        </div>
-                        <div class="col-sm-6" style="padding: 0 1rem;">
-                            Coordinates (ulx, uly, lrx,
-                            lry):<br>{{ key.ulx }}, {{ key.uly }},<br> {{ key.lrx }}, {{ key.lry }}
-                        </div>
+                <div class="float-right back-to-projects">
+                    <div class="radio" data-name="single">
+                        <label><input type="radio" name="opt" data-name="single" checked> Single Downloads</label>
+                    </div>
+                    <div class="radio" data-name="continuous">
+                        <label><input type="radio" name="opt" data-name="continuous"> Continuous Downloads</label>
                     </div>
                 </div>
-                <div class="status-content">
-                    <table id="" class="table table-striped hover downloads" style="width:100%">
-                        <thead>
-                        <tr>
-                            <th>Filename</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for download in element %}
-                            <tr class="project-row">
-                                <td>{{ download.filename }}</td>
-                                <td>{{ download.download_state }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
             </div>
-        {% endfor %}
+        </div>
+        <div class="download-entries">
+        </div>
     </div>
     <script>
-        $(document).ready(function () {
-            let tables = $('table.downloads').DataTable({
-                "scrollX": true
-            });
-        });
+    let name = $("input[name='opt']:checked").data("name");
+    load_data(name);
 
-        $(".cancel-raw-download").click(function () {
-            let $this = $(this);
-            let download_query_id = $this.data("download-id");
-            axios.post('{% url "project-download-cancel" project_pk=project_pk %}', {
-                download_query_id: download_query_id
-            }).then(function (response) {
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
-            })
-        })
+    $(".radio").change(function () {
+        let name = $(this).data("name");
+        load_data(name)
+    });
+
+    function load_data(name) {
+        if (name === "continuous") {
+            axios.get("{% url 'project-download-continuous' project_pk=project_pk %}").then(response => {
+                $(".download-entries").replaceWith(response.data);
+                console.log(response.data)
+            });
+        }
+        else {
+            axios.get("{% url 'project-download-single' project_pk=project_pk %}").then(response => {
+                $(".download-entries").replaceWith(response.data);
+            });
+        }
+    }
     </script>
 {% endblock body %}

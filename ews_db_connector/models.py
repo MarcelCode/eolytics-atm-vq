@@ -258,6 +258,7 @@ class DownloadQuery(models.Model):
     cloud_cover = models.FloatField(blank=True, null=True)
     query_name = models.CharField(max_length=500, blank=True, null=True)
     creation_datetime = models.DateTimeField()
+    auto_harvest = models.BooleanField()
 
     class Meta:
         managed = False

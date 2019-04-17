@@ -331,13 +331,38 @@ def download_data_for_project(request, project_pk):
 def download_status_for_project(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
-    download_queries = DownloadQuery.objects.using("ews").filter(ews_project=ews_project).order_by('-creation_datetime')
+    download_queries = DownloadQuery.objects.using("ews").filter(ews_project=ews_project, auto_harvest=False)\
+        .order_by('-creation_datetime')
     results = {d_query: FileDownload.objects.using("ews").filter(download_query=d_query) for d_query in
                download_queries}
 
     return render(request, "project/download-status.html", {"user_project": user_project,
                                                             "results": results,
                                                             "project_pk": project_pk})
+
+
+@login_required
+@owns_user_project
+def download_status_single(request, project_pk):
+    user_project = UserProject.objects.get(pk=project_pk)
+    ews_project = EwsProject.objects.using("ews").get(ews_name=user_project.ews_name)
+    download_queries = DownloadQuery.objects.using("ews").filter(ews_project=ews_project, auto_harvest=False)\
+        .order_by('-creation_datetime')
+    results = {d_query: FileDownload.objects.using("ews").filter(download_query=d_query) for d_query in
+               download_queries}
+
+    return render(request, "project/download-status-single.html", {"user_project": user_project,
+                                                                   "results": results,
+                                                                   "project_pk": project_pk})
+
+
+@login_required
+@owns_user_project
+def download_status_continuous(request, project_pk):
+    user_project = UserProject.objects.get(pk=project_pk)
+
+    return render(request, "project/download-status-continuous.html", {"user_project": user_project,
+                                                                       "project_pk": project_pk})
 
 
 @login_required
@@ -393,6 +418,16 @@ def download_cancel(request, project_pk):
     if request.method == "POST":
         data = json.loads(request.body)
         ews_commands.cancel_raw_download(data["download_query_id"])
+
+    return JsonResponse({"status": True})
+
+
+@login_required
+@owns_user_project
+def download_cancel_continuous(request, project_pk):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        ews_commands.cancel_auto_raw_download(data["download_query_id"])
 
     return JsonResponse({"status": True})
 
