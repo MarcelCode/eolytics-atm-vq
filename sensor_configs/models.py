@@ -72,3 +72,6 @@ class Masking(models.Model):
 
     class Meta:
         unique_together = ("user_project", "name")
+
+    def __str__(self):
+        return f"{self.user_project}, {self.name}, {self.default}"
