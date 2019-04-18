@@ -33,12 +33,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="float-left">
-{#                    <button class="btn btn-primary" type="button" style="margin: 15px 0.5rem 15px 0"#}
-{#                            value="Refresh Page"#}
-{#                            onClick="reload_table()"><img alt="refresh website"#}
-{#                                                          src="{% static 'img/refresh-page-option.svg' %}"#}
-{#                                                          width="20"/>#}
-{#                    </button>#}
+                    {#                    <button class="btn btn-primary" type="button" style="margin: 15px 0.5rem 15px 0"#}
+                    {#                            value="Refresh Page"#}
+                    {#                            onClick="reload_table()"><img alt="refresh website"#}
+                    {#                                                          src="{% static 'img/refresh-page-option.svg' %}"#}
+                    {#                                                          width="20"/>#}
+                    {#                    </button>#}
 
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -169,15 +169,14 @@
                 {
                     "data": "status_percentage", render: function (data, type, row) {
                         let html;
-                        if (row.state === "failed" || row.state === "stopped"){
+                        if (row.state === "failed" || row.state === "stopped") {
                             html = ""
-                        }
-                        else {
+                        } else {
                             html = "<div class=\"progress\" style=\"width: 100px;\">\n" +
-                            "                                    <div class=\"progress-bar\" role=\"progressbar\"\n" +
-                            "                                         style=\"width: " + data + "%\" aria-valuenow=\"100\"\n" +
-                            "                                         aria-valuemin=\"0\" aria-valuemax=\"" + data + "\"></div>\n" +
-                            "                                </div> " + data + " %";
+                                "                                    <div class=\"progress-bar\" role=\"progressbar\"\n" +
+                                "                                         style=\"width: " + data + "%\" aria-valuenow=\"100\"\n" +
+                                "                                         aria-valuemin=\"0\" aria-valuemax=\"" + data + "\"></div>\n" +
+                                "                                </div> " + data + " %";
                         }
                         return html
                     }
@@ -187,18 +186,36 @@
                 {"data": "actiondatetime_local"},
                 {
                     "data": "pk", render: function (data, type, row) {
-                        let html = "<a href=\"#\" class=\"dots\">\n" +
-                            "                                    <div class=\"menu-mission\" data-ews-id=\"" + data + "\"\n" +
-                            "                                         data-ews-state=\"" + row.state + "\"\n" +
-                            "                                         style=\"width: 50px; height: 30px; position: relative\">\n" +
-                            "                                        <div class=\"dot\"></div>\n" +
-                            "                                    </div>\n" +
-                            "                                </a>";
-                        return html
+                        let ews_mode = $("#ews-mode").prop("checked");
+                        if (ews_mode) {
+                            return render_menu_button_automatic(data, type, row)
+                        } else {
+                            return render_menu_button(data, type, row)
+                        }
                     }
                 }
             ]
         });
+
+        function render_menu_button(data, type, row) {
+            let html = "<a href=\"#\" class=\"dots\">\n" +
+                "                                    <div class=\"menu-mission\" data-ews-id=\"" + data + "\"\n" +
+                "                                         data-ews-state=\"" + row.state + "\"\n" +
+                "                                         style=\"width: 50px; height: 30px; position: relative\">\n" +
+                "                                        <div class=\"dot\"></div>\n" +
+                "                                    </div>\n" +
+                "                                </a>";
+            return html
+        }
+
+        function render_menu_button_automatic(data, type, row) {
+            if (row.state === "failed" || row.state === "stopped"){
+                return render_menu_button(data, type, row)
+            }
+            else {
+                return ""
+            }
+        }
 
         function reload_table() {
             table.ajax.reload(null, false)
@@ -261,7 +278,7 @@
 
         // Relaod table every 5 seconds
         setInterval(function () {
-            if (!$('.menu-mission').is(":hover")){
+            if ($('.menu-mission:hover').length === 0) {
                 table.ajax.reload(null, false);
             }
         }, 5000);
