@@ -273,7 +273,7 @@ def masking_settings(request, project_pk, masking_pk, action=None):
             name = form_data.pop("name")
             description = form_data.pop("description")
 
-            config_check = Masking.objects.filter(name=name)
+            config_check = Masking.objects.filter(user_project=user_project, name=name)
 
             if bool(int(request.POST["default"])):
                 Masking.objects.filter(user_project=user_project).update(default=False)
