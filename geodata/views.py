@@ -32,13 +32,16 @@ def check_geodata(request):
     user_profile = Profile.objects.get(pk=request.user.pk)
     user_download_area = user_profile.download_region.all()
 
-    country_layer = user_download_area.filter(geom__intersects=mpoly).aggregate(area=Union('geom'))["area"]
-    if country_layer is not None:
-        aoi_intersection_layer = mpoly.intersection(country_layer)
-        return JsonResponse(aoi_intersection_layer.geojson, safe=False)
+    if user_download_area.exists():
+        country_layer = user_download_area.filter(geom__intersects=mpoly).aggregate(area=Union('geom'))["area"]
+        if country_layer is not None:
+            aoi_intersection_layer = mpoly.intersection(country_layer)
+            return JsonResponse(aoi_intersection_layer.geojson, safe=False)
+        else:
+            return JsonResponse({"status": False, "message": "Please draw a rectangle inside your allowed download region.",
+                                 "title": 'Area of Interest not valid!'})
     else:
-        return JsonResponse({"status": False, "message": "Please draw a rectangle inside your allowed download region.",
-                             "title": 'Area of Interest not valid!'})
+        return JsonResponse(mpoly.geojson, safe=False)
 
 
 @login_required

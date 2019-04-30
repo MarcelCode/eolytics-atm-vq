@@ -57,7 +57,7 @@ class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     project_name = models.CharField(max_length=255)
     region_code = models.CharField(max_length=3)
-    download_region = models.ManyToManyField(Country)
+    download_region = models.ManyToManyField(Country, blank=True, null=True)
     cpu_cores = models.IntegerField(default=6)
     ews_user_id = models.IntegerField(default=0)
 
