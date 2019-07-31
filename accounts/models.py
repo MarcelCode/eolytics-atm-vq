@@ -60,6 +60,8 @@ class Profile(models.Model):
     download_region = models.ManyToManyField(Country, blank=True, null=True)
     cpu_cores = models.IntegerField(default=6)
     ews_user_id = models.IntegerField(default=0)
+    min_start_date = models.DateField(blank=True, null=True)
+    allow_continous_download = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.user}"

@@ -315,8 +315,13 @@ def masking_settings(request, project_pk, masking_pk, action=None):
 def download_data_for_project(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     if request.method == "GET":
-        sensor_date = user_project.sensor.start_date
-        return render(request, "project/download.html", {"project_pk": project_pk, "sensor_date": sensor_date})
+        profile = Profile.objects.get(user=request.user)
+        if profile.min_start_date is None:
+            sensor_date = user_project.sensor.start_date
+        else:
+            sensor_date = profile.min_start_date
+        return render(request, "project/download.html", {"project_pk": project_pk, "sensor_date": sensor_date,
+                                                         "allow_cont_download": profile.allow_continous_download})
     elif request.method == "POST":
         data = json.loads(request.body)
 
