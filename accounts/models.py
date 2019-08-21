@@ -62,6 +62,7 @@ class Profile(models.Model):
     ews_user_id = models.IntegerField(default=0)
     min_start_date = models.DateField(blank=True, null=True)
     allow_continous_download = models.BooleanField(default=True)
+    temporal_licence = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user}"

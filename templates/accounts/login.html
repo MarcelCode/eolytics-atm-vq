@@ -15,7 +15,7 @@
                         <h3 class="text-center" style="color: var(--main-color-dblue); padding: 1rem">eoLytics Water Quality</h3>
                         <p style="font-size: 1rem">Please login to continue</p>
                         {% if messages %}
-                            <ul class="messages">
+                            <ul class="p-0 messages">
                                 {% for message in messages %}
                                     <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
                                         {{ message }}
