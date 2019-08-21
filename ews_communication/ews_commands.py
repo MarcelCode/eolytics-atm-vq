@@ -442,3 +442,21 @@ def get_free_space_by_user(user='20030'):
         print(response['error'])
 
     return memory_dict
+
+
+def automatic_mode_cores_changed(ews_name, cores):
+    payload = {
+        "method": "setGlobalMaskDefinitions",
+        "params": {
+            "ews_name": ews_name,
+            "cores": cores,
+        },
+        "jsonrpc": "2.0",
+        "id": 0,
+    }
+    requests.post(URL_RPC_SERVER, data=json.dumps(payload), headers=HEADERS).json()
+    return True
+
+
+
+

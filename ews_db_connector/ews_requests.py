@@ -29,7 +29,9 @@ class EwsUserQueries(object):
     def get_mission_state_single_project(self, project):
         mission_states = self.ews_mission_db_object.filter(ews_project=project).values_list("state", flat=True)
 
-        if "failed" in mission_states:
+        if ("running" in mission_states) and ("failed" in mission_states):
+            project_status = "running_failed"
+        elif "failed" in mission_states:
             project_status = "failed"
         elif "running" in mission_states:
             project_status = "running"

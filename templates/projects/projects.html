@@ -48,6 +48,17 @@
                                     </span>
                                 </a>
                             </li>
+                            <li class="projects nav-item {% if status == 'running_failed' %}active{% endif %}">
+                                <a class="projects nav-link" href="{% url 'projects' status='running_failed' %}">Running with failures
+                                    <span class="badge badge-pill badge-right" style="background-color: #FF8C28; color: white">
+                                        {% if state_count.running_failed %}
+                                            {{ state_count.running_failed }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                         <form class="form-inline my-2 my-lg-0">
                             <input class="form-control mr-sm-2"
@@ -113,6 +124,8 @@
                                     <span class="state-dot" style="background-color: #28a745"></span>
                                 {% elif project.state == "failed" %}
                                     <span class="state-dot" style="background-color: #dc3545"></span>
+                                {% elif project.state == "running_failed" %}
+                                    <span class="state-dot" style="background-color: #ff8c28"></span>
                                 {% else %}
                                     <span class="state-dot"></span>
                                 {% endif %}
@@ -282,6 +295,14 @@
                     cores: selected_cores.val(),
                     project_pk: selected_cores.data("project_pk"),
                     ews_name: selected_cores.data("ews_name")
+                }).then(response => {
+                    if (!response.data.status) {
+                        Swal.fire(
+                            'Running Missions',
+                            'The number of running missions is higher than the number of assigned cores. Please reduce the number of running missions for the change to take effect',
+                            'info'
+                        )
+                    }
                 });
                 event.preventDefault();
                 event.stopPropagation();
@@ -297,6 +318,14 @@
                     cores: $(event.target).val(),
                     project_pk: $(event.target).data("project_pk"),
                     ews_name: $(event.target).data("ews_name")
+                }).then(response => {
+                    if (!response.data.status) {
+                        Swal.fire(
+                            'Running Missions',
+                            'The number of running missions is higher than the number of assigned cores. Please reduce the number of running missions for the change to take effect',
+                            'info'
+                        )
+                    }
                 });
             });
         }

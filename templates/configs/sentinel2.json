@@ -310,7 +310,7 @@
       "min_value": 0.0,
       "max_value": 1.0,
       "initial": 0.2,
-      "help_text": "Strength of sunglint correction. Lower values result in less correction."
+      "help_text": "Strength of sunglint correction. Lower values result in STRONGER correction."
     }
   },
   "main_watertype": {

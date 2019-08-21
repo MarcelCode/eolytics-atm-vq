@@ -68,7 +68,7 @@ def projects(request, status):
     state_count = Counter(project_states.values())
     state_count["all"] = len(user_projects)
 
-    if status == "running" or status == "failed":
+    if status in ["running", "failed", "running_failed"]:
         user_projects = get_filtered_user_projects(project_states, user_projects, status)
 
     # temporarily add states to projects
@@ -410,11 +410,22 @@ def get_memory_info(request):
 @login_required
 def change_project_cores(request):
     data = json.loads(request.body)
-    user_project = UserProject.objects.filter(pk=data["project_pk"])
-    if user_project.first().user == request.user:
-        user_project.update(cores=data["cores"])
+    user_projects = UserProject.objects.filter(pk=data["project_pk"])
+    user_project = user_projects.first()
+    if user_project.user == request.user:
+        if user_project.automatic_mode:
+            ews_commands.automatic_mode_cores_changed(data["ews_name"], int(data["cores"]))
+        else:
+            running_missions = Mission.objects.using("ews").filter(ews_project__ews_name=data["ews_name"], state="running")
 
-    return JsonResponse({"status": True})
+            if len(running_missions) > int(data["cores"]):
+                return JsonResponse({"status": False})
+
+        user_projects.update(cores=data["cores"])
+
+        return JsonResponse({"status": True})
+
+    return HttpResponse(status=401)
 
 
 @login_required
