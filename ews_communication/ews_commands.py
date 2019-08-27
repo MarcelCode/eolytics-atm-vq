@@ -446,7 +446,7 @@ def get_free_space_by_user(user='20030'):
 
 def automatic_mode_cores_changed(ews_name, cores):
     payload = {
-        "method": "setGlobalMaskDefinitions",
+        "method": "automaticModeCoresChanged",
         "params": {
             "ews_name": ews_name,
             "cores": cores,
