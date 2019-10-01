@@ -202,6 +202,7 @@ def project_settings(request, project_pk, config_pk, action=None):
                 user_config.imgpart = get_entry_by_pk(aoi_form_data["imgpart"])
                 user_config.mask_image = get_entry_by_pk(aoi_form_data["mask_image"])
                 user_config.polygonstatistics = get_entry_by_pk(aoi_form_data["polygonstatistics"])
+                user_config.static_mask = get_entry_by_pk(aoi_form_data["static_mask"])
                 if bool(int(request.POST["default"])):
                     user_config.default = True
                 user_config.save()
@@ -218,7 +219,8 @@ def project_settings(request, project_pk, config_pk, action=None):
                                                     imgpart=get_entry_by_pk(aoi_form_data["imgpart"]),
                                                     mask_image=get_entry_by_pk(aoi_form_data["mask_image"]),
                                                     polygonstatistics=get_entry_by_pk(
-                                                        aoi_form_data["polygonstatistics"])
+                                                        aoi_form_data["polygonstatistics"]),
+                                                    static_mask=get_entry_by_pk(aoi_form_data["static_mask"])
                                                     )
 
                 messages.add_message(request, messages.SUCCESS,
