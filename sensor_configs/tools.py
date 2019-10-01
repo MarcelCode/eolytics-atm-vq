@@ -8,6 +8,7 @@ from django.contrib.gis.utils import LayerMapping
 from geodata.models import UserData, UserProjectShape
 from django.core.serializers import serialize
 import shutil
+import geopandas as gpd
 from django.contrib import messages
 
 
@@ -23,17 +24,10 @@ class CustomLayerMapping(LayerMapping):
 
 
 def shp_to_geojson(filepath):
-    # read the shapefile
-    reader = shapefile.Reader(filepath)
-    fields = reader.fields[1:]
-    field_names = [field[0] for field in fields]
-    buffer = []
-    for sr in reader.shapeRecords():
-        atr = dict(zip(field_names, sr.record))
-        geom = sr.shape.__geo_interface__
-        buffer.append(dict(type="Feature", geometry=geom, properties=atr))
+    file = gpd.read_file("/home/marcel/Downloads/test/test.shp")
+    file = file.to_crs({'init': 'epsg:4326'})
 
-    return dumps({"type": "FeatureCollection", "features": buffer})
+    return file.to_json()
 
 
 def shp_to_db(f, project_shape_object):
@@ -61,7 +55,7 @@ def shp_to_db(f, project_shape_object):
     )
     layer_map.save()
 
-    return tmpdirname
+    return tmpdirname, filepath
 
 
 def handle_shape_upload(form, user_project):
@@ -70,8 +64,8 @@ def handle_shape_upload(form, user_project):
     file = cleaned_form["file"]
 
     project_shape_object = UserProjectShape.objects.create(name=name, user_project=user_project)
-    tmpdirname = shp_to_db(file, project_shape_object)
-    json = serialize("geojson", UserData.objects.filter(user_shape=project_shape_object))
+    tmpdirname, filepath = shp_to_db(file, project_shape_object)
+    json = shp_to_geojson(filepath)
     project_shape_object.json_geometry = json
     project_shape_object.save(update_fields=("json_geometry",))
 
