@@ -461,3 +461,31 @@ def reset_mission_by_state(request):
         return JsonResponse({"status": True})
 
     return JsonResponse({"status": False})
+
+
+def upload_aoi_download(request, project_pk):
+    if request.method == "POST":
+        user_project = UserProject.objects.get(pk=project_pk)
+        upload_form = UploadShapeForm(request.POST, request.FILES)
+
+        if upload_form.is_valid():
+            try:
+                tools.handle_shape_upload(upload_form, user_project)
+                messages.add_message(request, messages.SUCCESS,
+                                     'Shapefile was uploaded successfully!',
+                                     extra_tags='alert-success')
+            except ValueError as e:
+                if e.args[1] == 1:
+                    messages.add_message(request, messages.SUCCESS, str(e.args[0]),
+                                         extra_tags='alert-info')
+                elif e.args[1] == 2:
+                    messages.add_message(request, messages.SUCCESS, str(e.args[0]),
+                                         extra_tags='alert-danger')
+
+            except Exception as e:
+                messages.add_message(request, messages.SUCCESS,
+                                     'Shapefile could not be uploaded!'
+                                     ' Please check if the zip file contains a shapefile.',
+                                     extra_tags='alert-danger')
+
+            return redirect("project-download", project_pk)
