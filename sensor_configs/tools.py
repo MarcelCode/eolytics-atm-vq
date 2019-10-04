@@ -24,7 +24,7 @@ class CustomLayerMapping(LayerMapping):
 
 
 def shp_to_geojson(filepath):
-    file = gpd.read_file("/home/marcel/Downloads/test/test.shp")
+    file = gpd.read_file(filepath)
     file = file.to_crs({'init': 'epsg:4326'})
 
     return file.to_json()
