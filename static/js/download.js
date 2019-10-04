@@ -125,6 +125,28 @@ var searchControl = new GeoSearchControl({
 map.addControl(searchControl);
 
 
+// AOI displaying
+$("#aoi-select").on("change", function () {
+    if (this.value !== "none") {
+        axios.post(get_aoi_url, {
+            pk: this.value,
+        }).then(function (response) {
+            drawnItems.clearLayers();
+            let geometries = L.geoJSON(response.data);
+            geometries.addTo(drawnItems);
+            map.fitBounds(geometries.getBounds());
+            set_layer_bounds(geometries.getBounds());
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    else{
+        drawnItems.clearLayers();
+    }
+});
+
+
 // Download data
 $("#download-form-button").click(function () {
     if (drawnItems.getLayers().length === 0) {

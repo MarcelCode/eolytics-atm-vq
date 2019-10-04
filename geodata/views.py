@@ -6,6 +6,7 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.db.models import Union
 import json
 from projects.models import UserProject
+from geodata.models import UserProjectShape
 from ews_communication import ews_commands
 import datetime
 
@@ -42,6 +43,15 @@ def check_geodata(request):
                                  "title": 'Area of Interest not valid!'})
     else:
         return JsonResponse(mpoly.geojson, safe=False)
+
+
+@login_required
+def get_aoi_shape(request):
+    if request.method == "POST":
+        shape_pk = int(json.loads(request.body)["pk"])
+        model_object = UserProjectShape.objects.get(pk=shape_pk)
+        geometry = json.loads(model_object.json_geometry)["features"]
+        return JsonResponse(geometry, safe=False)
 
 
 @login_required

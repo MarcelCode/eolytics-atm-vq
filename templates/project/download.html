@@ -39,6 +39,7 @@
 {% block body %}
     <script>
         let user_project_pk = {{ project_pk }};
+        let get_aoi_url = "{% url "get-aoi" %}";
     </script>
     <div class="container main-settings-window" style="margin-top: 50px">
         <div class="row">
@@ -57,6 +58,17 @@
         <div class="row">
             <div class="col-sm" style="padding: 1rem;">
                 <h4>1. Choose Area of Interest</h4>
+
+                <div style="padding: 1rem 0">
+                    <label for="aoi-select">Choose AOI (optional): </label>
+                    <select id="aoi-select" style="margin-left: 0.5rem">
+                        <option value="none">-------</option>
+                        {% for shape in user_shapes %}
+                            <option value="{{ shape.pk }}">{{ shape.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
                 <div id="map" style="height: 400px;"></div>
             </div>
         </div>

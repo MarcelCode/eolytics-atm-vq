@@ -18,6 +18,7 @@ from projects.tools import get_entry_by_pk
 from projects.decorators import owns_user_project
 from .tools import bytes_to_gb, get_percentage
 from collections import OrderedDict
+from geodata.models import UserProjectShape
 import re
 
 
@@ -317,13 +318,12 @@ def masking_settings(request, project_pk, masking_pk, action=None):
 def download_data_for_project(request, project_pk):
     user_project = UserProject.objects.get(pk=project_pk)
     if request.method == "GET":
-        profile = Profile.objects.get(user=request.user)
-        if profile.min_start_date is None:
-            sensor_date = user_project.sensor.start_date
-        else:
-            sensor_date = profile.min_start_date
+        upload_form = UploadShapeForm()
+        user_shapes = UserProjectShape.objects.filter(user_project=user_project)
+        sensor_date = user_project.sensor.start_date
         return render(request, "project/download.html", {"project_pk": project_pk, "sensor_date": sensor_date,
-                                                         "allow_cont_download": profile.allow_continous_download})
+                                                         "user_shapes": user_shapes,
+                                                         "upload_form": upload_form})
     elif request.method == "POST":
         data = json.loads(request.body)
 
