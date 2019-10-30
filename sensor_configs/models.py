@@ -40,23 +40,8 @@ class Config(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     default = models.BooleanField(default=False)
     json_configs = JSONField()
-    imgpart = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name='imgpart',
-                                null=True, blank=True, help_text="Process only a pre-defined area of interest (AOI),"
-                                                                 " provided as a ESRI Shapefile.")
-    mask_image = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name='mask_image',
-                                   null=True, blank=True, help_text="Mask out regions that shall not be processed by"
-                                                                    " defining a precise area of interest, e.g. the"
-                                                                    " exact water body you are interested in.",
-                                   )
-    polygonstatistics = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name='polygonstatistics',
-                                          null=True, blank=True, help_text="Calculate statistics within specific"
-                                                                           " regions, defined as single features within"
-                                                                           " an ESRI Shapefile.",
-                                          )
-
-    static_mask = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE, related_name="static_mask",
-                                    null=True, blank=True, help_text="Use static shapes for product masking, "
-                                    "e.g. shallow water areas.")
+    aoi = models.ForeignKey(UserProjectShape, on_delete=models.CASCADE,
+                            null=True, blank=True, help_text="Define area of Interest.")
 
     class Meta:
         unique_together = ("user_project", "name")

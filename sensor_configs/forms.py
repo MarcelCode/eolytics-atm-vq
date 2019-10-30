@@ -42,25 +42,6 @@ class ConfigForm(forms.Form):
         if "seperator" in settings:
             self.fields[field].widget.attrs['class'] = 'seperator'
 
-    def clean(self):
-        cleaned_data = super(ConfigForm, self).clean()
-        formula_keys = [key.replace("calibrate", "formula") for key, x in cleaned_data.items()
-                        if "calibrate" in key and x]
-
-        A = 4.22
-        for formula_key in formula_keys:
-            formula = cleaned_data.get(formula_key)
-            if "A" not in formula:
-                self.add_error(formula_key, "Formula does not contain 'A'.")
-                raise forms.ValidationError(f"Charactar \"A\" is missing in formula! Please check field"
-                                            f" \"{self.fields[formula_key].label}\".")
-            try:
-                ne.evaluate(formula)
-            except:
-                self.add_error(formula_key, "Formula is invalid!")
-                raise forms.ValidationError(f"Formula is invalid! Please check field"
-                                            f" \"{self.fields[formula_key].label}\".")
-
 
 class ConfigShapeForm(forms.Form):
     def __init__(self, user_project, config, *args, **kwargs):
@@ -72,29 +53,10 @@ class ConfigShapeForm(forms.Form):
         else:
             choices = [(None, "-------")]
 
-        self.fields['imgpart'] = forms.ChoiceField(choices=choices, label="Process AOI",
-                                                   initial=config_initial(config.imgpart),
-                                                   required=False,
-                                                   help_text="Process only a pre-defined area of interest (AOI)")
-
-        self.fields['mask_image'] = forms.ChoiceField(choices=choices, label="Mask out regions outside AOI",
-                                                      initial=config_initial(config.mask_image), required=False,
-                                                      help_text="Mask out regions that shall not be processed by"
-                                                                " defining a precise area of interest, e.g. the"
-                                                                " exact water body you are interested in.")
-
-        self.fields['polygonstatistics'] = forms.ChoiceField(choices=choices, label="Run Polygonstatistics",
-                                                             initial=config_initial(config.polygonstatistics),
-                                                             required=False,
-                                                             help_text="Calculate statistics within specific"
-                                                                       " regions, defined as single features within"
-                                                                       " an ESRI Shapefile.")
-
-        self.fields['static_mask'] = forms.ChoiceField(choices=choices, label="Static Mask",
-                                                       initial=config_initial(config.static_mask),
-                                                       required=False,
-                                                       help_text="Use static shapes for product masking,"
-                                                                 " e.g. shallow water areas.")
+        self.fields['aoi'] = forms.ChoiceField(choices=choices, label="Area of Interest",
+                                               initial=config_initial(config.imgpart),
+                                               required=False,
+                                               help_text="Process only a pre-defined area of interest (AOI)")
 
 
 class MaskingForm(forms.Form):
