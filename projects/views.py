@@ -50,6 +50,7 @@ def projects(request, status):
 
             if ews_name:
                 cleaned_form = user_project_form.cleaned_data
+                cleaned_form["watertype"] = watertype
                 user_project = UserProject(user=request.user, ews_name=ews_name, **cleaned_form)
                 user_project.save()
                 messages.add_message(request, messages.SUCCESS,
