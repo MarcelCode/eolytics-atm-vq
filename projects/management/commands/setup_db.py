@@ -18,7 +18,7 @@ class Command(BaseCommand):
         models.Watertype.objects.get_or_create(ews_id=4, name="Standard Type")
 
         # Sensors
-        sensor1, _ = models.Sensor.objects.get_or_create(sensor_name="Sentinel 2", ews_id=266, config_name="sentinel2",
+        sensor1, _ = models.Sensor.objects.get_or_create(sensor_name="Sentinel 2", ews_id=266, config_name="sentinel2.json",
                                                          start_date=datetime(2015, 6, 23).date())
         sensors = [sensor1]
 
