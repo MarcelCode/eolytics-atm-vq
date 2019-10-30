@@ -15,13 +15,12 @@ def create_core_choices(cores):
 class CreateProjectForm(forms.ModelForm):
     class Meta:
         model = UserProject
-        exclude = ("user", "ews_name", "state", "automatic_mode", "cores")
+        exclude = ("user", "ews_name", "state", "automatic_mode", "cores", "watertype", "project_abbrevation")
 
     def __init__(self, user, *args, **kwargs):
         super(CreateProjectForm, self).__init__(*args, **kwargs)
         self.fields['sensor'].queryset = UserSensor.objects.get(user=user).sensors
-        self.fields["project_abbrevation"].widget.attrs["pattern"] = "[A-Za-z]{3}"
-        self.fields["project_abbrevation"].help_text = "Has to be 3 characters long."
+        self.fields['sensor'].empty_label = None
 
 
 class FinalDownloadForm(forms.Form):

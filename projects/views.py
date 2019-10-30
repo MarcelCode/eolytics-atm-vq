@@ -11,7 +11,7 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from projects import forms
-from sensor_configs.models import Config, Masking
+from sensor_configs.models import Config, Masking, Watertype
 from sensor_configs.forms import ConfigForm, MaskingForm, UploadShapeForm, ConfigShapeForm
 from sensor_configs import tools
 from projects.tools import get_entry_by_pk
@@ -36,13 +36,14 @@ def projects(request, status):
 
         if user_project_form.is_valid():
             # EWS Command
+            watertype = Watertype.objects.first() # Hardcoded first watertype: Standard
             user_info = Profile.objects.get(user=request.user)
             form = user_project_form.cleaned_data
             ews_region = user_info.region_code + re.sub('[^A-Za-z]+', '', form["region"]).lower()
             ews_name = ews_commands.create_ews_project(user_project_name=form['user_project_name'],
-                                                       project_abbrevation=form['project_abbrevation'],
+                                                       project_abbrevation="atm",
                                                        sensor_id=form['sensor'].ews_id,
-                                                       watertype=form["watertype"].ews_id,
+                                                       watertype=watertype.ews_id,
                                                        region=ews_region,
                                                        project=user_info.project_name,
                                                        user=user_info.ews_user_id)
