@@ -203,10 +203,7 @@ def project_settings(request, project_pk, config_pk, action=None):
                 user_config.name = name
                 user_config.description = description
                 user_config.json_configs = form_data
-                user_config.imgpart = get_entry_by_pk(aoi_form_data["imgpart"])
-                user_config.mask_image = get_entry_by_pk(aoi_form_data["mask_image"])
-                user_config.polygonstatistics = get_entry_by_pk(aoi_form_data["polygonstatistics"])
-                user_config.static_mask = get_entry_by_pk(aoi_form_data["static_mask"])
+                user_config.aoi = get_entry_by_pk(aoi_form_data["aoi"], UserProjectShape)
                 if bool(int(request.POST["default"])):
                     user_config.default = True
                 user_config.save()

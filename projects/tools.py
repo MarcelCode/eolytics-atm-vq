@@ -3,9 +3,9 @@ from projects.models import UserProject
 from accounts.models import Profile
 
 
-def get_entry_by_pk(pk):
+def get_entry_by_pk(pk, model):
     try:
-        entry = UserProjectShape.objects.get(pk=pk)
+        entry = model.objects.get(pk=pk)
     except:
         entry = None
 

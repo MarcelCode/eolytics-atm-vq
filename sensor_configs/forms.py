@@ -54,7 +54,7 @@ class ConfigShapeForm(forms.Form):
             choices = [(None, "-------")]
 
         self.fields['aoi'] = forms.ChoiceField(choices=choices, label="Area of Interest",
-                                               initial=config_initial(config.imgpart),
+                                               initial=config_initial(config.aoi),
                                                required=False,
                                                help_text="Process only a pre-defined area of interest (AOI)")
 

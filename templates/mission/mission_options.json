@@ -10,12 +10,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -26,12 +20,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -48,12 +36,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -64,12 +46,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -86,12 +62,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -102,12 +72,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -121,12 +85,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -137,12 +95,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -160,12 +112,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     }
@@ -187,12 +133,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -203,12 +143,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -231,12 +165,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -247,12 +175,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -275,12 +197,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -291,12 +207,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -313,12 +223,6 @@
           "stop_after_1": {
             "name": "RGB Creation"
           },
-          "stop_after_2": {
-            "name": "Land-Water-Mask"
-          },
-          "stop_after_3": {
-            "name": "Glint Correction"
-          },
           "stop_after_4": {
             "name": "Product Generation"
           }
@@ -329,12 +233,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     },
@@ -352,12 +250,6 @@
         "name": "Set Workflow",
         "items": {
           "workflow_reset": {}
-        }
-      },
-      "masking_setting": {
-        "name": "Set Masking",
-        "items": {
-          "masking_reset": {}
         }
       }
     }
