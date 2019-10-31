@@ -1,48 +1,121 @@
 {
-  "atm_cor_product": {
-    "model": "ChoiceField",
-    "name": "Atmospheric Correction",
+  "product_list": {
+    "model": "MultipleChoiceField",
+    "name": "Choose products",
+    "separator": "Product Definitions",
     "kwargs": {
       "choices": [
         [
-          "land-water_correction_legacy",
-          "Land - Water Correction Legacy"
+          "aot",
+          "AOT (Aerosol Optical Thickness)"
         ],
         [
-          "land-water_correction",
-          "Land - Water Correction"
+          "lrf",
+          "LRF (Land Reflectance (water is masked out))"
         ],
         [
-          "water_correction",
-          "Water Correction"
+          "lwr",
+          "LWR (Land-Water Reflectance (combination of LRF and RRA)"
+        ],
+        [
+          "rgb",
+          "RGB ('True Color' Image)"
+        ],
+        [
+          "rra",
+          "RRA (above-surface Remote Sensing Reflectance [0+])"
+        ],
+        [
+          "wex",
+          "WEX (Water Extent)"
         ]
       ],
-      "initial": "land-water_correction_legacy",
-      "help_text": "Please choose your main product."
+      "initial": [
+        "aot",
+        "lwr",
+        "rgb"
+      ],
+      "help_text": "Product list for processing."
     }
   },
-  "aot": {
-    "model": "BooleanField",
-    "name": "AOT",
+  "atmo_corr": {
+    "model": "ChoiceField",
+    "name": "Atmospheric correction procedure",
     "kwargs": {
-      "initial": false,
-      "help_text": "AOT Output"
+      "choices": [
+        [
+          "darx",
+          "Legacy"
+        ],
+        [
+          "water",
+          "Standard"
+        ]
+      ],
+    "initial": "darx",
+    "help_text": "Procedure for atmospheric correction, using either dark pixels (legacy) and interpolating atmospheric properties or detected water pixels and calculating a fixed atmosphere (standard)."
     }
   },
-  "rgb": {
-    "model": "BooleanField",
-    "name": "RGB",
+  "vi_list":{
+    "model": "MultipleChoiceField",
+    "name": "Vegetation Indices",
     "kwargs": {
-      "initial": false,
-      "help_text": "RGB Output"
+      "required": false,
+      "choices": [
+        [
+          "NDVI",
+          "NDVI (Normalized Difference Vegetation Index)"
+        ],
+        [
+          "GNDVI",
+          "GNDVI (Green Normalized Difference Vegetation Index)"
+        ],
+        [
+          "EVI",
+          "EVI (Enhanced Vegetation Index)"
+        ],
+        [
+          "NDWI",
+          "NDWI (Normalized Difference Water Index)"
+        ],
+        [
+          "SAVI",
+          "SAVI (Soil-Adjusted Vegetation Index)"
+        ],
+        [
+          "GSAVI",
+          "GSAVI (Green Soil-Adjusted Vegetation Index)"
+        ]
+      ],
+      "initial": [],
+      "help_text": "List of vegetation indices"
     }
   },
-  "mask_land_water": {
+  "scaled_workflow": {
     "model": "BooleanField",
-    "name": "Land - Water Mask",
+    "name": "Scaled Workflow",
+    "separator": "Processing",
     "kwargs": {
       "initial": false,
-      "help_text": "Land - Water Mask"
+      "help_text": "Run whole product generation on scaled image (10m * scale_factor)."
+    }
+  },
+  "scale_factor": {
+    "model": "IntegerField",
+    "name": "Scaling Factor",
+    "kwargs": {
+      "min_value": 1,
+      "max_value": 99,
+      "initial": 3,
+      "help_text": "Scaling factor for scaled processing (native resolution is multiplied by this number). Only used if 'Scaled Workflow' is set."
+    }
+  },
+  "create_datasheet": {
+    "model": "BooleanField",
+    "name": "Create overview PDF",
+    "kwargs": {
+      "initial": false,
+      "help_text": "Create overview PDF for each product with basic metadata and quality information."
     }
   }
 }
