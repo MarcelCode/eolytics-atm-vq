@@ -10,25 +10,13 @@
           "AOT (Aerosol Optical Thickness)"
         ],
         [
-          "lrf",
-          "LRF (Land Reflectance (water is masked out))"
-        ],
-        [
           "lwr",
-          "LWR (Land-Water Reflectance (combination of LRF and RRA)"
+          "LWR (Land-Water Reflectance"
         ],
         [
           "rgb",
           "RGB ('True Color' Image)"
-        ],
-        [
-          "rra",
-          "RRA (above-surface Remote Sensing Reflectance [0+])"
-        ],
-        [
-          "wex",
-          "WEX (Water Extent)"
-        ]
+		]
       ],
       "initial": [
         "aot",
@@ -46,14 +34,10 @@
         [
           "darx",
           "Legacy"
-        ],
-        [
-          "water",
-          "Standard"
         ]
       ],
     "initial": "darx",
-    "help_text": "Procedure for atmospheric correction, using either dark pixels (legacy) and interpolating atmospheric properties or detected water pixels and calculating a fixed atmosphere (standard)."
+    "help_text": "Procedure for atmospheric correction."
     }
   },
   "vi_list":{
