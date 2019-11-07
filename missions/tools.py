@@ -21,12 +21,13 @@ class MissionMenuPoints(object):
         return config_items
 
     def add_masking_menu(self):
-        masking = Masking.objects.filter(user_project=self.user_project)
-        config_items = {f"masking_{pk}": {"name": name} for pk, name in masking.values_list("pk", "name")}
-        config_items["masking_reset"] = {"name": "Reset Masking"}
-        self.items["masking_setting"]["items"] = config_items
+        pass
+        #masking = Masking.objects.filter(user_project=self.user_project)
+        #config_items = {f"masking_{pk}": {"name": name} for pk, name in masking.values_list("pk", "name")}
+        #config_items["masking_reset"] = {"name": "Reset Masking"}
+        #self.items["masking_setting"]["items"] = config_items
 
-        return config_items
+        #return config_items
 
     def add_menus(self):
         self.add_workflow_menu()
