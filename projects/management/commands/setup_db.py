@@ -35,6 +35,7 @@ class Command(BaseCommand):
         profile = Profile.objects.get(user=user)
         profile.project_name = "Test"
         profile.region_code = "ttt"
+        profile.ews_user_id = 20040
         profile.save()
 
         # Add Sensor to user without any restrictions
