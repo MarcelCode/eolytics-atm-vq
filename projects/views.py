@@ -187,7 +187,7 @@ def project_settings(request, project_pk, config_pk, action=None):
             if aoi_form.is_valid():
                 aoi_form_data = aoi_form.cleaned_data
             else:
-                aoi_form_data = {"imgpart": None, "mask_image": None, "polygonstatistics": None}
+                aoi_form_data = {"aoi": None}
 
             form_data = user_form.cleaned_data
             name = form_data.pop("name")
@@ -217,11 +217,7 @@ def project_settings(request, project_pk, config_pk, action=None):
                                                     description=description,
                                                     default=bool(int(request.POST["default"])),
                                                     json_configs=form_data,
-                                                    imgpart=get_entry_by_pk(aoi_form_data["imgpart"]),
-                                                    mask_image=get_entry_by_pk(aoi_form_data["mask_image"]),
-                                                    polygonstatistics=get_entry_by_pk(
-                                                        aoi_form_data["polygonstatistics"]),
-                                                    static_mask=get_entry_by_pk(aoi_form_data["static_mask"])
+                                                    aoi=get_entry_by_pk(aoi_form_data["aoi"], UserProjectShape),
                                                     )
 
                 messages.add_message(request, messages.SUCCESS,
